@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
 	return (
-		<div className='flex h-screen items-stretch'>
-			<ScrollArea className='w-[55%]'>
-				<div className='px-32 py-12'>
+		<div className='flex ld:h-screen items-stretch justify-center'>
+			<ScrollArea className='xl:w-[55%] lg:w-[52%] md:w-10/12 w-full'>
+				<div className='xl:px-32 sm:px-8 px-4 md:px-16 py-12'>
 					<Logo />
 
 					<div className='mt-8'>
@@ -19,7 +19,7 @@ export default function SignUpPage() {
 					</div>
 				</div>
 			</ScrollArea>
-			<div className='flex-1 bg-primary-400'></div>
+			<div className='flex-1 max-lg:hidden bg-primary-400'></div>
 		</div>
 	)
 }
