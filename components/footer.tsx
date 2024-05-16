@@ -32,10 +32,10 @@ function Footer() {
 			<footer className='container flex flex-col items-center gap-8 pt-[4rem] pb-[2rem] mx-auto'>
 				<Logo textWhite />
 
-				<ul className='flex flex-wrap gap-x-9 text-base text-white justify-center'>
-					{navbar.map(route => {
+				<ul className='flex flex-wrap gap-x-9 text-base text-white justify-center font-light'>
+					{navbar.map((route, index) => {
 						return (
-							<li className='h-8'>
+							<li className='h-8' key={index}>
 								<Link
 									href={route.href}
 									className={cn(
