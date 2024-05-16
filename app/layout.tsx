@@ -13,8 +13,8 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='vi'>
-			<body className={cn(fonts.sans.className, 'text-sm')}>{children}</body>
+		<html lang='vi' >
+			<body className={cn(fonts.sans.className, 'text-[0.9375rem]')}>{children}</body>
 		</html>
 	)
 }

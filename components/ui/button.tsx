@@ -14,13 +14,10 @@ const buttonVariants = cva(
 				outline:
 					'border border-primary-500 bg-transparent hover:bg-primary-50 text-primary-500',
 				secondary: 'bg-primary-100 text-primary-700 hover:bg-primary-100/90',
-				ghost:
-					'hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50',
-				link: 'text-slate-900 underline-offset-4 hover:underline dark:text-slate-50',
 			},
 			size: {
-				default: 'h-11 px-6',
-				lg: 'h-14 px-9',
+				default: 'h-10 px-6',
+				lg: 'h-12 px-9',
 			},
 		},
 		defaultVariants: {
