@@ -11,7 +11,7 @@ export default function Introduction() {
 		<section className='py-16 relative overflow-hidden'>
 			<div className='container'>
 				<div className='flex'>
-					<div className='w-1/2'>
+					<div className='lg:w-1/2'>
 						<h2 className='text-4xl tracking-wide'>
 							<span className='font-extrabold text-primary-500'>Volunteer</span>
 							<span className='font-bold'>Connect</span>
@@ -32,7 +32,7 @@ export default function Introduction() {
 							</Link>
 						</Button>
 					</div>
-					<div className='flex-1'>
+					<div className='max-lg:flex-1 max-lg:hidden'>
 						<Image
 							alt='home'
 							src={images.homeBanner}
@@ -42,8 +42,8 @@ export default function Introduction() {
 				</div>
 			</div>
 
-			<div className='w-0 h-0 shadow-[0_0_8rem_4rem] shadow-primary-300/50 absolute top-[8rem] left-[34rem] z-[-1]'></div>
-			<div className='w-0 h-0 shadow-[0_0_12rem_6rem] shadow-primary-300/75 absolute top-64 right-80 z-[-1]'></div>
+			<div className='w-0 h-0 shadow-[0_0_8rem_4rem] shadow-primary-300/50 absolute top-[30%] left-[40%] z-[-1]'></div>
+			<div className='w-0 h-0 shadow-[0_0_12rem_6rem] shadow-primary-300/75 absolute top-[60%] right-[20%] z-[-1]'></div>
 			<ConcentricCircles className='absolute -right-[10rem] top-8 z-[-2]' />
 		</section>
 	)

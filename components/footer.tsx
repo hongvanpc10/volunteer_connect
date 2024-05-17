@@ -13,8 +13,8 @@ const navbar = [
 		href: routes.about,
 	},
 	{
-		label: 'Tham gia',
-		href: routes.join,
+		label: 'Khám phá',
+		href: routes.explore,
 	},
 	{
 		label: 'Tin tức',

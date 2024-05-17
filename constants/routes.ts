@@ -3,7 +3,7 @@ const routes = {
 	signUp: '/sign-up',
 	home: '/',
 	about: '/about',
-	join: '/join',
+	explore: '/explore',
 	news: '/news',
 	community: '/community',
 	forgetPassword: '/forget-password',

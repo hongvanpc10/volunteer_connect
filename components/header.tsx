@@ -1,24 +1,14 @@
 'use client'
-import Logo from './logo'
-import Link from 'next/link'
-import Image from 'next/image'
 import routes from '@/constants/routes'
-import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
+import { Add, HambergerMenu } from 'iconsax-react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { HambergerMenu, Add } from 'iconsax-react'
 import { useState } from 'react'
+import Logo from './logo'
+import { Button } from './ui/button'
 
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from './ui/sheet'
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from './ui/sheet'
 
 const navbar = [
 	{
@@ -30,8 +20,8 @@ const navbar = [
 		href: routes.about,
 	},
 	{
-		label: 'Tham gia',
-		href: routes.join,
+		label: 'Khám phá',
+		href: routes.explore,
 	},
 	{
 		label: 'Tin tức',

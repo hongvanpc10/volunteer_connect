@@ -21,7 +21,7 @@ function Top3() {
 				<div
 					key={index}
 					className={cn(
-						'flex flex-col items-center',
+						'flex flex-col items-center sm:w-48 w-1/3',
 						['order-2', 'order-1', 'order-3'][index],
 					)}
 				>
@@ -53,7 +53,7 @@ function Top3() {
 					</div>
 					<div
 						className={cn(
-							'w-48 bg-slate-100 h-16 -mt-8 rounded-tl-3xl rounded-tr-3xl pt-14 transition-all duration-1000 ease-out',
+							'bg-slate-100 w-full h-16 -mt-8 rounded-tl-3xl rounded-tr-3xl pt-14 transition-all duration-1000 ease-out',
 							index == 0 && 'bg-slate-200',
 							isIntersecting && 'h-48',
 							isIntersecting && index == 0 && 'h-64',
@@ -65,7 +65,7 @@ function Top3() {
 								isIntersecting && 'opacity-100',
 							)}
 						>
-							<h4 className='text-center mb-2'>Phạm Hoàng Vinh</h4>
+							<h4 className='text-center text-sm font-medium mb-2'>Phạm Hoàng Vinh</h4>
 							<span
 								className={cn(
 									'flex items-center text-lg font-semibold',
@@ -93,11 +93,13 @@ function Top10() {
 
 	return (
 		<div className='mt-24 mx-auto max-w-[50rem]'>
-			<div className='pl-[8rem] pr-8 flex items-center justify-between mb-4 font-medium'>
+			<div className='pl-[8rem] max-md:hidden pr-8 flex items-center justify-between mb-4 font-medium'>
 				<span>Họ và tên</span>
 				<div className='w-1/2 flex items-center'>
-					<span className='flex flex-1 justify-center'>Số HĐ tham gia</span>
-					<span className='flex flex-1 justify-center'>Điểm</span>
+					<span className='flex flex-1 justify-center text-center'>
+						Số HĐ tham gia
+					</span>
+					<span className='flex flex-1 justify-center text-center'>Điểm</span>
 				</div>
 			</div>
 
@@ -113,15 +115,32 @@ function Top10() {
 							isIntersecting && 'translate-x-0 opacity-100',
 						)}
 					>
-						<span className='text-xl mr-8 text-primary-400'>{index + 4}</span>
-						<Image
-							alt='avatar'
-							src='https://picsum.photos/64'
-							width={64}
-							height={64}
-							className='w-10 h-10 object-cover rounded-full'
-						/>
-						<div className='flex flex-1 items-center justify-between ml-6 bg-slate-50 rounded-xl px-8 py-6'>
+						<span className='text-xl mr-8 max-md:hidden text-primary-400'>
+							#{index + 4}
+						</span>
+						<div className='flex items-center max-md:flex-1 max-md:bg-slate-50 max-md:px-4 max-md:py-4 rounded-xl'>
+							<Image
+								alt='avatar'
+								src='https://picsum.photos/64'
+								width={64}
+								height={64}
+								className='w-10 h-10 object-cover rounded-full'
+							/>
+							<div className='md:hidden flex-1 ml-3'>
+								<h4 className='text-sm font-medium'>Phạm Hoàng Vinh</h4>
+								<div className='flex items-center mt-1'>
+									<span>12</span>
+									<span className='flex items-center text-primary-400 ml-4'>
+										800
+										<Point className='ml-2' />
+									</span>
+								</div>
+							</div>
+							<div className='flex-1 md:hidden flex items-center justify-end'>
+								<span className='text-primary-400 text-lg'>#{index + 4}</span>
+							</div>
+						</div>
+						<div className='flex max-md:hidden flex-1 items-center justify-between ml-6 bg-slate-50 rounded-xl px-8 py-6'>
 							<h4 className='font-medium'>Phạm Hoàng Vinh</h4>
 							<div className='w-1/2 flex items-center'>
 								<div className='flex-1 flex justify-center'>12</div>

@@ -1,6 +1,8 @@
 'use client'
 
 import Alignment from '@/components/ui/alignment'
+import { Button } from '@/components/ui/button'
+import routes from '@/constants/routes'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'iconsax-react'
 import Image from 'next/image'
@@ -20,7 +22,7 @@ export default function Works() {
 					Các hoạt động nổi bật
 				</h2>
 
-				<div ref={ref} className='grid grid-cols-3 gap-8'>
+				<div ref={ref} className='grid lg:grid-cols-3 grid-cols-2 gap-8'>
 					{[...Array(3)].map((_, index) => (
 						<div
 							key={index}
@@ -57,7 +59,7 @@ export default function Works() {
 									11/5/2024 - 25/5/2024
 								</div>
 							</div>
-							<Alignment align='right' className='mt-3'>
+							<Alignment align='right' className='mt-4'>
 								<Link
 									href={''}
 									className='text-primary-500 font-medium group flex items-center'
@@ -69,6 +71,12 @@ export default function Works() {
 						</div>
 					))}
 				</div>
+
+				<Alignment align='center' className='mt-16'>
+					<Button asChild>
+						<Link href={routes.explore}>Khám phá thêm</Link>
+					</Button>
+				</Alignment>
 			</div>
 		</section>
 	)
