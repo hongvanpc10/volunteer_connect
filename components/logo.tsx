@@ -19,7 +19,7 @@ export default function Logo({ withText = true, textWhite }: LogoProps) {
 				className='h-10 w-auto'
 			/>
 			{withText && (
-				<div className={cn('ml-3 flex flex-col', textWhite && 'text-white')}>
+				<div className={cn('ml-3 flex flex-col tracking-wide', textWhite && 'text-white')}>
 					<span className='font-extrabold text-lg leading-[1]'>Volunteer</span>
 					<span className='font-semibold text-sm leading-[1]'>Connect</span>
 				</div>

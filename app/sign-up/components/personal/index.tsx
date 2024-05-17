@@ -12,7 +12,7 @@ interface PersonalData {
 	phone?: string
 	gender?: string
 	school?: string
-	major?: string
+	faculty?: string
 	studentCode?: string
 	password?: string
 }
@@ -36,7 +36,7 @@ export default function Personal() {
 		phone: '',
 		gender: '',
 		school: '',
-		major: '',
+		faculty: '',
 		studentCode: '',
 		password: '',
 	})

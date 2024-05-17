@@ -13,9 +13,6 @@ export const config = {
 		container: {
 			center: true,
 			padding: '2rem',
-			screens: {
-				'2xl': '1400px',
-			},
 		},
 		extend: {
 			keyframes: {
@@ -50,7 +47,13 @@ export const config = {
 			},
 		},
 	},
-	plugins: [require('tailwindcss-animate')],
+	corePlugins: {
+		aspectRatio: false,
+	},
+	plugins: [
+		require('tailwindcss-animate'),
+		require('@tailwindcss/aspect-ratio'),
+	],
 } satisfies Config
 
 export default config

@@ -40,7 +40,7 @@ const formSchema = z.object({
 	phone: z.string().min(1, 'Số điện thoại không được để trống'),
 	gender: z.string().min(1, 'Giới tính không được để trống'),
 	school: z.string().min(1, 'Trường không được để trống'),
-	major: z.string().min(1, 'Ngành học không được để trống'),
+	faculty: z.string().min(1, 'Khoa không được để trống'),
 	studentCode: z.string().min(1, 'Mã sinh viên không được để trống'),
 })
 
@@ -57,7 +57,7 @@ export default function Step1() {
 			phone: data.phone,
 			gender: data.gender,
 			school: data.school,
-			major: data.major,
+			faculty: data.faculty,
 			studentCode: data.studentCode,
 		},
 	})
@@ -161,12 +161,12 @@ export default function Step1() {
 
 					<FormField
 						control={form.control}
-						name='major'
+						name='faculty'
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Ngành học</FormLabel>
 								<FormControl>
-									<Input placeholder='Nghành Công nghệ thông tin' {...field} />
+									<Input placeholder='Khoa Khoa học và Kĩ thuật Thông tin' {...field} />
 								</FormControl>
 
 								<FormMessage />

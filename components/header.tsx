@@ -83,7 +83,7 @@ function Header() {
 						</Link>
 					) : (
 						<div
-							className='h-12 w-12 rounded-full bg-no-repeat bg-center bg-cover border border-solid'
+							className='h-10 w-10 rounded-full bg-no-repeat bg-center bg-cover border border-solid'
 							style={{
 								backgroundImage:
 									'url("https://i.pinimg.com/474x/59/ef/dc/59efdcc7599b3f4a06b4fe63f4d8d1a1.jpg")',
