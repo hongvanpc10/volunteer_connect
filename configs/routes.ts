@@ -7,7 +7,7 @@ const routes = {
 	news: '/news',
 	community: '/community',
 	forgetPassword: '/forget-password',
-	emailConfirmation: '/email-confirmation',
+	activeAccount: '/active-account',
 }
 
 export default routes

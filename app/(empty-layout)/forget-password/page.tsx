@@ -1,4 +1,3 @@
-import Logo from '@/components/logo'
 import { Metadata } from 'next'
 import ForgetPasswordForm from './components/forget-password-form'
 

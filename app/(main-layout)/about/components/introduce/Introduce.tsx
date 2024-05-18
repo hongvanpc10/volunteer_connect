@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 
 import { ArrowRight } from 'iconsax-react'
 
-import routes from '@/constants/routes'
 
 import { Button } from '@/components/ui/button'
 import ConcentricCircles from '@/components/concentric-circles'
 import images from '@/assets/images'
+import routes from '@/configs/routes'
 
 function Introduce() {
 	return (

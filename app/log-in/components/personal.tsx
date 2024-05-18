@@ -1,5 +1,6 @@
 'use client'
 
+import authApi from '@/apis/auth'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,8 +12,10 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import routes from '@/constants/routes'
+import { useToast } from '@/hooks/use-toast'
+import routes from '@/configs/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -37,8 +40,26 @@ export default function Personal() {
 		},
 	})
 
+	const { toast } = useToast()
+
+	const { mutate } = useMutation({
+		mutationFn: authApi.logIn,
+		onSuccess: () => {
+			toast({
+				description: 'Đăng nhập thành công',
+			})
+		},
+		onError: error => {
+			toast({
+				title: 'Đăng nhập thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
+		mutate(values)
 	}
 
 	return (

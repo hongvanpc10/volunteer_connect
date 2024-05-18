@@ -1,5 +1,9 @@
 'use client'
 
+import authApi, {
+	OrganizationSignUpData,
+	PersonalSignUpData,
+} from '@/apis/auth'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -10,12 +14,17 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import patterns from '@/constants/patterns'
-import routes from '@/constants/routes'
+import patterns from '@/configs/patterns'
+import routes from '@/configs/routes'
+import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { ro } from 'date-fns/locale'
 import { ArrowLeft } from 'iconsax-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
+import { useLocalStorage } from 'usehooks-ts'
 import { z } from 'zod'
 
 const formSchema = z
@@ -38,7 +47,13 @@ const formSchema = z
 		path: ['confirmPassword'],
 	})
 
-export default function ResetPasswordForm() {
+export default function Step2({
+	data,
+	onPrevStep,
+}: {
+	data: OrganizationSignUpData
+	onPrevStep: () => void
+}) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -47,15 +62,37 @@ export default function ResetPasswordForm() {
 		},
 	})
 
+	const setEmail = useLocalStorage('email', '')[1]
+
+	const { toast } = useToast()
+
+	const router = useRouter()
+
+	const { mutate } = useMutation({
+		mutationFn: authApi.organizationSignUp,
+		onSuccess: () => {
+			setEmail(data.account.email)
+			router.push(routes.activeAccount)
+		},
+		onError: error => {
+			toast({
+				title: 'Đăng ký thất bại',
+				description: error.message,
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
+		const finalData = {
+			...data,
+			account: { ...data.account, password: values.password },
+		}
+		mutate(finalData)
 	}
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
-				<h1 className='text-2xl font-bold mb-6'>Đặt lại mật khẩu</h1>
-
 				<div className='space-y-4'>
 					<FormField
 						control={form.control}
@@ -93,19 +130,16 @@ export default function ResetPasswordForm() {
 				</div>
 
 				<Button className='w-full mt-10' size='lg'>
-					Xác nhận
+					Đăng ký
 				</Button>
-
 				<Button
 					className='w-full mt-6 rounded-full'
 					size='lg'
 					variant='outline'
-					asChild
+					onClick={onPrevStep}
 				>
-					<Link href={routes.logIn}>
-						<ArrowLeft className='h-5 mr-2' />
-						Quay lại đăng nhập
-					</Link>
+					<ArrowLeft className='h-5 mr-2' />
+					Quay lại
 				</Button>
 			</form>
 		</Form>

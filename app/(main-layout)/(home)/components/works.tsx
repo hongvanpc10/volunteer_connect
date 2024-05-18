@@ -2,7 +2,7 @@
 
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
-import routes from '@/constants/routes'
+import routes from '@/configs/routes'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'iconsax-react'
 import Image from 'next/image'

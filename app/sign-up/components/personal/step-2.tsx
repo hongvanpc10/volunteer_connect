@@ -1,5 +1,6 @@
 'use client'
 
+import authApi, { PersonalSignUpData } from '@/apis/auth'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -10,13 +11,16 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import patterns from '@/constants/patterns'
+import patterns from '@/configs/patterns'
+import routes from '@/configs/routes'
+import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft } from 'iconsax-react'
-import { useContext } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { useLocalStorage } from 'usehooks-ts'
 import { z } from 'zod'
-import { PersonalContext } from '.'
 
 const formSchema = z
 	.object({
@@ -38,9 +42,13 @@ const formSchema = z
 		path: ['confirmPassword'],
 	})
 
-export default function Step2() {
-	const { data, setStep } = useContext(PersonalContext)
-
+export default function Step2({
+	data,
+	onPrevStep,
+}: {
+	data: PersonalSignUpData
+	onPrevStep: () => void
+}) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -49,9 +57,32 @@ export default function Step2() {
 		},
 	})
 
+	const setEmail = useLocalStorage('email', '')[1]
+
+	const { toast } = useToast()
+
+	const router = useRouter()
+
+	const { mutate } = useMutation({
+		mutationFn: authApi.personalSignUp,
+		onSuccess: () => {
+			setEmail(data.account.email)
+			router.push(routes.activeAccount)
+		},
+		onError: error => {
+			toast({
+				title: 'Đăng ký thất bại',
+				description: error.message,
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		const finalData = { ...data, password: values.password }
-		console.log(finalData)
+		const finalData = {
+			...data,
+			account: { ...data.account, password: values.password },
+		}
+		mutate(finalData)
 	}
 
 	return (
@@ -100,7 +131,7 @@ export default function Step2() {
 					className='w-full mt-6 rounded-full'
 					size='lg'
 					variant='outline'
-					onClick={() => setStep(1)}
+					onClick={onPrevStep}
 				>
 					<ArrowLeft className='h-5 mr-2' />
 					Quay lại
