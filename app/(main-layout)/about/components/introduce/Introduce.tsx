@@ -8,6 +8,7 @@ import routes from '@/constants/routes'
 
 import { Button } from '@/components/ui/button'
 import ConcentricCircles from '@/components/concentric-circles'
+import images from '@/assets/images'
 
 function Introduce() {
 	return (
@@ -53,14 +54,14 @@ function Introduce() {
 						)}
 					>
 						<Image
-							src='/images/about_1.jpg'
+							src={images.about1}
 							alt='About 1'
 							height={512}
 							width={512}
 							className='absolute top-1/3 right-1/4 rounded-xl z-10'
 						/>
 						<Image
-							src='/images/about_2.jpg'
+							src={images.about2}
 							alt='About 2'
 							height={512}
 							width={512}

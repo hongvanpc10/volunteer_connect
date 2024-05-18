@@ -84,6 +84,7 @@ function Target() {
 
 					return (
 						<div
+							key={index}
 							style={{
 								transitionDelay: 100 * index + 'ms',
 							}}
@@ -91,7 +92,7 @@ function Target() {
 								'flex flex-col gap-5 border border-primary-200 rounded-lg p-8 opacity-0 translate-y-36',
 								positionOfGrid[index],
 								isIntersecting &&
-                                    'opacity-100 translate-y-0 transition-all duration-1000 ease-out',
+									'opacity-100 translate-y-0 transition-all duration-1000 ease-out',
 							)}
 						>
 							<div className='flex justify-center items-center bg-primary-100 p-3 w-fit rounded-lg'>

@@ -1,7 +1,11 @@
+import { Metadata } from 'next'
 import { Application, Introduce, Target } from './components'
 
-function About() {
+export const metadata: Metadata = {
+	title: 'Giới thiệu',
+}
 
+function About() {
 	return (
 		<main className='flex  flex-col gap-32 pt-16 pb-8'>
 			{/* Phần giới thiệu */}

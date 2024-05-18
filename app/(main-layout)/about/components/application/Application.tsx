@@ -1,9 +1,9 @@
 'use client'
 import { cn } from '@/lib/utils'
-import { lottieAnimation } from '@/assets/images'
 import { TickCircle } from 'iconsax-react'
 import LottieAnimation from './LottieAnimation'
 import { useIntersectionObserver } from 'usehooks-ts'
+import lottieAnimations from '@/assets/lottie-animations'
 
 interface ApplicationItemType {
 	title: string,
@@ -20,7 +20,7 @@ const application: ApplicationItemType[] = [
 			'Cho phép sinh viên đăng ký tham gia hoạt động tình nguyện trực tuyến thông qua hệ thống và quản lý trạng thái đăng ký của mình.',
 			' Sinh viên có thể đánh giá và phản hồi về trải nghiệm của họ. Các đánh giá này có thể giúp cải thiện chất lượng của các hoạt động tương lai.',
 		],
-		illustrator: lottieAnimation.search,
+		illustrator: lottieAnimations.search,
 	},
 
 	{
@@ -30,7 +30,7 @@ const application: ApplicationItemType[] = [
 			'Cho phép cập nhật thông tin cá nhân và kỹ năng khi cần thiết.',
 			'Có thể xem báo cáo đánh giá hoạt động của sinh viên.',
 		],
-		illustrator: lottieAnimation.manage_profile,
+		illustrator: lottieAnimations.manageProfile,
 	},
 
 	{
@@ -40,7 +40,7 @@ const application: ApplicationItemType[] = [
 			'Cho phép sinh viên xem lịch các hoạt động tình nguyện sắp tới của mình để sắp xếp thời gian cho phù hợp.',
 			'Hệ thống sẽ tự động gửi email tới sinh viên trước ngày tình nguyện để nhắc nhở.',
 		],
-		illustrator: lottieAnimation.manage_schedule,
+		illustrator: lottieAnimations.manageSchedule,
 	},
 
 	{
@@ -50,7 +50,7 @@ const application: ApplicationItemType[] = [
 			'Giúp ban tổ chức hoạt động tình quyện theo dõi các thành viên. Xuất ra báo cáo một cách nhanh chóng.',
 			'Cung cấp các công cụ để tổ chức và quản lý có thể thống kê và tạo báo cáo về hoạt động tình nguyện, bao gồm số lượng sinh viên tham gia, thời lượng hoạt động, và hiệu suất.',
 		],
-		illustrator: lottieAnimation.manange_volunteerWork,
+		illustrator: lottieAnimations.manangeVolunteerWork,
 	},
 
 	{
@@ -60,7 +60,7 @@ const application: ApplicationItemType[] = [
 			'Sinh viên có thể nhận huy hiệu cho việc đạt được các thành tựu khác nhau, chẳng hạn như tham gia một số lượng nhất định các hoạt động tình nguyện. Huy hiệu có thể được hiển thị trên trang hồ sơ của sinh viên.',
 			'Hiển thị bảng xếp hạng cho các sinh viên dựa trên số lần tham gia hoạt động, hoặc điểm số tích lũy. Điều này sẽ tạo ra một yếu tố cạnh tranh làm tăng động lực',
 		],
-		illustrator: lottieAnimation.gamification,
+		illustrator: lottieAnimations.gamification,
 	},
 ]
 
