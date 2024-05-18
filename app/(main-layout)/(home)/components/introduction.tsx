@@ -15,7 +15,7 @@ export default function Introduction() {
 				<div className='flex'>
 					<div className='lg:w-1/2'>
 						<h2 className='text-4xl tracking-wide'>
-							<span className='font-extrabold text-primary-500'>Volunteer</span>
+							<span className='font-extrabold text-primary-500'>Volunteer</span>&nbsp;
 							<span className='font-bold'>Connect</span>
 						</h2>
 						<h3 className='mt-3 text-base text-slate-700'>
