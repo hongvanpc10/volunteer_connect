@@ -1,5 +1,6 @@
 'use client'
 
+import { PersonalSignUpData } from '@/apis/auth'
 import { Button } from '@/components/ui/button'
 import DatePicker from '@/components/ui/date-picker'
 import {
@@ -18,18 +19,16 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import routes from '@/constants/routes'
+import patterns from '@/configs/patterns'
+import routes from '@/configs/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'iconsax-react'
 import Link from 'next/link'
-import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { PersonalContext } from '.'
 
 const formSchema = z.object({
-	firstName: z.string().min(1, 'Họ không được để trống'),
-	lastName: z.string().min(1, 'Tên không được để trống'),
+	name: z.string().min(1, 'Họ và tên không được để trống'),
 	email: z
 		.string()
 		.min(1, 'Email không được để trống')
@@ -37,70 +36,67 @@ const formSchema = z.object({
 	dob: z.date({
 		required_error: 'Ngày sinh không được để trống',
 	}),
-	phone: z.string().min(1, 'Số điện thoại không được để trống'),
+	phoneNumber: z
+		.string()
+		.min(1, 'Số điện thoại không được để trống')
+		.regex(patterns.phoneNumber, 'Số điện thoại không hợp lệ'),
 	gender: z.string().min(1, 'Giới tính không được để trống'),
 	school: z.string().min(1, 'Trường không được để trống'),
 	faculty: z.string().min(1, 'Khoa không được để trống'),
 	studentCode: z.string().min(1, 'Mã sinh viên không được để trống'),
 })
 
-export default function Step1() {
-	const { setData, setStep, data } = useContext(PersonalContext)
-
+export default function Step1({
+	data,
+	onNextStep,
+}: {
+	onNextStep: (data: PersonalSignUpData) => void
+	data?: PersonalSignUpData
+}) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			firstName: data.firstName,
-			lastName: data.lastName,
-			email: data.email,
-			dob: data.dob,
-			phone: data.phone,
-			gender: data.gender,
-			school: data.school,
-			faculty: data.faculty,
-			studentCode: data.studentCode,
+			name: data?.name ?? '',
+			email: data?.account.email ?? '',
+			dob: data?.dob ?? undefined,
+			phoneNumber: data?.phoneNumber ?? '',
+			faculty: data?.faculty ?? '',
+			school: data?.school ?? '',
+			studentCode: data?.studentCode ?? '',
+			gender: data?.gender ? (data.gender === true ? 'male' : 'female') : '',
 		},
 	})
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		setData(values)
-		setStep(2)
+		const { email, gender, ...rest } = values
+		onNextStep({
+			...rest,
+			account: {
+				email,
+				password: '',
+			},
+			gender: gender === 'male',
+		})
 	}
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className='space-y-3'>
-					<div className='flex space-x-3'>
-						<FormField
-							control={form.control}
-							name='firstName'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Họ đệm</FormLabel>
-									<FormControl>
-										<Input placeholder='Phạm Hoàng' autoFocus {...field} />
-									</FormControl>
+					<FormField
+						control={form.control}
+						name='name'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Họ và tên</FormLabel>
+								<FormControl>
+									<Input placeholder='Phạm Hoàng Vinh' autoFocus {...field} />
+								</FormControl>
 
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='lastName'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Tên</FormLabel>
-									<FormControl>
-										<Input placeholder='Vinh' {...field} />
-									</FormControl>
-
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
 					<div className='flex space-x-4'>
 						<FormField
@@ -166,7 +162,10 @@ export default function Step1() {
 							<FormItem>
 								<FormLabel>Ngành học</FormLabel>
 								<FormControl>
-									<Input placeholder='Khoa Khoa học và Kĩ thuật Thông tin' {...field} />
+									<Input
+										placeholder='Khoa Khoa học và Kĩ thuật Thông tin'
+										{...field}
+									/>
 								</FormControl>
 
 								<FormMessage />
@@ -191,7 +190,7 @@ export default function Step1() {
 						/>
 						<FormField
 							control={form.control}
-							name='phone'
+							name='phoneNumber'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Số điện thoại</FormLabel>
@@ -226,7 +225,7 @@ export default function Step1() {
 				</div>
 
 				<Button className='w-full mt-10' size='lg'>
-					Tạo tài khoản mới
+					Tiếp tục
 				</Button>
 				<Button
 					className='w-full mt-6 rounded-full'

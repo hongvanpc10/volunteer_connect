@@ -1,7 +1,9 @@
+'use client'
+
 import images from '@/assets/images'
 import ConcentricCircles from '@/components/concentric-circles'
 import { Button } from '@/components/ui/button'
-import routes from '@/constants/routes'
+import routes from '@/configs/routes'
 import { ArrowRight } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -32,7 +34,7 @@ export default function Introduction() {
 							</Link>
 						</Button>
 					</div>
-					<div className='max-lg:flex-1 max-lg:hidden'>
+					<div className='lg:flex-1 max-lg:hidden'>
 						<Image
 							alt='home'
 							src={images.homeBanner}

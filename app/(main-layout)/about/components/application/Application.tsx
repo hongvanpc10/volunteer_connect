@@ -1,7 +1,7 @@
 'use client'
 import { cn } from '@/lib/utils'
 import { TickCircle } from 'iconsax-react'
-import LottieAnimation from './LottieAnimation'
+import LottieAnimation from './lottie-animation'
 import { useIntersectionObserver } from 'usehooks-ts'
 import lottieAnimations from '@/assets/lottie-animations'
 

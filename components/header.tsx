@@ -1,5 +1,5 @@
 'use client'
-import routes from '@/constants/routes'
+import routes from '@/configs/routes'
 import { cn } from '@/lib/utils'
 import { Add, HambergerMenu } from 'iconsax-react'
 import Link from 'next/link'

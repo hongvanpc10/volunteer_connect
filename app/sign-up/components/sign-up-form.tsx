@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Organization from './organazation'
 import Personal from './personal'
+import Organization from './organization'
 
 export default function SignUpForm() {
 	return (

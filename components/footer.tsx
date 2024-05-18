@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Logo from './logo'
 import { cn } from '@/lib/utils'
-import routes from '@/constants/routes'
+import routes from '@/configs/routes'
 
 const navbar = [
 	{
