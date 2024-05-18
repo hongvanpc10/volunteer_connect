@@ -1,3 +1,3 @@
-export {default as Introduce} from './introduce/Introduce'
-export {default as Target} from './target/Target'
-export {default as Application} from './application/Application'
+export {default as Introduce} from './introduce/introduce'
+export {default as Target} from './target/target'
+export {default as Application} from './application/application'
