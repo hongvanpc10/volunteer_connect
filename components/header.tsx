@@ -57,6 +57,7 @@ function Header() {
 		},
 		{
 			label: 'Thêm chiến dịch mới',
+			href: routes.newWork,
 		},
 		{
 			label: 'Quản lý chiến dịch',

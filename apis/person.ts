@@ -1,5 +1,4 @@
 import { PersonError } from '@/errors/person-error'
-import Account from '@/interfaces/account'
 import { Person } from '@/interfaces/person'
 import httpClient, { handleError } from '@/lib/http-client'
 

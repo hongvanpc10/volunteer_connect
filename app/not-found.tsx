@@ -9,7 +9,7 @@ export default function NotFoundPage() {
 	return (
 		<div>
 			<Header />
-			<div>Not found</div>
+			<div className='pt-64'>Not found</div>
 		</div>
 	)
 }

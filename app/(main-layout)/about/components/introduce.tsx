@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils'
 
 import { ArrowRight } from 'iconsax-react'
 
-
 import { Button } from '@/components/ui/button'
 import ConcentricCircles from '@/components/concentric-circles'
 import images from '@/assets/images'

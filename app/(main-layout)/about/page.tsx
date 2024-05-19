@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
-import Introduce from './components/introduce/introduce'
-import Target from './components/target/target'
-import Application from './components/application/application'
+import Introduce from './components/introduce'
+import Target from './components/target'
+import Application from './components/application'
 
 export const metadata: Metadata = {
 	title: 'Giới thiệu',

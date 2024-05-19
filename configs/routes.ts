@@ -19,6 +19,11 @@ const routes = {
 		gen: (id?: string) => `/organizations/${id}`,
 		default: '/organizations',
 	},
+	newWork: '/new-volunteer-work',
+	volunteerWorks: {
+		gen: (id?: string) => `/volunteer-works/${id}`,
+		default: '/volunteer-works',
+	},
 }
 
 export default routes

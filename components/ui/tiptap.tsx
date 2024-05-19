@@ -9,13 +9,18 @@ interface TiptapProps {
 	className?: string
 	onChange?: (value: string) => void
 	value?: string
-	placeholder?: string
+	defaultValue?: string
 }
 
-const Tiptap = ({ className, onChange, value = '' }: TiptapProps) => {
+const Tiptap = ({
+	className,
+	onChange,
+	value,
+	defaultValue = '',
+}: TiptapProps) => {
 	const editor = useEditor({
 		extensions: [StarterKit],
-		content: value,
+		content: defaultValue,
 		editorProps: {
 			attributes: {
 				class: cn(

@@ -56,9 +56,6 @@ export default function useAuth() {
 			removeIsLoggedIn()
 			removeIsOrganization()
 			queryClient.removeQueries({ queryKey: queryKeys.account })
-			queryClient.removeQueries({
-				queryKey: queryKeys.accountInfo.gen(accountInfo?._id),
-			})
 		},
 	})
 

@@ -1,16 +1,34 @@
-import { usePathname, useRouter } from 'next/navigation'
-import useAuth from './use-auth'
-import { useEffect } from 'react'
-import routes from '@/configs/routes'
+'use client'
 
-export default function useProtectedRoute() {
-	const { isLoggedIn } = useAuth()
+import routes from '@/configs/routes'
+import { AccountRole } from '@/interfaces/account-role'
+import { notFound, usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import useAuth from './use-auth'
+
+export default function useProtectedRoute(requiredRole?: AccountRole) {
+	const { isLoggedIn, isOrganization } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
 
 	useEffect(() => {
 		if (!isLoggedIn) {
-			router.push(routes.logIn + '?redirect=' + pathname)
+			if (requiredRole) {
+				notFound()
+			} else {
+				router.push(routes.logIn + '?redirect=' + pathname)
+			}
+		} else {
+			if (requiredRole) {
+				if (isOrganization && requiredRole !== AccountRole.ORGANIZATION) {
+					notFound()
+				} else if (
+					!isOrganization &&
+					requiredRole === AccountRole.ORGANIZATION
+				) {
+					notFound()
+				}
+			}
 		}
-	}, [isLoggedIn, pathname, router])
+	}, [isLoggedIn, isOrganization, requiredRole, pathname, router])
 }
