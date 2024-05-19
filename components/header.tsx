@@ -135,7 +135,8 @@ function Header() {
 									href={route.href}
 									className={cn(
 										'h-full flex items-center',
-										pathName === route.href
+										route.href == pathName ||
+											(route.href != '/' && pathName.startsWith(route.href))
 											? 'text-primary-400 font-semibold'
 											: '',
 									)}

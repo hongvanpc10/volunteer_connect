@@ -11,7 +11,7 @@ const navigationItems = [
 	},
 	{
 		label: 'Khám phá',
-		href: routes.explore,
+		href: routes.explore.default,
 	},
 	{
 		label: 'Tin tức',

@@ -6,12 +6,12 @@ interface AlignmentProps {
 
 export default function Alignment({
 	children,
-	align,
+	align = 'left',
 	className,
 }: AlignmentProps) {
 	return (
 		<div
-			className={`flex ${
+			className={`w-full flex ${
 				align === 'center'
 					? 'justify-center'
 					: align === 'left'

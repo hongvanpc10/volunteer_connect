@@ -1,10 +1,13 @@
-
 const routes = {
 	logIn: '/log-in',
 	signUp: '/sign-up',
 	home: '/',
 	about: '/about',
-	explore: '/explore',
+	explore: {
+		default: '/explore',
+		organizations: '/explore/organizations',
+		works: 'explore/works',
+	},
 	news: '/news',
 	community: '/community',
 	forgetPassword: '/forget-password',
@@ -17,6 +20,5 @@ const routes = {
 		default: '/organizations',
 	},
 }
-
 
 export default routes

@@ -1,17 +1,18 @@
 'use client'
 
-import OrganizationCard from '@/components/organization-card'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
+import VolunteerWorkVerticalCard from '@/components/volunteer-work-vertical-card'
 import routes from '@/configs/routes'
 import { cn } from '@/lib/utils'
 import { ArrowRight } from 'iconsax-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useIntersectionObserver } from 'usehooks-ts'
 
-export default function Organizations() {
+export default function Works() {
 	const { isIntersecting, ref } = useIntersectionObserver({
-		threshold: 0.5,
+		threshold: 0.2,
 		freezeOnceVisible: true,
 	})
 
@@ -21,15 +22,15 @@ export default function Organizations() {
 				Các tổ chức tình nguyện
 			</h2>
 
-			<div ref={ref} className='grid grid-cols-3 gap-6'>
+			<div ref={ref} className='grid grid-cols-3 gap-x-6 gap-y-12'>
 				{[...Array(6)].map((_, index) => (
-					<OrganizationCard
+					<VolunteerWorkVerticalCard
 						key={index}
 						style={{
 							transitionDelay: 150 * index + 'ms',
 						}}
 						className={cn(
-							'ease-out duration-500 opacity-0 translate-y-36',
+							'transition translate-y-36 opacity-0 duration-500 ease-out',
 							isIntersecting && 'translate-y-0 opacity-100',
 						)}
 					/>
@@ -38,7 +39,7 @@ export default function Organizations() {
 
 			<Alignment align='center' className='mt-16'>
 				<Button variant='outline' className='rounded-full group' asChild>
-					<Link href={routes.explore.organizations}>
+					<Link href={routes.explore.works}>
 						Xem thêm
 						<ArrowRight className='h-5 ml-2 mr-2 group-hover:ml-4 group-hover:mr-0 transition-all ease-out' />
 					</Link>

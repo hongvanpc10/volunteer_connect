@@ -74,7 +74,7 @@ export default function Works() {
 
 				<Alignment align='center' className='mt-16'>
 					<Button asChild>
-						<Link href={routes.explore}>Khám phá thêm</Link>
+						<Link href={routes.explore.default}>Khám phá thêm</Link>
 					</Button>
 				</Alignment>
 			</div>
