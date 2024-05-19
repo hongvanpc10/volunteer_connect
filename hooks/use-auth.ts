@@ -11,11 +11,12 @@ import { useToast } from './use-toast'
 import queryKeys from '@/configs/query-keys'
 
 export default function useAuth() {
-	const [isLoggedIn, , removeIsLoggedIn] = useLocalStorage('isLoggedIn', false)
-	const [isOrganization, , removeIsOrganization] = useLocalStorage(
-		'isOrganization',
+	const [isLoggedIn, setIsLoggedIn, removeIsLoggedIn] = useLocalStorage(
+		'isLoggedIn',
 		false,
 	)
+	const [isOrganization, setIsOrganization, removeIsOrganization] =
+		useLocalStorage('isOrganization', false)
 
 	const { toast } = useToast()
 
@@ -44,6 +45,12 @@ export default function useAuth() {
 	function logOut() {
 		removeIsLoggedIn()
 		removeIsOrganization()
+		queryClient.removeQueries({ queryKey: queryKeys.accountInfo })
+	}
+
+	function logIn(isOrganization: boolean) {
+		setIsLoggedIn(true)
+		setIsOrganization(isOrganization)
 		queryClient.invalidateQueries({ queryKey: queryKeys.accountInfo })
 	}
 
@@ -52,5 +59,6 @@ export default function useAuth() {
 		accountInfo,
 		isOrganization,
 		logOut,
+		logIn,
 	}
 }

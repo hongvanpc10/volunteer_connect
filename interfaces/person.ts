@@ -1,6 +1,8 @@
+import Account from "./account"
+
 export interface Person {
 	_id: string
-	account: string
+	account: Account
 	name: string
 	faculty: string
 	school: string

@@ -8,6 +8,9 @@ const routes = {
 	community: '/community',
 	forgetPassword: '/forget-password',
 	activeAccount: '/active-account',
+	profile: {
+		gen: (id?: string) => `/profile/${id}`,
+	},
 }
 
 export default routes

@@ -1,30 +1,8 @@
+import navigationItems from '@/configs/navigation-items'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import Logo from './logo'
-import { cn } from '@/lib/utils'
-import routes from '@/configs/routes'
 
-const navbar = [
-	{
-		label: 'Trang chủ',
-		href: routes.home,
-	},
-	{
-		label: 'Giới thiệu',
-		href: routes.about,
-	},
-	{
-		label: 'Khám phá',
-		href: routes.explore,
-	},
-	{
-		label: 'Tin tức',
-		href: routes.news,
-	},
-	{
-		label: 'Cộng đồng',
-		href: routes.community,
-	},
-]
 
 function Footer() {
 	return (
@@ -33,7 +11,7 @@ function Footer() {
 				<Logo textWhite />
 
 				<ul className='flex flex-wrap gap-x-9 text-base text-white justify-center font-light'>
-					{navbar.map((route, index) => {
+					{navigationItems.map((route, index) => {
 						return (
 							<li className='h-8' key={index}>
 								<Link

@@ -1,6 +1,8 @@
+import Account from "./account"
+
 export interface Organization {
 	_id: string
-	account: string
+	account: Account
 	name: string
 	affiliatedUnit: string
 	description: string

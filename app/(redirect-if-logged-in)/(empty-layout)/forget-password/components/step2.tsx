@@ -18,6 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { ArrowLeft, ArrowRight } from 'iconsax-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCountdown } from 'usehooks-ts'
@@ -59,6 +60,7 @@ export default function Step2({
 		})
 
 	const { toast } = useToast()
+	const router = useRouter()
 
 	const { mutate } = useMutation({
 		mutationFn: authApi.changePassword,
@@ -72,6 +74,7 @@ export default function Step2({
 			toast({
 				description: 'Đặt lại mật khẩu thành công',
 			})
+			router.push(routes.logIn)
 		},
 	})
 
@@ -89,7 +92,7 @@ export default function Step2({
 		return () => {
 			stopCountdown()
 		}
-	})
+	}, [startCountdown, stopCountdown])
 
 	function resendOtpCode() {
 		resendCode(email)

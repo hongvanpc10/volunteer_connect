@@ -45,7 +45,6 @@ export default function Step1({
 		onSuccess() {
 			toast({
 				description: 'Mã xác thực đã được gửi đến email của bạn',
-			
 			})
 			onNextStep(form.getValues('email'))
 		},
@@ -53,7 +52,7 @@ export default function Step1({
 			toast({
 				title: 'Gửi mã xác thực thất bại',
 				description: error.message,
-				variant: 'destructive'
+				variant: 'destructive',
 			})
 		},
 	})

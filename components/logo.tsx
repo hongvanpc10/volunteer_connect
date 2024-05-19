@@ -6,11 +6,19 @@ import Link from 'next/link'
 interface LogoProps {
 	withText?: boolean
 	textWhite?: boolean
+	className?: string
 }
 
-export default function Logo({ withText = true, textWhite }: LogoProps) {
+export default function Logo({
+	withText = true,
+	textWhite,
+	className,
+}: LogoProps) {
 	return (
-		<Link href={routes.home} className='inline-flex items-center'>
+		<Link
+			href={routes.home}
+			className={cn('inline-flex items-center', className)}
+		>
 			<Image
 				alt='logo'
 				src={'/images/logo.png'}

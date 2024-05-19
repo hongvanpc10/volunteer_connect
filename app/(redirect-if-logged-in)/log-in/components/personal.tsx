@@ -21,6 +21,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useLocalStorage } from 'usehooks-ts'
 import { AccountRole } from '@/interfaces/account-role'
+import useAuth from '@/hooks/use-auth'
 
 const formSchema = z.object({
 	email: z
@@ -43,6 +44,7 @@ export default function Personal() {
 	})
 
 	const { toast } = useToast()
+	const { logIn } = useAuth()
 
 	const setIsLoggedIn = useLocalStorage('isLoggedIn', false)[1]
 	const setIsOrganization = useLocalStorage('isOrganization', false)[1]
@@ -53,9 +55,7 @@ export default function Personal() {
 			toast({
 				description: 'Đăng nhập thành công',
 			})
-			console.log(data)
-			setIsOrganization(data!.role === AccountRole.ORGANIZATION)
-			setIsLoggedIn(true)
+			logIn(data!.role === AccountRole.ORGANIZATION)
 		},
 		onError: error => {
 			toast({
