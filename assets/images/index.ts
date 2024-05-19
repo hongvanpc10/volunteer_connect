@@ -5,6 +5,7 @@ const images = {
 	quotes: require('./quotes.svg'),
 	quotesBottomLeft: require('./quotes-bl.svg'),
 	quotesTopRight: require('./quotes-tr.svg'),
+	cover: require('./cover.jpg'),
 }
 
 export default images

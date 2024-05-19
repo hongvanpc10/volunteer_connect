@@ -117,7 +117,7 @@ function Header() {
 									<Button className='w-full'>Tham gia ngay</Button>
 								</Link>
 							) : (
-								<Button variant={'outline'} onClick={logOut}>
+								<Button variant={'outline'} onClick={() => logOut()}>
 									Đăng xuất
 								</Button>
 							)}
@@ -216,7 +216,7 @@ function Header() {
 										)
 									})}
 									<DropdownMenuSeparator />
-									<DropdownMenuItem onClick={logOut}>
+									<DropdownMenuItem onClick={() => logOut()}>
 										Đăng xuất
 									</DropdownMenuItem>
 								</DropdownMenuContent>
