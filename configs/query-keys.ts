@@ -1,5 +1,5 @@
 const queryKeys = {
-	auth: ['auth'],
+	accountInfo: ['account-info'],
 }
 
 export default queryKeys

@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import routes from '@/configs/routes'
+import { getRandomTextAvatar } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'iconsax-react'
 import Link from 'next/link'
@@ -57,6 +58,7 @@ export default function Step1({
 				email,
 				password: '',
 			},
+			avatarUrl: getRandomTextAvatar(values.name),
 		})
 	}
 

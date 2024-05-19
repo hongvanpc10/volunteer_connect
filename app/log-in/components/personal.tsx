@@ -19,6 +19,8 @@ import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useLocalStorage } from 'usehooks-ts'
+import { AccountRole } from '@/interfaces/account-role'
 
 const formSchema = z.object({
 	email: z
@@ -42,12 +44,18 @@ export default function Personal() {
 
 	const { toast } = useToast()
 
+	const setIsLoggedIn = useLocalStorage('isLoggedIn', false)[1]
+	const setIsOrganization = useLocalStorage('isOrganization', false)[1]
+
 	const { mutate } = useMutation({
 		mutationFn: authApi.logIn,
-		onSuccess: () => {
+		onSuccess: data => {
 			toast({
 				description: 'Đăng nhập thành công',
 			})
+			console.log(data)
+			setIsOrganization(data!.role === AccountRole.ORGANIZATION)
+			setIsLoggedIn(true)
 		},
 		onError: error => {
 			toast({

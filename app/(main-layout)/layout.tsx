@@ -4,9 +4,9 @@ import { ReactNode } from 'react'
 
 export default function MainLayout({ children }: { children: ReactNode }) {
 	return (
-		<div>
+		<div className='min-h-screen flex flex-col'>
 			<Header />
-			<div className='pt-[6rem] pb-32'>{children}</div>
+			<div className='pt-[6rem] flex-1'>{children}</div>
 			<Footer />
 		</div>
 	)

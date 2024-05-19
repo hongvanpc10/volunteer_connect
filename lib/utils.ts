@@ -12,3 +12,13 @@ export function splitName(name: string) {
 		lastName: lastName.join(' '),
 	}
 }
+
+export function getRandomAvatar(gender: boolean, username: string) {
+	return `https://avatar.iran.liara.run/public/${
+		gender ? 'boy' : 'girl'
+	}?username=${username}`
+}
+
+export function getRandomTextAvatar(username: string) {
+	return `https://avatar.iran.liara.run/username?username=${username}`
+}
