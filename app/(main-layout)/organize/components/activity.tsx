@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils"
-import Image from "next/image"
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
+import { ArrowDown2, Location } from 'iconsax-react'
 
 const organizeWork = [
 	{
@@ -47,10 +48,10 @@ const organizeWork = [
 function Activity() {
 	return (
 		<div className='flex flex-col gap-5'>
-			<p className='font-bold text-xl'>Các buổi hoạt động tình nguyện</p>
+			<p className='font-bold sm:text-xl text-lg'>Các buổi hoạt động tình nguyện</p>
 
 			<div className='flex flex-col gap-5'>
-				{organizeWork.map((work, index) => {
+				{/* {organizeWork.map((work, index) => {
 					return (
 						<div
 							key={index}
@@ -97,7 +98,57 @@ function Activity() {
 							</div>
 						</div>
 					)
+				})} */}
+
+				{organizeWork.map((work, index) => {
+					return (
+						<div key={index} className='bg-primary-50/50 ms:px-7 sm:py-6 p-4 rounded-lg'>
+							<div key={index} className='flex items-center h-fit sm:gap-5 gap-2 flex-wrap'>
+								<div className='relative h-14 w-14 rounded-lg overflow-hidden max-sm:hidden'>
+									<Image
+										src={
+											'https://i.pinimg.com/474x/fa/ea/d3/faead375326983a7353844023ade075a.jpg'
+										}
+										alt=''
+										fill
+										className='object-cover object-center'
+									/>
+								</div>
+
+								<div className='flex flex-col justify-between gap-2 flex-1 self-stretch'>
+									<p className='sm:font-bold font-semibold sm:text-base sm:line-clamp-1 line-clamp-2'>
+										{work.title}
+									</p>
+									<div
+										className={cn(
+											'text-xs px-4 py-1 rounded-full w-fit',
+											work.status ? 'bg-amber-200' : 'bg-primary-200',
+										)}
+									>
+										{work.status ? 'Đang diễn ra' : 'Đã kết thúc'}
+									</div>
+								</div>
+
+								<div className='flex sm:flex-col sm:justify-between justify-end gap-1.5 items-end min-w-[10rem] max-sm:w-full'>
+									<div className='flex items-center gap-1 font-semibold max-sm:hidden'>
+										<Location size={16} variant='Bold' />
+										<p className='line-clamp-1'>{work.place}</p>
+									</div>
+
+									<p className='text-gray-600 text-sm font-medium'>
+										{work.date}
+									</p>
+								</div>
+							</div>
+
+							<div className='line-clamp-2 max-sm:hidden mt-4'>{work.description}</div>
+						</div>
+					)
 				})}
+			</div>
+
+			<div className='mx-auto px-4 py-2 flex items-center gap-2 cursor-pointer hover:scale-105 transition-all'>
+				Xem thêm <ArrowDown2 size={15} color='#000000' />
 			</div>
 		</div>
 	)
