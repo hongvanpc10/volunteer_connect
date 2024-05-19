@@ -5,11 +5,9 @@ import { Organization } from '@/interfaces/organization'
 import httpClient, { handleError } from '@/lib/http-client'
 
 class OrganizationApi {
-	async getAccount() {
+	async getMe() {
 		try {
-			return await httpClient.get<{ _id: string; account: Account }>(
-				'/organization/loginedInfo',
-			)
+			return await httpClient.get<Organization>('/organization/loginedInfo')
 		} catch (error) {
 			handleError(error, OrganizationError)
 		}
@@ -17,11 +15,14 @@ class OrganizationApi {
 
 	async getInfo(id: string) {
 		try {
-			return await httpClient.get<Organization>('/organization/organizationInfo', {
-				params: {
-					organizationId: id,
+			return await httpClient.get<Organization>(
+				'/organization/organizationInfo',
+				{
+					params: {
+						organizationId: id,
+					},
 				},
-			})
+			)
 		} catch (error) {
 			handleError(error, OrganizationError)
 		}

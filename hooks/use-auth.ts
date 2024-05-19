@@ -22,20 +22,12 @@ export default function useAuth() {
 
 	const { toast } = useToast()
 
-	const { data: account, error: error1 } = useQuery({
-		queryKey: queryKeys.account,
-		queryFn: isOrganization ? organizationApi.getAccount : personApi.getAccount,
-		enabled: isLoggedIn,
-	})
-
-	const { data: accountInfo, error: error2 } = useQuery<
+	const { data: accountInfo, error } = useQuery<
 		Person | Organization | undefined
 	>({
-		queryKey: queryKeys.accountInfo.gen(account?._id),
-		queryFn: isOrganization
-			? () => organizationApi.getInfo(account!._id)
-			: () => personApi.getInfo(account!._id),
-		enabled: !!account,
+		queryKey: queryKeys.account,
+		queryFn: isOrganization ? organizationApi.getMe : personApi.getMe,
+		enabled: isLoggedIn,
 	})
 
 	const queryClient = useQueryClient()
@@ -65,13 +57,13 @@ export default function useAuth() {
 			removeIsOrganization()
 			queryClient.removeQueries({ queryKey: queryKeys.account })
 			queryClient.removeQueries({
-				queryKey: queryKeys.accountInfo.gen(account?._id),
+				queryKey: queryKeys.accountInfo.gen(accountInfo?._id),
 			})
 		},
 	})
 
 	useEffect(() => {
-		if (error1 || error2) {
+		if (error) {
 			toast({
 				title: 'Phiên đăng nhập đã hết hạn',
 				description: 'Vui lòng đăng nhập lại',
@@ -79,15 +71,11 @@ export default function useAuth() {
 			})
 			logOut()
 		}
-	}, [error1, error2, logOut, removeIsLoggedIn, removeIsOrganization, toast])
+	}, [error, logOut, removeIsLoggedIn, removeIsOrganization, toast])
 
 	return {
 		isLoggedIn,
-		accountInfo: account &&
-			accountInfo && {
-				...accountInfo,
-				account: account.account,
-			},
+		accountInfo,
 		isOrganization,
 		logOut,
 		logIn,

@@ -4,11 +4,9 @@ import { Person } from '@/interfaces/person'
 import httpClient, { handleError } from '@/lib/http-client'
 
 class PersonApi {
-	async getAccount() {
+	async getMe() {
 		try {
-			return await httpClient.get<{ _id: string; account: Account }>(
-				'/student/loginedInfo',
-			)
+			return await httpClient.get<Person>('/student/loginedInfo')
 		} catch (error) {
 			handleError(error, PersonError)
 		}
