@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 import routes from '@/configs/routes'
 
 export default function useProtectedRoute() {
-	const { accountInfo } = useAuth()
+	const { isLoggedIn } = useAuth()
 	const router = useRouter()
 	const pathname = usePathname()
 
 	useEffect(() => {
-		if (!accountInfo) {
+		if (!isLoggedIn) {
 			router.push(routes.logIn + '?redirect=' + pathname)
 		}
-	}, [accountInfo, pathname, router])
+	}, [isLoggedIn, pathname, router])
 }

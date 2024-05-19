@@ -12,18 +12,14 @@ interface TiptapProps {
 	placeholder?: string
 }
 
-const Tiptap = ({
-	className,
-	onChange,
-	value = '',
-}: TiptapProps) => {
+const Tiptap = ({ className, onChange, value = '' }: TiptapProps) => {
 	const editor = useEditor({
 		extensions: [StarterKit],
 		content: value,
 		editorProps: {
 			attributes: {
 				class: cn(
-					'prose prose-sm w-full rounded-lg border border-slate-200 bg-slate-50 px-5 py-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 max-w-none',
+					'prose prose-sm w-full rounded-lg border border-slate-200 bg-slate-50 px-5 py-4 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 max-w-none [&_:where(p):not(:where([class~="not-prose"],[class~="not-prose"]_*))]:my-0.5 [&_:where(.prose-sm_>_:first-child):not(:where([class~="not-prose"],[class~="not-prose"]_*))]:!mt-0 [&_:where(.prose-sm_>_:last-child):not(:where([class~="not-prose"],[class~="not-prose"]_*))]:!mb-0',
 					className,
 				),
 			},

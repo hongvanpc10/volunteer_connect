@@ -11,6 +11,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Loader from '@/components/ui/loader'
 import patterns from '@/configs/patterns'
 import routes from '@/configs/routes'
 import { useToast } from '@/hooks/use-toast'
@@ -62,7 +63,7 @@ export default function Step2({
 	const { toast } = useToast()
 	const router = useRouter()
 
-	const { mutate } = useMutation({
+	const { mutate , isPending} = useMutation({
 		mutationFn: authApi.changePassword,
 		onError(error) {
 			toast({
@@ -109,6 +110,7 @@ export default function Step2({
 
 	return (
 		<Form {...form}>
+			{isPending && <Loader />}
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<h1 className='text-2xl font-bold mb-2'>Đặt lại mật khẩu</h1>
 				<h2 className='mb-6'>

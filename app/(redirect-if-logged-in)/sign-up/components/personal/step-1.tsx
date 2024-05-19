@@ -230,13 +230,13 @@ export default function Step1({
 					Tiếp tục
 				</Button>
 				<Button
-					className='w-full mt-6 rounded-full'
+					className='w-full mt-6 rounded-full group'
 					size='lg'
 					variant='outline'
 					asChild
 				>
 					<Link href={routes.logIn}>
-						<ArrowLeft className='h-5 mr-2' />
+						<ArrowLeft className='h-5 mr-2 transition-all ml-2 group-hover:mr-4 group-hover:ml-0 ease-out' />
 						Quay lại Đăng nhập
 					</Link>
 				</Button>

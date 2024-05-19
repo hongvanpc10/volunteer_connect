@@ -14,6 +14,7 @@ import {
 	InputOTPGroup,
 	InputOTPSlot,
 } from '@/components/ui/input-otp'
+import Loader from '@/components/ui/loader'
 import routes from '@/configs/routes'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -51,7 +52,7 @@ export default function ActiveAccountForm() {
 			countStart: 30,
 		})
 
-	const { mutate } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: authApi.activeAccount,
 		onSuccess: () => {
 			removeEmail()
@@ -65,7 +66,6 @@ export default function ActiveAccountForm() {
 				description: error.message,
 				variant: 'destructive',
 			})
-		
 		},
 	})
 
@@ -104,6 +104,7 @@ export default function ActiveAccountForm() {
 
 	return (
 		<Form {...form}>
+			{isPending && <Loader />}
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<h1 className='text-2xl font-bold mb-2'>Xác thực tài khoản</h1>
 				<h2 className='mb-8'>

@@ -11,6 +11,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Loader from '@/components/ui/loader'
 import patterns from '@/configs/patterns'
 import routes from '@/configs/routes'
 import { useToast } from '@/hooks/use-toast'
@@ -63,7 +64,7 @@ export default function Step2({
 
 	const router = useRouter()
 
-	const { mutate } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: authApi.personSignUp,
 		onSuccess: () => {
 			setEmail(data.account.email)
@@ -87,6 +88,7 @@ export default function Step2({
 
 	return (
 		<Form {...form}>
+			{isPending && <Loader />}
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className='space-y-4'>
 					<FormField
@@ -128,12 +130,12 @@ export default function Step2({
 					Đăng ký
 				</Button>
 				<Button
-					className='w-full mt-6 rounded-full'
+					className='w-full mt-6 rounded-full group'
 					size='lg'
 					variant='outline'
 					onClick={onPrevStep}
 				>
-					<ArrowLeft className='h-5 mr-2' />
+					<ArrowLeft className='h-5 mr-2 transition-all ml-2 group-hover:mr-4 group-hover:ml-0 ease-out' />
 					Quay lại
 				</Button>
 			</form>

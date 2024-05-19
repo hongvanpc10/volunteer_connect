@@ -16,11 +16,12 @@ import { Add, HambergerMenu } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
 import Point from './icons/point'
 import Logo from './logo'
 import { Button } from './ui/button'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from './ui/sheet'
+import { Person } from '@/interfaces/person'
+import { Organization } from '@/interfaces/organization'
 
 interface DropdownItem {
 	label: string
@@ -46,7 +47,24 @@ function Header() {
 		},
 	]
 
-	const organizationDropdownItems: DropdownItem[] = []
+	const organizationDropdownItems: DropdownItem[] = [
+		{
+			label: 'Trang tổ chức',
+			href: routes.organizations.gen(accountInfo?._id),
+		},
+		{
+			label: 'Cài đặt',
+		},
+		{
+			label: 'Thêm chiến dịch mới',
+		},
+		{
+			label: 'Quản lý chiến dịch',
+		},
+		{
+			label: 'Thống kê',
+		},
+	]
 
 	return (
 		<div className='h-[6rem] grid place-items-center fixed inset-x-0 bg-white z-50'>
@@ -136,9 +154,12 @@ function Header() {
 						</Link>
 					) : (
 						<div className='flex items-center'>
-							<span className='flex max-md:hidden items-center mr-4 py-1 font-medium px-2 rounded-full bg-slate-100 text-xs'>
-								1200 <Point className='ml-1 h-2.5' />
-							</span>
+							{!isOrganization && (
+								<span className='flex max-md:hidden items-center mr-4 py-1 font-medium px-2 rounded-full bg-slate-100 text-xs'>
+									{(accountInfo as Person).totalPoints}{' '}
+									<Point className='ml-1 h-2.5' />
+								</span>
+							)}
 							<DropdownMenu>
 								<DropdownMenuTrigger className='outline-none'>
 									<Image
@@ -150,7 +171,7 @@ function Header() {
 									/>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align='end'>
-									<DropdownMenuLabel className='py-4 px-3 flex items-center'>
+									<DropdownMenuLabel className='py-4 px-3 flex items-start'>
 										<Image
 											alt='avatar'
 											src={accountInfo.avatarUrl}
@@ -159,12 +180,23 @@ function Header() {
 											className='h-9 w-9 rounded-full object-cover'
 										/>
 										<div className='ml-3'>
-											<h3 className='text-sm font-medium line-clamp-1'>
+											<h3 className='text-sm leading-5 font-medium line-clamp-1'>
 												{accountInfo.name}
 											</h3>
-											<span className='flex font-normal items-center'>
-												1200 <Point className='ml-1' />
+											<span className='text-xs font-normal'>
+												{accountInfo.account.email}
 											</span>
+											{!isOrganization && (
+												<span className='flex font-normal mt-1 items-center'>
+													{(accountInfo as Person).totalPoints}{' '}
+													<Point className='ml-1' />
+												</span>
+											)}
+											{isOrganization && (
+												<div className='text-xs font-normal line-clamp-1'>
+													{(accountInfo as Organization).affiliatedUnit}
+												</div>
+											)}
 										</div>
 									</DropdownMenuLabel>
 									<DropdownMenuSeparator />

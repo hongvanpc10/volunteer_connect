@@ -12,16 +12,16 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/hooks/use-toast'
+import Loader from '@/components/ui/loader'
 import routes from '@/configs/routes'
+import useAuth from '@/hooks/use-auth'
+import { useToast } from '@/hooks/use-toast'
+import { AccountRole } from '@/interfaces/account-role'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useLocalStorage } from 'usehooks-ts'
-import { AccountRole } from '@/interfaces/account-role'
-import useAuth from '@/hooks/use-auth'
 
 const formSchema = z.object({
 	email: z
@@ -46,10 +46,7 @@ export default function Personal() {
 	const { toast } = useToast()
 	const { logIn } = useAuth()
 
-	const setIsLoggedIn = useLocalStorage('isLoggedIn', false)[1]
-	const setIsOrganization = useLocalStorage('isOrganization', false)[1]
-
-	const { mutate } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: authApi.logIn,
 		onSuccess: data => {
 			toast({
@@ -72,6 +69,7 @@ export default function Personal() {
 
 	return (
 		<Form {...form}>
+			{isPending && <Loader />}
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className='space-y-4'>
 					<FormField

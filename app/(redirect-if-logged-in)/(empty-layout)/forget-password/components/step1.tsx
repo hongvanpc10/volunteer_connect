@@ -10,6 +10,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Loader from '@/components/ui/loader'
 import routes from '@/configs/routes'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,7 +41,7 @@ export default function Step1({
 
 	const { toast } = useToast()
 
-	const { mutate } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: authApi.sendOtpCode,
 		onSuccess() {
 			toast({
@@ -63,6 +64,7 @@ export default function Step1({
 
 	return (
 		<Form {...form}>
+			{isPending && <Loader />}
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<h1 className='text-2xl font-bold mb-2'>Khôi phục mật khẩu</h1>
 				<h2 className='mb-6'>

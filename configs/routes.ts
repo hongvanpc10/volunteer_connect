@@ -1,3 +1,4 @@
+
 const routes = {
 	logIn: '/log-in',
 	signUp: '/sign-up',
@@ -11,6 +12,11 @@ const routes = {
 	profile: {
 		gen: (id?: string) => `/profile/${id}`,
 	},
+	organizations: {
+		gen: (id?: string) => `/organizations/${id}`,
+		default: '/organizations',
+	},
 }
+
 
 export default routes
