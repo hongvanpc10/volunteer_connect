@@ -1,4 +1,6 @@
 import { AuthError } from '@/errors/auth-error'
+import Account from '@/interfaces/account'
+import { Person } from '@/interfaces/person'
 import httpClient, { handleError } from '@/lib/http-client'
 
 export interface PersonalSignUpData {
@@ -13,6 +15,7 @@ export interface PersonalSignUpData {
 		email: string
 		password: string
 	}
+	avatarUrl: string
 }
 
 export interface OrganizationSignUpData {
@@ -24,10 +27,11 @@ export interface OrganizationSignUpData {
 		email: string
 		password: string
 	}
+	avatarUrl: string
 }
 
 class AuthApi {
-	async personalSignUp(data: PersonalSignUpData) {
+	async personSignUp(data: PersonalSignUpData) {
 		try {
 			await httpClient.post('/auth/registryStudent', data)
 		} catch (error) {
@@ -45,7 +49,7 @@ class AuthApi {
 
 	async logIn({ email, password }: { email: string; password: string }) {
 		try {
-			const res = await httpClient.post('/auth/login', { email, password })
+			return await httpClient.post<Account>('/auth/login', { email, password })
 		} catch (error) {
 			handleError(error, AuthError)
 		}

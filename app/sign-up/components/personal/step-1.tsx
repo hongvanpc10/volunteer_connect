@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/select'
 import patterns from '@/configs/patterns'
 import routes from '@/configs/routes'
+import { getRandomAvatar } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'iconsax-react'
 import Link from 'next/link'
@@ -76,6 +77,7 @@ export default function Step1({
 				password: '',
 			},
 			gender: gender === 'male',
+			avatarUrl: getRandomAvatar(gender == 'male', rest.name),
 		})
 	}
 

@@ -64,7 +64,7 @@ export default function Step2({
 	const router = useRouter()
 
 	const { mutate } = useMutation({
-		mutationFn: authApi.personalSignUp,
+		mutationFn: authApi.personSignUp,
 		onSuccess: () => {
 			setEmail(data.account.email)
 			router.push(routes.activeAccount)

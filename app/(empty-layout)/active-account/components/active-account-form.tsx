@@ -44,6 +44,8 @@ export default function ActiveAccountForm() {
 
 	const { toast } = useToast()
 
+	console.log(email)
+
 	const [count, { startCountdown, stopCountdown, resetCountdown }] =
 		useCountdown({
 			countStart: 30,
@@ -66,6 +68,15 @@ export default function ActiveAccountForm() {
 		},
 	})
 
+	const { mutate: resendCode } = useMutation({
+		mutationFn: authApi.sendOtpCode,
+		onSuccess() {
+			toast({
+				description: 'Mã xác thực đã được gửi đến email của bạn',
+			})
+		},
+	})
+
 	useEffect(() => {
 		if (!email) {
 			router.push(routes.logIn)
@@ -75,7 +86,7 @@ export default function ActiveAccountForm() {
 		return () => {
 			stopCountdown()
 		}
-	})
+	}, [email, removeEmail, router, startCountdown, stopCountdown])
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		mutate({
@@ -85,6 +96,7 @@ export default function ActiveAccountForm() {
 	}
 
 	function resendOptCode() {
+		resendCode(email)
 		resetCountdown()
 		startCountdown()
 	}
@@ -114,7 +126,7 @@ export default function ActiveAccountForm() {
 								</InputOTP>
 							</FormControl>
 
-							<FormMessage />
+							<FormMessage className='text-center' />
 						</FormItem>
 					)}
 				/>

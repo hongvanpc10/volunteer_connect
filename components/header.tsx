@@ -1,4 +1,5 @@
 'use client'
+
 import routes from '@/configs/routes'
 import { cn } from '@/lib/utils'
 import { Add, HambergerMenu } from 'iconsax-react'
@@ -9,6 +10,9 @@ import Logo from './logo'
 import { Button } from './ui/button'
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from './ui/sheet'
+import useAuth from '@/hooks/use-auth'
+import Image from 'next/image'
+import Point from './icons/point'
 
 const navbar = [
 	{
@@ -36,7 +40,8 @@ const navbar = [
 function Header() {
 	const pathName = usePathname()
 	const [open, setOpen] = useState<boolean>(false)
-	const user = true
+
+	const { accountInfo, logOut } = useAuth()
 
 	const changeOpenMenuBar = () => {
 		setOpen(!open)
@@ -67,18 +72,23 @@ function Header() {
 				</ul>
 
 				<div className='flex items-center max-lg:hidden'>
-					{!user ? (
+					{accountInfo == null ? (
 						<Link href={routes.logIn}>
 							<Button>Tham gia ngay</Button>
 						</Link>
 					) : (
-						<div
-							className='h-10 w-10 rounded-full bg-no-repeat bg-center bg-cover border border-solid'
-							style={{
-								backgroundImage:
-									'url("https://i.pinimg.com/474x/59/ef/dc/59efdcc7599b3f4a06b4fe63f4d8d1a1.jpg")',
-							}}
-						></div>
+						<div className='flex items-center'>
+							<span className='flex items-center mr-4 py-1 font-medium px-2 rounded-full bg-slate-100 text-xs'>
+								1200 <Point className='ml-1 h-2.5' />
+							</span>
+							<Image
+								alt='avatar'
+								src={accountInfo.avatarUrl}
+								width={40}
+								height={40}
+								className='h-10 w-10 rounded-full object-cover'
+							/>
+						</div>
 					)}
 				</div>
 
@@ -104,37 +114,6 @@ function Header() {
 								</div>
 							</SheetClose>
 						</div>
-						{/* {user && (
-							<>
-								<div className='flex gap-3'>
-									<div
-										className='h-12 w-12 rounded-full bg-no-repeat bg-center bg-cover border border-solid'
-										style={{
-											backgroundImage:
-												'url("https://i.pinimg.com/474x/59/ef/dc/59efdcc7599b3f4a06b4fe63f4d8d1a1.jpg")',
-										}}
-									></div>
-
-									<div className='flex-1 flex flex-col justify-between'>
-										<p className='font-semibold'>Phạm Hoàng Vinh</p>
-										<div className='relative flex items-center gap-1 text-sm font-medium'>
-											1024
-											<div>
-												<Image
-													alt='Coin image'
-													src={'/images/coin.png'}
-													width={512}
-													height={512}
-													className='w-3.5'
-												></Image>
-											</div>{' '}
-										</div>
-									</div>
-								</div>
-
-								<div className='h-px w-full bg-black/30 my-5'></div>
-							</>
-						)} */}
 
 						<div className='flex flex-col gap-7'>
 							<ul className='flex flex-col gap-2 font-medium text-base'>
@@ -157,7 +136,7 @@ function Header() {
 								})}
 							</ul>
 
-							{!user ? (
+							{!accountInfo  ? (
 								<Link href={routes.logIn}>
 									<Button className='w-full'>Tham gia ngay</Button>
 								</Link>

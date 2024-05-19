@@ -1,8 +1,4 @@
-import authApi from '@/apis/auth'
-import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import _createAuthRefreshInterceptor, {
-	AxiosAuthRefreshRequestConfig,
-} from 'axios-auth-refresh'
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
 class HttpClient {
 	baseUrl: string
@@ -20,7 +16,7 @@ class HttpClient {
 		return `${this.baseUrl}${endpoint}`
 	}
 
-	async get<T = any>(endpoint: string, config?: AxiosAuthRefreshRequestConfig) {
+	async get<T = any>(endpoint: string, config?: AxiosRequestConfig) {
 		const response = await this.instance.get<T>(this.getUrl(endpoint), config)
 		return response.data
 	}
@@ -28,7 +24,7 @@ class HttpClient {
 	async post<T = any>(
 		endpoint: string,
 		data?: object,
-		config?: AxiosAuthRefreshRequestConfig,
+		config?: AxiosRequestConfig,
 	) {
 		const response = await this.instance.post<T>(
 			this.getUrl(endpoint),
@@ -41,7 +37,7 @@ class HttpClient {
 	async patch<T = any>(
 		endpoint: string,
 		data?: object,
-		config?: AxiosAuthRefreshRequestConfig,
+		config?: AxiosRequestConfig,
 	) {
 		const response = await this.instance.patch<T>(
 			this.getUrl(endpoint),
@@ -51,48 +47,12 @@ class HttpClient {
 		return response.data
 	}
 
-	async delete<T = any>(
-		endpoint: string,
-		config?: AxiosAuthRefreshRequestConfig,
-	) {
+	async delete<T = any>(endpoint: string, config?: AxiosRequestConfig) {
 		const response = await this.instance.delete<T>(
 			this.getUrl(endpoint),
 			config,
 		)
 		return response.data
-	}
-
-	setAuthHeader(token: string) {
-		this.instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-	}
-
-	removeAuthHeader() {
-		delete this.instance.defaults.headers.common['Authorization']
-	}
-
-	createAuthRefreshInterceptor(
-		onSuccess?: (accessToken: string) => void,
-		onError?: (error: any) => void,
-	) {
-		_createAuthRefreshInterceptor(
-			this.instance,
-			async failedRequest => {
-				try {
-					const { accessToken } = await authApi.refreshToken()
-					failedRequest.response.config.headers['Authorization'] =
-						'Bearer ' + accessToken
-					onSuccess?.(accessToken)
-					return Promise.resolve()
-				} catch (error) {
-					onError?.(error)
-					return Promise.reject(error)
-				}
-			},
-			{
-				pauseInstanceWhileRefreshing: true,
-				statusCodes: [401],
-			},
-		)
 	}
 }
 
@@ -101,7 +61,7 @@ export function handleError(
 	ErrorClass?: new (message: string) => Error,
 ) {
 	if (axios.isAxiosError<string>(error)) {
-		console.log(error);
+		console.log(error)
 		if (error.response) {
 			if (error.response.status >= 500 && error.response.status < 600) {
 				throw new Error('Đã có lỗi xãy ra. Vui lòng thử lại sau.')
