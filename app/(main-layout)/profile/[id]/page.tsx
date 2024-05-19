@@ -1,11 +1,10 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import images from '@/assets/images'
 import Crown from '@/components/icons/crown'
 import Point from '@/components/icons/point'
 import { Button } from '@/components/ui/button'
-import { Flash, ArrowDown2 } from 'iconsax-react'
 import { cn } from '@/lib/utils'
-import images from '@/assets/images'
+import { ArrowDown2, Flash } from 'iconsax-react'
+import Image from 'next/image'
 
 interface RecentActivityType {
 	title: string
@@ -136,8 +135,12 @@ function Profile() {
 
 					<div className='flex flex-col items-center sm:mt-[6.8rem] mt-[5rem] sm:gap-3 gap-1'>
 						<div className='flex gap-2 items-center'>
-							<p className='sm:text-3xl text-xl font-semibold'>Phạm Hoàng Vinh</p>
-							{topServer && <Crown className='sm:w-10 w-6 relative sm:-top-1' />}
+							<p className='sm:text-3xl text-xl font-semibold'>
+								Phạm Hoàng Vinh
+							</p>
+							{topServer && (
+								<Crown className='sm:w-10 w-6 relative sm:-top-1' />
+							)}
 						</div>
 
 						<div className='flex gap-2  mb-4'>
@@ -152,12 +155,12 @@ function Profile() {
 				<div className='w-full h-px bg-black/20'></div>
 
 				<div className='grid grid-cols-6 max-lg:grid-rows-[repeat(2)] gap-5'>
-					<div className='col-span-2 max-lg:row-start-2 max-lg:row-end-3 max-lg:col-span-6 flex flex-col gap-5'>
-						<div className='flex justify-center max-lg:hidden mb-5'>
-							<Quotes className='w-[18.25rem]'/>
+					<div className='col-span-2 max-lg:row-start-1 max-lg:col-span-6 flex flex-col gap-5'>
+						<div className='flex justify-center mb-5'>
+							<Quotes className='w-[18.25rem] max-lg:w-[25rem]' />
 						</div>
 
-						<div className='px-9 py-7 flex flex-col gap-5 border border-primary-200 rounded-xl'>
+						<div className='px-9 py-7 max-lg: flex flex-col gap-5 border border-primary-200 rounded-xl'>
 							<p className='font-bold text-xl w-full'>Thông tin</p>
 							<div className='flex flex-col gap-4'>
 								{userInfo.map((value, index) => {
@@ -194,8 +197,7 @@ function Profile() {
 						</div>
 					</div>
 
-					<div className='col-span-4 max-lg:row-start-1 max-lg:row-end-2 max-lg:col-span-6 flex flex-col items-center gap-12'>
-						<Quotes className='w-[25rem] lg:hidden'/>
+					<div className='col-span-4 max-lg:row-start-2 max-lg:col-span-6 flex flex-col items-center gap-12'>
 
 						<div className='flex flex-col h-fit w-full px-9 py-7 gap-5 border border-primary-200 rounded-xl'>
 							<p className='font-bold text-xl w-full'>Hoạt động gần đây</p>
@@ -218,10 +220,10 @@ function Profile() {
 											<div className='flex max-sm:w-full items-center gap-8 max-sm:justify-between max-sm:font-medium max-sm:text-sm'>
 												<p>
 													{activity.date.getDate().toString().padStart(2, '0')}/
-													{activity.date.getMonth().toString().padStart(2, '0')}/
-													{activity.date.getFullYear().toString()}
+													{activity.date.getMonth().toString().padStart(2, '0')}
+													/{activity.date.getFullYear().toString()}
 												</p>
-	
+
 												<div className='flex'>
 													{[...Array(5)].map((_, index) => {
 														return (
@@ -266,7 +268,7 @@ function Quotes({ className }: { className?: string }) {
 			)}
 		>
 			<p className='text-xl italic text-center text-primary-500'>
-				Do things at your own place. Life isn't a race.
+				Do things at your own place. Life {"isn't"} a race.
 			</p>
 			<Image
 				src={images.quotes}
