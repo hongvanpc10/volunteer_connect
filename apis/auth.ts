@@ -94,6 +94,14 @@ class AuthApi {
 			handleError(error, AuthError)
 		}
 	}
+
+	async logOut() {
+		try {
+			await httpClient.get('/auth/logout')
+		} catch (error) {
+			handleError(error, AuthError)
+		}
+	}
 }
 
 const authApi = new AuthApi()

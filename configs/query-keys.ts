@@ -1,5 +1,6 @@
 const queryKeys = {
-	accountInfo: ['account-info'],
+	account: ['account'],
+	accountInfo: { gen: (id?: string) => ['accountInfo', id] },
 }
 
 export default queryKeys

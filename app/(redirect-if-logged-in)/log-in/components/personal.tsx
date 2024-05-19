@@ -44,32 +44,15 @@ export default function Personal() {
 	})
 
 	const { toast } = useToast()
-	const { logIn } = useAuth()
-
-	const { mutate, isPending } = useMutation({
-		mutationFn: authApi.logIn,
-		onSuccess: data => {
-			toast({
-				description: 'Đăng nhập thành công',
-			})
-			logIn(data!.role === AccountRole.ORGANIZATION)
-		},
-		onError: error => {
-			toast({
-				title: 'Đăng nhập thất bại',
-				description: error.message,
-				variant: 'destructive',
-			})
-		},
-	})
+	const { logIn, isLoggingIn } = useAuth()
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		mutate(values)
+		logIn(values)
 	}
 
 	return (
 		<Form {...form}>
-			{isPending && <Loader />}
+			{isLoggingIn && <Loader />}
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<div className='space-y-4'>
 					<FormField

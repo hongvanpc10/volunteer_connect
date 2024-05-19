@@ -1,16 +1,29 @@
+import { OrganizationError } from '@/errors/organization'
 import { PersonError } from '@/errors/person-error'
+import Account from '@/interfaces/account'
 import { Organization } from '@/interfaces/organization'
-import { Person } from '@/interfaces/person'
 import httpClient, { handleError } from '@/lib/http-client'
 
 class OrganizationApi {
-	async getInfo() {
+	async getAccount() {
 		try {
-			return await httpClient.get<Organization>(
-				'/organization/organizationInfo',
+			return await httpClient.get<{ _id: string; account: Account }>(
+				'/organization/loginedInfo',
 			)
 		} catch (error) {
-			handleError(error, PersonError)
+			handleError(error, OrganizationError)
+		}
+	}
+
+	async getInfo(id: string) {
+		try {
+			return await httpClient.get<Organization>('/organization/organizationInfo', {
+				params: {
+					organizationId: id,
+				},
+			})
+		} catch (error) {
+			handleError(error, OrganizationError)
 		}
 	}
 }
