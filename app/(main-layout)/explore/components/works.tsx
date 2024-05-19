@@ -12,7 +12,7 @@ import { useIntersectionObserver } from 'usehooks-ts'
 
 export default function Works() {
 	const { isIntersecting, ref } = useIntersectionObserver({
-		threshold: 0.2,
+		threshold: 0,
 		freezeOnceVisible: true,
 	})
 
@@ -22,7 +22,7 @@ export default function Works() {
 				Các tổ chức tình nguyện
 			</h2>
 
-			<div ref={ref} className='grid grid-cols-3 gap-x-6 gap-y-12'>
+			<div ref={ref} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12'>
 				{[...Array(6)].map((_, index) => (
 					<VolunteerWorkVerticalCard
 						key={index}
