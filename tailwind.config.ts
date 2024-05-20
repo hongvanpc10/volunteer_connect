@@ -28,11 +28,26 @@ export const config = {
 					'0%,70%,100%': { opacity: '1' },
 					'20%,50%': { opacity: '0' },
 				},
+				'wave1': {
+					'0%': { backgroundPositionX: '0' },
+					'100%': { backgroundPositionX: '1000px' },
+				},
+				'wave2': {
+					'0%': { backgroundPositionX: '0' },
+					'100%': { backgroundPositionX: '-1000px' },
+				},
+				'run-left-to-right': {
+					'0%': { opacity: '1' },
+					'100%': { opacity: '0' }
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'caret-blink': 'caret-blink 1.25s ease-out infinite',
+				'wave1': 'wave1 ease-linear infinite',
+				'wave2': 'wave2 ease-linear infinite',
+				'run-left-to-right': 'run-left-to-right 2s ease-linear infinite'
 			},
 
 			colors: {
