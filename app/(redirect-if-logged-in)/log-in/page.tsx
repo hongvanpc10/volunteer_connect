@@ -1,6 +1,9 @@
 import Logo from '@/components/logo'
 import LogInForm from './components/log-in-form'
+import RightImage from './components/right-image'
 import { Metadata } from 'next'
+import lottieAnimations from '@/assets/lottie-animations'
+import LottieAnimation from '@/components/lottie-animation'
 
 export const metadata: Metadata = {
 	title: 'Đăng nhập',
@@ -16,7 +19,9 @@ export default function LoginPage() {
 					<LogInForm />
 				</div>
 			</div>
-			<div className='flex-1 max-lg:hidden bg-slate-50'></div>
+			<div className='flex-1 flex items-center max-lg:hidden bg-slate-50 overflow-hidden'>
+				<RightImage />
+			</div>
 		</div>
 	)
 }

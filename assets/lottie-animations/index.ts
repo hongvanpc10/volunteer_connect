@@ -4,6 +4,8 @@
 	manageSchedule: require('./lottie-manage-schedule.json'),
 	manangeVolunteerWork: require('./lottie-manange-volunteerWork.json'),
 	gamification: require('./lottie-gamification.json'),
+	register: require('./lottie-register.json'),
+	login: require('./lottie-login.json')
 }
 
 

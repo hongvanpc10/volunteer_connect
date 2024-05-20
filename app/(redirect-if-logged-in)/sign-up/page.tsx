@@ -2,6 +2,7 @@ import Logo from '@/components/logo'
 import SignUpForm from './components/sign-up-form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Metadata } from 'next'
+import RightImage from './components/right-image'
 
 export const metadata: Metadata = {
 	title: 'Đăng ký',
@@ -19,7 +20,9 @@ export default function SignUpPage() {
 					</div>
 				</div>
 			</ScrollArea>
-			<div className='flex-1 max-lg:hidden bg-primary-400'></div>
+			<div className='flex-1 flex items-center max-lg:hidden bg-primary-50 overflow-hidden'>
+				<RightImage />
+			</div>
 		</div>
 	)
 }
