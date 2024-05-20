@@ -1,7 +1,7 @@
 'use client'
 import { cn } from '@/lib/utils'
 import { TickCircle } from 'iconsax-react'
-import LottieAnimation from './lottie-animation'
+import LottieAnimation from '../../../../components/lottie-animation'
 import { useIntersectionObserver } from 'usehooks-ts'
 import lottieAnimations from '@/assets/lottie-animations'
 
@@ -90,6 +90,16 @@ function ApplicationItem({item, index}: {item: ApplicationItemType, index: numbe
 		freezeOnceVisible: true,
 	})
 
+	const sizeOfIllustrator = (width: number, height: number) => {
+		if (width < 1024 && width >= 768) {
+			return 300
+		} else if (width < 768) {
+			return 250
+		} else {
+			return 400
+		}
+	}
+
 	return (
 		<div
 			ref={ref}
@@ -99,7 +109,7 @@ function ApplicationItem({item, index}: {item: ApplicationItemType, index: numbe
 				isIntersecting && 'opacity-100 transition-all translate-y-0 duration-1000 ease-out'
 			)}
 		>
-			<LottieAnimation lottie={item.illustrator} />
+			<LottieAnimation lottie={item.illustrator} sizeOfIllustrator={sizeOfIllustrator}/>
 
 			<div className='flex flex-col gap-4 md:flex-1'>
 				<p className='sm:text-[1.375rem] text-lg font-bold'>{item.title}</p>
