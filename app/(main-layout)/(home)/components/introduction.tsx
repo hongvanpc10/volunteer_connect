@@ -15,7 +15,6 @@ export default function Introduction() {
 				<div className='flex'>
 					<div className='lg:w-1/2'>
 						<h2 className='text-4xl tracking-wide'>
-
 							<span className='font-extrabold text-primary-500'>
 								Volunteer{' '}
 							</span>

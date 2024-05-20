@@ -1,6 +1,5 @@
 'use client'
 
-import authApi from '@/apis/auth'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,9 +15,7 @@ import Loader from '@/components/ui/loader'
 import routes from '@/configs/routes'
 import useAuth from '@/hooks/use-auth'
 import { useToast } from '@/hooks/use-toast'
-import { AccountRole } from '@/interfaces/account-role'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'

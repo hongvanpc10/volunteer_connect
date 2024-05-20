@@ -152,7 +152,7 @@ function Header() {
 				<div className='flex items-center'>
 					{accountInfo == null ? (
 						<Link href={routes.logIn}>
-							<Button>Tham gia ngay</Button>
+							<Button variant='outline'>Tham gia ngay</Button>
 						</Link>
 					) : (
 						<div className='flex items-center'>
