@@ -10,8 +10,11 @@ import { Button } from '@/components/ui/button'
 import ConcentricCircles from '@/components/concentric-circles'
 import images from '@/assets/images'
 import routes from '@/configs/routes'
+import useAuth from '@/hooks/use-auth'
 
 function Introduce() {
+	const { isLoggedIn } = useAuth()
+
 	return (
 		<div className='container relative'>
 			<p className='font-bold lg:text-4xl text-2xl text-center md:pb-16 pb-12 uppercase'>
@@ -37,14 +40,16 @@ function Introduce() {
 							nguyện phù hợp.
 						</p>
 					</div>
-
-					{/* Button  */}
-					<Button variant='secondary' className='group w-fit mt-2' asChild>
-						<Link href={routes.logIn}>
-							Tham gia ngay
-							<ArrowRight className='ml-2 h-5 transition-all mr-2 group-hover:ml-4 group-hover:mr-0 ease-out' />
-						</Link>
-					</Button>
+					{isLoggedIn ? (
+						<div className='h-4'></div>
+					) : (
+						<Button variant='secondary' className='group w-fit mt-2' asChild>
+							<Link href={routes.logIn}>
+								Tham gia ngay
+								<ArrowRight className='ml-2 h-5 transition-all mr-2 group-hover:ml-4 group-hover:mr-0 ease-out' />
+							</Link>
+						</Button>
+					)}
 				</div>
 
 				<div className='h-full w-full flex justify-center items-center'>

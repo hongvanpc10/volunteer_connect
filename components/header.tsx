@@ -41,6 +41,7 @@ function Header() {
 		},
 		{
 			label: 'Cài đặt',
+			href: routes.settings,
 		},
 		{
 			label: 'Hoạt động của tôi',
@@ -54,6 +55,7 @@ function Header() {
 		},
 		{
 			label: 'Cài đặt',
+			href: routes.settings,
 		},
 		{
 			label: 'Thêm chiến dịch mới',
@@ -185,9 +187,7 @@ function Header() {
 											<h3 className='text-sm leading-5 font-medium line-clamp-1'>
 												{accountInfo.name}
 											</h3>
-											<span className='text-xs font-normal'>
-												{accountInfo.account.email}
-											</span>
+
 											{!isOrganization && (
 												<span className='flex font-normal mt-1 items-center'>
 													{(accountInfo as Person).totalPoints}{' '}

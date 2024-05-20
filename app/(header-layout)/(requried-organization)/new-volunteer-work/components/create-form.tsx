@@ -1,6 +1,6 @@
 'use client'
 
-import volunteerWorkApi from '@/apis/volunteer-work'
+import volunteerWorksApi from '@/apis/volunteer-works'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import {
@@ -39,9 +39,9 @@ const formSchema = z.object({
 		.refine(file => file.size < 5000000, {
 			message: 'Kích thước ảnh không được vượt quá 5MB',
 		}),
-	endRegisteredDate: z.string({
-		required_error: 'Ngày kết thúc đăng ký không được để trống',
-	}),
+	endRegisteredDate: z
+		.string()
+		.min(1, 'Ngày kết thúc đăng ký không được để trống'),
 })
 
 export default function CreateForm() {
@@ -50,7 +50,7 @@ export default function CreateForm() {
 		defaultValues: {
 			title: '',
 			description: '',
-			endRegisteredDate: undefined,
+			endRegisteredDate: '',
 			receivedCoins: 10,
 			contactInfo: '',
 			benefits: '',
@@ -62,7 +62,7 @@ export default function CreateForm() {
 	const { toast } = useToast()
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: volunteerWorkApi.createNew,
+		mutationFn: volunteerWorksApi.createNew,
 		onSuccess: data => {
 			toast({
 				description: 'Tạo hoạt động tình nguyện thành công',

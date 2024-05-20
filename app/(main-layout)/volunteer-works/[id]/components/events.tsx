@@ -1,8 +1,18 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTrigger,
+} from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import { Add } from 'iconsax-react'
 import { useIntersectionObserver } from 'usehooks-ts'
+import AddEvent from './qan/add-event'
+import { DialogTitle } from '@radix-ui/react-dialog'
 
 export default function Events() {
 	const { isIntersecting, ref } = useIntersectionObserver({
@@ -12,7 +22,27 @@ export default function Events() {
 
 	return (
 		<section>
-			<h3 className='font-semibold text-lg mb-6'>Sự kiện</h3>
+			<div className='flex items-center justify-between mb-16'>
+				<h3 className='font-semibold text-lg'>Sự kiện</h3>
+
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button size='sm' variant='secondary'>
+							<Add className='h-5 mr-1' />
+							Thêm
+						</Button>
+					</DialogTrigger>
+					<DialogContent className='max-w-2xl'>
+						<DialogHeader>
+							<DialogTitle className='text-lg font-semibold'>
+								Thêm sự kiện
+							</DialogTitle>
+						</DialogHeader>
+
+						<AddEvent />
+					</DialogContent>
+				</Dialog>
+			</div>
 
 			<div
 				ref={ref}

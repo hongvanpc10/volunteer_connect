@@ -8,4 +8,5 @@ export interface Organization {
 	description: string
 	isVerified: boolean
 	avatarUrl: string
+	contactInfo: string
 }

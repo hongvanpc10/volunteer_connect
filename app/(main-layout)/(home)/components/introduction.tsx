@@ -4,11 +4,14 @@ import images from '@/assets/images'
 import ConcentricCircles from '@/components/concentric-circles'
 import { Button } from '@/components/ui/button'
 import routes from '@/configs/routes'
+import useAuth from '@/hooks/use-auth'
 import { ArrowRight } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Introduction() {
+	const { isLoggedIn } = useAuth()
+
 	return (
 		<section className='py-16 relative overflow-hidden'>
 			<div className='container'>
@@ -30,12 +33,17 @@ export default function Introduction() {
 							sed volutpat tortor sapien. Feugiat hac tortor id nec quis odio
 							bibendum. Felis hac pulvinar bibendum vel arcu in.
 						</p>
-						<Button variant='secondary' className='mt-12 group' asChild>
-							<Link href={routes.logIn}>
-								Tham gia ngay
-								<ArrowRight className='ml-2 h-5 transition-all mr-2 group-hover:ml-4 group-hover:mr-0 ease-out' />
-							</Link>
-						</Button>
+
+						{isLoggedIn ? (
+							<div className='h-20'></div>
+						) : (
+							<Button variant='secondary' className='mt-12 group' asChild>
+								<Link href={routes.logIn}>
+									Tham gia ngay
+									<ArrowRight className='ml-2 h-5 transition-all mr-2 group-hover:ml-4 group-hover:mr-0 ease-out' />
+								</Link>
+							</Button>
+						)}
 					</div>
 					<div className='lg:flex-1 max-lg:hidden'>
 						<Image

@@ -1,7 +1,7 @@
 'use client'
 
-import organizationApi from '@/apis/organization'
-import personApi from '@/apis/person'
+import organizationsApi from '@/apis/organizations'
+import personsApi from '@/apis/persons'
 import { Organization } from '@/interfaces/organization'
 import { Person } from '@/interfaces/person'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -26,7 +26,7 @@ export default function useAuth() {
 		Person | Organization | undefined
 	>({
 		queryKey: queryKeys.account,
-		queryFn: isOrganization ? organizationApi.getMe : personApi.getMe,
+		queryFn: isOrganization ? organizationsApi.getMe : personsApi.getMe,
 		enabled: isLoggedIn,
 	})
 
@@ -71,7 +71,7 @@ export default function useAuth() {
 	}, [error, logOut, removeIsLoggedIn, removeIsOrganization, toast])
 
 	return {
-		isLoggedIn,
+		isLoggedIn: isLoggedIn && !!accountInfo,
 		accountInfo,
 		isOrganization,
 		logOut,

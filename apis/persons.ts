@@ -2,7 +2,7 @@ import { PersonError } from '@/errors/person-error'
 import { Person } from '@/interfaces/person'
 import httpClient, { handleError } from '@/lib/http-client'
 
-class PersonApi {
+class PersonsApi {
 	async getMe() {
 		try {
 			return await httpClient.get<Person>('/student/loginedInfo')
@@ -24,5 +24,5 @@ class PersonApi {
 	}
 }
 
-const personApi = new PersonApi()
-export default personApi
+const personsApi = new PersonsApi()
+export default personsApi

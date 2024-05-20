@@ -24,7 +24,7 @@ export default function VolunteerWorkHorizontalCard() {
 						dolor quis.
 					</h3>
 					<p className='text-sm'>Thời gian: 12/5/2024 - 30/5/2024</p>
-					<div className='flex items-start mt-3'>
+					<div className='flex items-center mt-3'>
 						<Image
 							alt='avatar'
 							src={getRandomTextAvatar('An')}
