@@ -6,6 +6,7 @@ const images = {
 	quotesBottomLeft: require('./quotes-bl.svg'),
 	quotesTopRight: require('./quotes-tr.svg'),
 	cover: require('./cover.jpg'),
+	wave: require('./wave.png'),
 }
 
 export default images
