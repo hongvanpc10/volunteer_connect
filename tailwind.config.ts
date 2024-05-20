@@ -60,6 +60,7 @@ export const config = {
 		require('tailwindcss-animate'),
 		require('@tailwindcss/aspect-ratio'),
 		require('@tailwindcss/typography'),
+		require('@tailwindcss/container-queries'),
 	],
 } satisfies Config
 
