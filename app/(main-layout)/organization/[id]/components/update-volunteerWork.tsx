@@ -90,7 +90,7 @@ export default function UpdateVolunteerWork() {
 	}
 
 	return (
-		<div className='container py-16'>
+		<div className='w-full'>
 			<h1 className='text-center text-3xl font-bold mb-16'>
 				Chỉnh sửa hoạt động tình nguyện
 			</h1>
@@ -99,7 +99,7 @@ export default function UpdateVolunteerWork() {
 				{isPending && <Loader />}
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className='mx-auto max-w-[50rem]'
+					className='max-w-[50rem] mx-auto'
 				>
 					<div className='space-y-6'>
 						<FormField
