@@ -1,5 +1,6 @@
 'use client'
 
+import volunteerWorksApi from '@/apis/volunteer-works'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import {
@@ -7,11 +8,14 @@ import {
 	FormControl,
 	FormField,
 	FormItem,
-	FormLabel,
 	FormMessage,
 } from '@/components/ui/form'
+import Loader from '@/components/ui/loader'
 import Tiptap from '@/components/ui/tiptap'
+import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -20,6 +24,8 @@ const formSchema = z.object({
 })
 
 export default function AskForm() {
+	const { id } = useParams<{ id: string }>()
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -27,11 +33,36 @@ export default function AskForm() {
 		},
 	})
 
-	function onSubmit(values: z.infer<typeof formSchema>) {}
+	const { toast } = useToast()
+
+	const { mutate, isPending } = useMutation({
+		mutationFn: volunteerWorksApi.addQuestion,
+		onSuccess: () => {
+			form.reset({ question: '' })
+			toast({
+				description: 'Đặt câu hỏi thành công',
+			})
+		},
+		onError: error => {
+			toast({
+				title: 'Đặt câu hỏi thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
+
+	function onSubmit(values: z.infer<typeof formSchema>) {
+		mutate({
+			questionText: values.question,
+			volunteerWorkId: id,
+		})
+	}
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)}>
+				{isPending && <Loader />}
 				<FormField
 					control={form.control}
 					name='question'
@@ -41,8 +72,8 @@ export default function AskForm() {
 								<Tiptap
 									value={field.value}
 									onChange={field.onChange}
-                                    className='min-h-36'
-                                    defaultValue='Đặt câu hỏi tại đây'
+									className='min-h-36'
+									defaultValue='Đặt câu hỏi tại đây'
 								/>
 							</FormControl>
 

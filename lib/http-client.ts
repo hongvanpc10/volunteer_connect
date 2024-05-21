@@ -1,5 +1,13 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
+export interface PaginatedResponse<T> {
+	data: T[]
+	pagination: {
+		total: number
+		currentPage: number
+	}
+}
+
 class HttpClient {
 	baseUrl: string
 	instance: AxiosInstance

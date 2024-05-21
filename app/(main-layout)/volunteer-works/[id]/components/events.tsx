@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { Add } from 'iconsax-react'
 import { useIntersectionObserver } from 'usehooks-ts'
-import AddEvent from './qan/add-event'
+import AddEvent from './add-event'
 import { DialogTitle } from '@radix-ui/react-dialog'
 
 export default function Events() {
