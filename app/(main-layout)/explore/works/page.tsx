@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import List from './components/list'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
 	title: 'Hoạt động tình nguyện',
@@ -12,7 +13,9 @@ export default function ExploreWorksPage() {
 				Các hoạt động tình nguyện
 			</h2>
 
-			<List />
+			<Suspense>
+				<List />
+			</Suspense>
 		</div>
 	)
 }
