@@ -3,8 +3,9 @@ import lottieAnimations from '@/assets/lottie-animations'
 import Header from '@/components/header'
 import LottieAnimation from '@/components/lottie-animation'
 import { Button } from '@/components/ui/button'
+import { ArrowLeft } from 'iconsax-react'
 import { Metadata } from 'next'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export const metadata: Metadata = {
 	title: 'Trang không tồn tại',
@@ -19,6 +20,8 @@ export default function NotFoundPage() {
 		}
 		return 800
 	}
+
+	const router = useRouter()
 
 	return (
 		<div>
@@ -35,8 +38,12 @@ export default function NotFoundPage() {
 								Trang web bạn tìm kiếm không tồn tại, có thể đã bị xóa hoặc di
 								chuyển sang một địa chỉ URL khác.
 							</p>
-							<Button asChild className='w-fit rounded-full mt-8'>
-								<Link href='javascript:history.back()'>Quay về</Link>
+							<Button
+								onClick={() => router.back()}
+								className='w-fit rounded-full mt-8 group'
+							>
+								<ArrowLeft className='h-4 mr-2 ml-2 transition-all group-hover:ml-0 group-hover:mr-4 ease-out' />
+								Quay về
 							</Button>
 						</div>
 						<LottieAnimation

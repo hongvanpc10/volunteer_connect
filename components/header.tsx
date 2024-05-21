@@ -54,15 +54,15 @@ function Header() {
 			href: routes.organizations.gen(accountInfo?._id),
 		},
 		{
-			label: 'Cài đặt',
-			href: routes.settings,
-		},
-		{
 			label: 'Thêm chiến dịch mới',
 			href: routes.newWork,
 		},
 		{
 			label: 'Quản lý chiến dịch',
+		},
+		{
+			label: 'Cài đặt',
+			href: routes.settings,
 		},
 		{
 			label: 'Thống kê',

@@ -17,4 +17,7 @@ export default interface VolunteerWork {
 	organization: Organization
 	createdAt: Date
 	events: Event[]
+	requirements: string
+	benefits: string
+	contactInfo: string
 }

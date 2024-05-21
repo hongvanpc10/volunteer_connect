@@ -1,12 +1,14 @@
 'use client'
 
+import volunteerWorksApi from '@/apis/volunteer-works'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import VolunteerWorkVerticalCard from '@/components/volunteer-work-vertical-card'
+import queryKeys from '@/configs/query-keys'
 import routes from '@/configs/routes'
 import { cn } from '@/lib/utils'
+import { useQuery } from '@tanstack/react-query'
 import { ArrowRight } from 'iconsax-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useIntersectionObserver } from 'usehooks-ts'
 
@@ -16,25 +18,39 @@ export default function Works() {
 		freezeOnceVisible: true,
 	})
 
+	const { data, isLoading } = useQuery({
+		queryKey: queryKeys.volunteerWorksPagination.gen(1, 8),
+		queryFn: () => volunteerWorksApi.get({ page: 1, limit: 8 }),
+	})
+
 	return (
 		<section className='container py-16'>
 			<h2 className='text-3xl font-bold mb-14 text-center'>
-				Các tổ chức tình nguyện
+				Các công việc tình nguyện
 			</h2>
 
-			<div ref={ref} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12'>
-				{[...Array(6)].map((_, index) => (
-					<VolunteerWorkVerticalCard
-						key={index}
-						style={{
-							transitionDelay: 150 * index + 'ms',
-						}}
-						className={cn(
-							'transition translate-y-36 opacity-0 duration-500 ease-out',
-							isIntersecting && 'translate-y-0 opacity-100',
-						)}
-					/>
-				))}
+			{data && <div ref={ref} />}
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12'>
+				{data &&
+					data.data.map((item, index) => (
+						<VolunteerWorkVerticalCard
+							key={index}
+							data={item}
+							style={{
+								transitionDelay: 150 * index + 'ms',
+							}}
+							className={cn(
+								'transition translate-y-36 opacity-0 duration-500 ease-out',
+								isIntersecting && 'translate-y-0 opacity-100',
+							)}
+						/>
+					))}
+
+				{isLoading && [
+					[...Array(6)].map((_, index) => (
+						<VolunteerWorkVerticalCard.Skeleton key={index} />
+					)),
+				]}
 			</div>
 
 			<Alignment align='center' className='mt-16'>

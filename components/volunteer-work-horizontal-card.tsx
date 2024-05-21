@@ -1,43 +1,67 @@
-import { cn, getRandomTextAvatar } from '@/lib/utils'
+import routes from '@/configs/routes'
+import VolunteerWork from '@/interfaces/volunteer-work'
+import { cn, getEndDateOfVolunteerWork } from '@/lib/utils'
+import { format, isBefore } from 'date-fns'
 import { ArrowRight } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Skeleton } from './ui/skeleton'
+import { CSSProperties } from 'react'
 
-export default function VolunteerWorkHorizontalCard() {
+interface VolunteerWorkHorizontalCardProps {
+	data: VolunteerWork
+	className?: string
+	style?: CSSProperties
+}
+
+function VolunteerWorkHorizontalCard({
+	data,
+	className,
+	style,
+}: VolunteerWorkHorizontalCardProps) {
 	return (
-		<div className='@container'>
+		<div className={cn('@container', className)} style={style}>
 			<div className='flex @2xl:flex-row flex-col items-stretch'>
 				<div className='@3xl:w-4/12 @2xl:w-6/12 w-full'>
-					<div className='aspect-w-16 @2xl:aspect-h-12 aspect-h-9'>
+					<Link
+						href={routes.volunteerWorks.gen(data._id)}
+						className='block aspect-w-16 @2xl:aspect-h-12 aspect-h-9'
+					>
 						<Image
 							alt='banner'
-							src='https://picsum.photos/500/500'
+							src={data.imageUrl}
 							width={500}
 							height={500}
 							className='w-full h-full object-cover rounded-lg'
 						/>
-					</div>
+					</Link>
 				</div>
-				<div className='@2xl:ml-4 @2xl:mt-0 mt-4'>
-					<h3 className='text-base font-medium line-clamp-2 h-12 mb-2'>
-						Chiến dịch Exercitation in mollit velit excepteur ex incididunt quis
-						dolor quis.
+				<div className='@2xl:ml-4 @2xl:mt-0 mt-4 @2xl:flex-1'>
+					<h3 className='text-base font-medium h-12 line-clamp-2 mb-2'>
+						<Link href={routes.volunteerWorks.gen(data._id)}>{data.title}</Link>
 					</h3>
-					<p className='text-sm'>Thời gian: 12/5/2024 - 30/5/2024</p>
+					<p className='text-sm'>
+						Thời gian: {format(data.createdAt, 'd/M/yyyy')} -{' '}
+						{format(getEndDateOfVolunteerWork(data), 'd/M/yyyy')}
+					</p>
 					<div className='flex items-center mt-3'>
-						<Image
-							alt='avatar'
-							src={getRandomTextAvatar('An')}
-							width={32}
-							height={32}
-							className='w-8 h-8 object-cover rounded-full'
-						/>
+						<Link href={routes.organizations.gen(data.organization._id)}>
+							<Image
+								alt='avatar'
+								src={data.organization.avatarUrl}
+								width={32}
+								height={32}
+								className='w-8 h-8 object-cover rounded-full'
+							/>
+						</Link>
 						<div className='ml-3'>
 							<h4 className='font-medium line-clamp-1'>
-								CLB tình nguyện sinh viên
+								<Link href={routes.organizations.gen(data.organization._id)}>
+									{data.organization.name}
+								</Link>
 							</h4>
 							<p className='text-sm line-clamp-1'>
-								Trường Đại học Công nghệ Thông tin - ĐHQG-HCM
+								{data.organization.affiliatedUnit}
 							</p>
 						</div>
 					</div>
@@ -46,14 +70,17 @@ export default function VolunteerWorkHorizontalCard() {
 						<span
 							className={cn(
 								'py-1 px-3 bg-slate-100 rounded-md text-xs font-medium text-slate-700',
-								true && 'bg-primary-200',
+								isBefore(new Date(), getEndDateOfVolunteerWork(data)) &&
+									'bg-primary-200',
 							)}
 						>
-							{true ? 'Đang diễn ra' : 'Đã kết thúc'}
+							{isBefore(new Date(), getEndDateOfVolunteerWork(data))
+								? 'Đang diễn ra'
+								: 'Đã kết thúc'}
 						</span>
 
 						<Link
-							href={''}
+							href={routes.volunteerWorks.gen(data._id)}
 							className='text-primary-500 text-sm font-medium group flex items-center'
 						>
 							Xem chi tiết
@@ -65,3 +92,39 @@ export default function VolunteerWorkHorizontalCard() {
 		</div>
 	)
 }
+
+VolunteerWorkHorizontalCard.Skeleton =
+	function VolunteerWorkHorizontalCardSkeleton() {
+		return (
+			<div className='@container'>
+				<div className='flex @2xl:flex-row flex-col items-stretch'>
+					<div className='@3xl:w-4/12 @2xl:w-6/12 w-full'>
+						<Skeleton className='aspect-w-16 @2xl:aspect-h-12 aspect-h-9 rounded-lg' />
+					</div>
+					<div className='@2xl:ml-4 @2xl:mt-0 mt-4 @2xl:flex-1'>
+						<Skeleton className='h-6 w-full mb-1' />
+						<Skeleton className='h-6 w-[50%] mb-2' />
+						<Skeleton className='h-5 w-[80%]' />
+						<div className='flex items-center mt-3'>
+							<Skeleton className='w-8 h-8 rounded-full' />
+							<div className='ml-3'>
+								<Skeleton className='h-6 w-48 max-w-full' />
+								<Skeleton className='h-5 mt-1 w-64 max-w-full' />
+							</div>
+						</div>
+
+						<div className='flex items-center justify-between mt-4'>
+							<Skeleton className={cn('py-1 px-3 h-6 w-28')} />
+
+							<span className='text-primary-500 text-sm font-medium group flex items-center'>
+								Xem chi tiết
+								<ArrowRight className='h-4 ml-1 transition-all mr-1 group-hover:ml-2 group-hover:mr-0 ease-out' />
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+export default VolunteerWorkHorizontalCard

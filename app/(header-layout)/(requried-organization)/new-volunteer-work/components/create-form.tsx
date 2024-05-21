@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input'
 import Loader from '@/components/ui/loader'
 import Tiptap from '@/components/ui/tiptap'
+import routes from '@/configs/routes'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
@@ -67,7 +68,7 @@ export default function CreateForm() {
 			toast({
 				description: 'Tạo hoạt động tình nguyện thành công',
 			})
-			router.push(`/volunteer-work/${data!._id}`)
+			router.push(routes.volunteerWorks.gen(data!._id))
 		},
 		onError: error => {
 			toast({
@@ -139,7 +140,7 @@ export default function CreateForm() {
 								<FormItem>
 									<FormLabel>Số lượng điểm nhận được</FormLabel>
 									<FormControl>
-										<Input type='number' {...field} />
+										<Input placeholder='10' {...field} />
 									</FormControl>
 									<FormDescription>
 										Số lượng điểm nhận được sau khi hoàn thành hoạt động
