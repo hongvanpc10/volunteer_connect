@@ -1,63 +1,46 @@
-import Alignment from '@/components/ui/alignment'
-import { getRandomAvatar } from '@/lib/utils'
-import Image from 'next/image'
+import volunteerWorksApi from '@/apis/volunteer-works'
+import queryKeys from '@/configs/query-keys'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'next/navigation'
+import Question from './question'
+import { useIntersectionObserver } from 'usehooks-ts'
+import { cn } from '@/lib/utils'
 
 export default function List() {
+	const { id } = useParams<{ id: string }>()
+
+	const { data, isLoading } = useQuery({
+		queryKey: queryKeys.volunteer.gen(id),
+		queryFn: () => volunteerWorksApi.getInfo(id),
+	})
+
+	const { isIntersecting, ref } = useIntersectionObserver({
+		threshold: 0,
+		freezeOnceVisible: true,
+	})
+
 	return (
-		<div className='space-y-8'>
-			{[...Array(3)].map((_, index) => (
-				<div key={index}>
-					<div>
-						<div className='flex items-start'>
-							<Image
-								alt='avatar'
-								src={getRandomAvatar(false, 'Maria')}
-								width={40}
-								height={40}
-								className='w-10 h-10 rounded-full object-cover'
-							/>
+		<>
+			{data && <div ref={ref} />}
+			<div className='space-y-8'>
+				{data &&
+					data.questions.map((question, index) => (
+						<Question
+							className={cn(
+								'opacity-0 -translate-x-36 duration-500 ease-out transition',
+								isIntersecting && 'opacity-100 translate-x-0',
+							)}
+							style={{
+								transitionDelay: 200 * index + 'ms',
+							}}
+							key={index}
+							data={question}
+						/>
+					))}
 
-							<div className='ml-4 px-4 py-3 rounded-lg bg-slate-100 flex-1'>
-								<h3 className='text-sm font-medium mb-2'>Maria Scort</h3>
-								<div className='prose prose-sm'>
-									<p>
-										Nostrud veniam laboris laboris consectetur deserunt dolor?
-									</p>
-								</div>
-							</div>
-						</div>
-						<Alignment align='right' className='mt-1'>
-							<span className='text-xs font-medium text-primary-500'>
-								Trả lời
-							</span>
-						</Alignment>
-					</div>
-
-					<div className='pl-14 mt-4'>
-						<div className='flex items-start'>
-							<Image
-								alt='avatar'
-								src={getRandomAvatar(true, 'Admin')}
-								width={40}
-								height={40}
-								className='w-10 h-10 rounded-full object-cover'
-							/>
-
-							<div className='ml-4 px-4 py-2 rounded-lg bg-slate-100 flex-1'>
-								<h3 className='text-sm font-medium mb-2'>Maria Scort</h3>
-								<div className='prose prose-sm prose-p:!my-1'>
-									<p>
-										Cillum officia eu commodo ad dolore voluptate reprehenderit
-										cupidatat. Proident ea ex ex aute eiusmod occaecat ea anim
-										et do labore quis.
-									</p>
-									<p>Occaecat exercitation eu culpa proident cupidatat.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			))}
-		</div>
+				{isLoading &&
+					[...Array(5)].map((_, index) => <Question.Skeleton key={index} />)}
+			</div>
+		</>
 	)
 }

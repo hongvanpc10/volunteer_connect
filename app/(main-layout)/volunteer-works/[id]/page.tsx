@@ -1,14 +1,11 @@
-import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { getRandomAvatar } from '@/lib/utils'
-import Image from 'next/image'
 import Events from './components/events'
+import Header from './components/header'
 import Information from './components/infomation'
 import Organization from './components/organization'
 import Participants from './components/participants'
 import QNA from './components/qan'
-import { Separator } from '@/components/ui/separator'
-import Header from './components/header'
 
 export default function VolunteerWorkDetailPage() {
 	return (

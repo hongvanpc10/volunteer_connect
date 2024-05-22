@@ -1,10 +1,12 @@
 import { Organization } from './organization'
+import Question from './question'
 
 export interface Event {
 	_id: string
 	title: string
 	startDate: Date
 	endDate: Date
+	description: string
 }
 
 export default interface VolunteerWork {
@@ -20,4 +22,5 @@ export default interface VolunteerWork {
 	requirements: string
 	benefits: string
 	contactInfo: string
+	questions: Question[]
 }

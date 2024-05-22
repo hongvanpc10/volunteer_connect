@@ -12,9 +12,10 @@ import {
 } from '@/components/ui/form'
 import Loader from '@/components/ui/loader'
 import Tiptap from '@/components/ui/tiptap'
+import queryKeys from '@/configs/query-keys'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -33,6 +34,8 @@ export default function AskForm() {
 		},
 	})
 
+	const queryClient = useQueryClient()
+
 	const { toast } = useToast()
 
 	const { mutate, isPending } = useMutation({
@@ -42,6 +45,7 @@ export default function AskForm() {
 			toast({
 				description: 'Đặt câu hỏi thành công',
 			})
+			queryClient.refetchQueries({ queryKey: queryKeys.volunteer.gen(id) })
 		},
 		onError: error => {
 			toast({

@@ -1,6 +1,7 @@
 'use client'
 
 import participantsApi from '@/apis/participants'
+import Point from '@/components/icons/point'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import queryKeys from '@/configs/query-keys'
@@ -21,7 +22,7 @@ export default function Participants() {
 	})
 
 	const { data, isLoading } = useQuery({
-		queryKey: queryKeys.participantsByVolunteerWork.gen(id),
+		queryKey: queryKeys.participantsByVolunteerWork.gen(id, 'ACCEPTED'),
 		queryFn: () =>
 			participantsApi.getByVolunteerWork({
 				volunteerWorkId: id,
@@ -35,9 +36,7 @@ export default function Participants() {
 
 			<div ref={ref} className='grid grid-cols-2 md:grid-cols-3 gap-5'>
 				{data && data.length === 0 && (
-					<p className='text-center'>
-						Chưa có tình nguyện viên nào
-					</p>
+					<p className='text-center'>Chưa có tình nguyện viên nào</p>
 				)}
 
 				{data &&
@@ -67,6 +66,10 @@ export default function Participants() {
 									{participant.studentId.name}
 								</Link>
 							</h3>
+							<span className='flex items-center mt-2'>
+								{participant.studentId.totalPoints}
+								<Point className='ml-1' />
+							</span>
 							<Button asChild className='mt-6' variant='outline' size='sm'>
 								<Link href={routes.profile.gen(participant.studentId._id)}>
 									Xem chi tiết
@@ -85,7 +88,7 @@ export default function Participants() {
 						>
 							<Skeleton className='w-16 h-16 rounded-full' />
 							<Skeleton className='h-5 w-40 mt-3' />
-
+							<Skeleton className='w-10 h-5 mt-2' />
 							<Button className='mt-6' variant='outline' size='sm'>
 								Xem chi tiết
 							</Button>

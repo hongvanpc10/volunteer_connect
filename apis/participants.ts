@@ -16,6 +16,19 @@ class ParticipantsApi {
 			handleError(error, ParticipantsError)
 		}
 	}
+
+	async joinVolunteerWork(id: string) {
+		try {
+			return await httpClient.post<Participant>(
+				'/participant/joinVolunteerWork',
+				{
+					volunteerWorkId: id,
+				},
+			)
+		} catch (error) {
+			handleError(error, ParticipantsError)
+		}
+	}
 }
 
 const participantsApi = new ParticipantsApi()

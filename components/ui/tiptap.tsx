@@ -10,6 +10,7 @@ interface TiptapProps {
 	onChange?: (value: string) => void
 	value?: string
 	defaultValue?: string
+	autofocus?: boolean
 }
 
 const Tiptap = ({
@@ -17,6 +18,7 @@ const Tiptap = ({
 	onChange,
 	value,
 	defaultValue = '',
+	autofocus,
 }: TiptapProps) => {
 	const editor = useEditor({
 		extensions: [StarterKit],
@@ -36,6 +38,7 @@ const Tiptap = ({
 				onChange(html)
 			}
 		},
+		autofocus,
 	})
 
 	useEffect(() => {

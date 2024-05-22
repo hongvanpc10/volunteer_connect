@@ -4,8 +4,16 @@ import httpClient, { PaginatedResponse, handleError } from '@/lib/http-client'
 
 type CreateData = Omit<
 	VolunteerWork,
-	'_id' | 'imageUrl' | 'createdAt' | 'events' | 'organization'
+	'_id' | 'imageUrl' | 'createdAt' | 'events' | 'organization' | 'questions' | 'events'
 >
+
+interface AddEventData {
+	title: string
+	description: string
+	startDate: Date
+	endDate: Date
+	volunteerWorkId: string
+}
 
 class VolunteerWorksApi {
 	async createNew({ data, image }: { data: CreateData; image: File }) {
@@ -71,6 +79,14 @@ class VolunteerWorksApi {
 	async answerQuestion(data: { questionId: string; answer: string }) {
 		try {
 			return await httpClient.post('/volunteerWork/answerQuestion', data)
+		} catch (error) {
+			handleError(error, VolunteerWorkError)
+		}
+	}
+
+	async addEvent(data: AddEventData) {
+		try {
+			return await httpClient.post('/volunteerWork/newEvent', data)
 		} catch (error) {
 			handleError(error, VolunteerWorkError)
 		}

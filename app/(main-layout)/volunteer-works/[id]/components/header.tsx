@@ -3,11 +3,13 @@
 import participantsApi from '@/apis/participants'
 import volunteerWorksApi from '@/apis/volunteer-works'
 import { Button } from '@/components/ui/button'
+import Loader from '@/components/ui/loader'
 import { Skeleton } from '@/components/ui/skeleton'
 import queryKeys from '@/configs/query-keys'
 import useAuth from '@/hooks/use-auth'
+import { useToast } from '@/hooks/use-toast'
 import { cn, getEndDateOfVolunteerWork, getRandomTextAvatar } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { differenceInSeconds, format, isBefore } from 'date-fns'
 import Image from 'next/image'
 import { notFound, useParams } from 'next/navigation'
@@ -17,7 +19,7 @@ import { useCountdown, useDocumentTitle } from 'usehooks-ts'
 export default function Header() {
 	const { id } = useParams<{ id: string }>()
 
-	const { accountInfo } = useAuth()
+	const { accountInfo, isOrganization } = useAuth()
 
 	const { data, isSuccess, isLoading, error } = useQuery({
 		queryKey: queryKeys.volunteer.gen(id),
@@ -29,7 +31,6 @@ export default function Header() {
 		queryFn: () =>
 			participantsApi.getByVolunteerWork({
 				volunteerWorkId: id,
-				status: 'ACCEPTED',
 			}),
 	})
 
@@ -38,6 +39,29 @@ export default function Header() {
 			? differenceInSeconds(data.endRegisteredDate, new Date())
 			: 0,
 		intervalMs: 1000,
+	})
+
+	const queryClient = useQueryClient()
+
+	const { toast } = useToast()
+
+	const { mutate, isPending } = useMutation({
+		mutationFn: participantsApi.joinVolunteerWork,
+		onSuccess() {
+			toast({
+				description: 'Đăng ký thành công',
+			})
+			queryClient.refetchQueries({
+				queryKey: queryKeys.participantsByVolunteerWork.gen(id),
+			})
+		},
+		onError(error) {
+			toast({
+				title: 'Đăng ký thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
 	})
 
 	useEffect(() => {
@@ -59,6 +83,7 @@ export default function Header() {
 
 	return (
 		<>
+			{isPending && <Loader />}
 			{data && participants && (
 				<div className='mb-9'>
 					<div className='max-lg:aspect-w-16 max-lg:aspect-h-8 max-sm:aspect-w-16 max-sm:aspect-h-9 mb-4'>
@@ -96,19 +121,26 @@ export default function Header() {
 					<div className='mt-3 flex items-center justify-between'>
 						<div>
 							<span className='text-sm'>Đã tham gia {participants.length}</span>
-							{participants.length > 0 && (
+							{participants.filter(
+								participant => participant.status === 'ACCEPTED',
+							).length > 0 && (
 								<div className='flex items-center -space-x-1.5 mt-1'>
-									{participants.slice(0, 5).map((participant, index) => (
-										<Image
-											key={index}
-											alt='avatar'
-											src={participant.studentId.avatarUrl}
-											width={36}
-											height={36}
-											className='rounded-full object-cover w-9 h-9 border-2 border-white'
-										/>
-									))}
-									{participants.length > 5 && (
+									{participants
+										.filter(participant => participant.status === 'ACCEPTED')
+										.slice(0, 5)
+										.map((participant, index) => (
+											<Image
+												key={index}
+												alt='avatar'
+												src={participant.studentId.avatarUrl}
+												width={36}
+												height={36}
+												className='rounded-full object-cover w-9 h-9 border-2 border-white'
+											/>
+										))}
+									{participants.filter(
+										participant => participant.status === 'ACCEPTED',
+									).length > 5 && (
 										<Image
 											alt='avatar'
 											src={getRandomTextAvatar('...')}
@@ -122,18 +154,39 @@ export default function Header() {
 						</div>
 
 						<div className='flex flex-col items-center'>
-							<Button
-								disabled={
-									count <= 0 ||
-									(!!accountInfo &&
-										!!participants.find(
-											participant =>
-												participant.studentId._id == accountInfo._id,
-										))
-								}
-							>
-								Đăng ký ngay
-							</Button>
+							{accountInfo && accountInfo._id == data.organization._id ? (
+								<Button>Cài đặt</Button>
+							) : accountInfo &&
+							  participants &&
+							  participants.find(
+									participant => participant.studentId._id === accountInfo._id,
+							  ) ? (
+								<Button variant='outline'>
+									{
+										{
+											ACCEPTED: 'Đã tham gia',
+											WAITING: 'Đang chờ',
+											FINISH: 'Đã tham gia',
+											UNACCEPTED: 'Đã từ chối',
+										}[
+											participants.find(
+												participant =>
+													participant.studentId._id === accountInfo._id,
+											)!.status
+										]
+									}
+								</Button>
+							) : (
+								<Button
+									disabled={count <= 0 || isOrganization}
+									onClick={() => {
+										mutate(data._id)
+									}}
+								>
+									Đăng ký ngay
+								</Button>
+							)}
+
 							<span className='mt-1'>
 								{count > 0
 									? `${Math.floor(count / 86400)}:${Math.floor(
