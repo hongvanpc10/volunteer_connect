@@ -25,6 +25,16 @@ class OrganizationsApi {
 			handleError(error, OrganizationError)
 		}
 	}
+
+	async uploadAvatar(file: File) {
+		try {
+			const formData = new FormData()
+			formData.append('image', file)
+			return await httpClient.post('/organization/uploadAvatar', formData)
+		} catch (error) {
+			handleError(error, OrganizationError)
+		}
+	}
 }
 
 const organizationsApi = new OrganizationsApi()

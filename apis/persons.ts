@@ -22,6 +22,16 @@ class PersonsApi {
 			handleError(error, PersonError)
 		}
 	}
+
+	async uploadAvatar(file: File) {
+		try {
+			const formData = new FormData()
+			formData.append('image', file)
+			return await httpClient.post('/student/uploadAvatar', formData)
+		} catch (error) {
+			handleError(error, PersonError)
+		}
+	}
 }
 
 const personsApi = new PersonsApi()

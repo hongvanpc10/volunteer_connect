@@ -37,6 +37,7 @@ export default function AvatarUpdate({
 								onClick={() => {
 									if (onSubmit && imageList[0].file) {
 										onSubmit(imageList[0].file)
+										onImageRemove(0)
 									}
 								}}
 							>

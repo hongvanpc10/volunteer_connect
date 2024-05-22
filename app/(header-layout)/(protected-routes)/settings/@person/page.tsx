@@ -26,6 +26,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import AvatarUpdate from '../components/avatar-update'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import personsApi from '@/apis/persons'
+import { useToast } from '@/hooks/use-toast'
+import queryKeys from '@/configs/query-keys'
+import Loader from '@/components/ui/loader'
 
 const formSchema = z.object({
 	name: z.string().min(1, 'Họ và tên không được để trống'),
@@ -59,6 +64,26 @@ export default function PersonForm() {
 		},
 	})
 
+	const { toast } = useToast()
+	const queryClient = useQueryClient()
+
+	const { mutate: uploadAvatar, isPending: isUploading } = useMutation({
+		mutationFn: personsApi.uploadAvatar,
+		onSuccess() {
+			toast({
+				description: 'Cập nhật ảnh đại diện thành công',
+			})
+			queryClient.refetchQueries({ queryKey: queryKeys.account })
+		},
+		onError(error) {
+			toast({
+				title: 'Cập nhật ảnh đại diện thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values)
 	}
@@ -66,7 +91,8 @@ export default function PersonForm() {
 	return (
 		data && (
 			<div>
-				<AvatarUpdate initialAvatar={data.avatarUrl} />
+				{isUploading && <Loader />}
+				<AvatarUpdate initialAvatar={data.avatarUrl} onSubmit={uploadAvatar} />
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>

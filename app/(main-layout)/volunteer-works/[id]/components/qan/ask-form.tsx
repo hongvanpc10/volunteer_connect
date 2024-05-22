@@ -77,7 +77,6 @@ export default function AskForm() {
 									value={field.value}
 									onChange={field.onChange}
 									className='min-h-36'
-									defaultValue='Đặt câu hỏi tại đây'
 								/>
 							</FormControl>
 

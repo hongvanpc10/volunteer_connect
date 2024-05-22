@@ -1,5 +1,6 @@
 'use client'
 
+import organizationsApi from '@/apis/organizations'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import {
@@ -12,10 +13,14 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import Loader from '@/components/ui/loader'
 import Tiptap from '@/components/ui/tiptap'
+import queryKeys from '@/configs/query-keys'
 import useAuth from '@/hooks/use-auth'
+import { useToast } from '@/hooks/use-toast'
 import { Organization } from '@/interfaces/organization'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import AvatarUpdate from '../components/avatar-update'
@@ -41,6 +46,26 @@ export default function OrganizationForm() {
 		},
 	})
 
+	const { toast } = useToast()
+	const queryClient = useQueryClient()
+
+	const { mutate: uploadAvatar, isPending: isUploading } = useMutation({
+		mutationFn: organizationsApi.uploadAvatar,
+		onSuccess() {
+			toast({
+				description: 'Cập nhật ảnh đại diện thành công',
+			})
+			queryClient.refetchQueries({ queryKey: queryKeys.account })
+		},
+		onError(error) {
+			toast({
+				title: 'Cập nhật ảnh đại diện thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values)
 	}
@@ -48,7 +73,9 @@ export default function OrganizationForm() {
 	return (
 		data && (
 			<div>
-				<AvatarUpdate initialAvatar={data.avatarUrl} />
+				{isUploading && <Loader />}
+
+				<AvatarUpdate initialAvatar={data.avatarUrl} onSubmit={uploadAvatar} />
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)}>

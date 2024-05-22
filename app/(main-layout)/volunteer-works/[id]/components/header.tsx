@@ -6,13 +6,14 @@ import { Button } from '@/components/ui/button'
 import Loader from '@/components/ui/loader'
 import { Skeleton } from '@/components/ui/skeleton'
 import queryKeys from '@/configs/query-keys'
+import routes from '@/configs/routes'
 import useAuth from '@/hooks/use-auth'
 import { useToast } from '@/hooks/use-toast'
 import { cn, getEndDateOfVolunteerWork, getRandomTextAvatar } from '@/lib/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { differenceInSeconds, format, isBefore } from 'date-fns'
 import Image from 'next/image'
-import { notFound, useParams } from 'next/navigation'
+import { notFound, useParams, usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useCountdown, useDocumentTitle } from 'usehooks-ts'
 
@@ -33,6 +34,9 @@ export default function Header() {
 				volunteerWorkId: id,
 			}),
 	})
+
+	const router = useRouter()
+	const pathname = usePathname()
 
 	const [count, { startCountdown, resetCountdown }] = useCountdown({
 		countStart: data
@@ -180,6 +184,13 @@ export default function Header() {
 								<Button
 									disabled={count <= 0 || isOrganization}
 									onClick={() => {
+										if (!accountInfo) {
+											router.push(routes.logIn + '?redirect=' + pathname)
+											toast({
+												description: 'Vui lòng đăng nhập để tham gia',
+											})
+											return
+										}
 										mutate(data._id)
 									}}
 								>

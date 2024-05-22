@@ -25,14 +25,14 @@ function VolunteerWorkHorizontalCard({
 				<div className='@3xl:w-4/12 @2xl:w-6/12 w-full'>
 					<Link
 						href={routes.volunteerWorks.gen(data._id)}
-						className='block aspect-w-16 @2xl:aspect-h-12 aspect-h-9'
+						className='block aspect-w-16 @2xl:aspect-h-12 overflow-hidden aspect-h-9 rounded-lg'
 					>
 						<Image
 							alt='banner'
 							src={data.imageUrl}
 							width={500}
 							height={500}
-							className='w-full h-full object-cover rounded-lg'
+							className='w-full h-full object-cover hover:scale-110 transition origin-center'
 						/>
 					</Link>
 				</div>

@@ -64,13 +64,13 @@ function Question({
 		onSuccess: () => {
 			form.reset({ answer: '' })
 			toast({
-				description: 'Đặt câu hỏi thành công',
+				description: 'Trả lời câu hỏi thành công',
 			})
 			queryClient.refetchQueries({ queryKey: queryKeys.volunteer.gen(id) })
 		},
 		onError: error => {
 			toast({
-				title: 'Đặt câu hỏi thất bại',
+				title: 'Trả lời câu hỏi thất bại',
 				description: error.message,
 				variant: 'destructive',
 			})
@@ -85,107 +85,108 @@ function Question({
 	}
 
 	return (
-		<div className={className} style={style}>
+		<>
 			{isPending && <Loader />}
-			<div>
-				<div className='flex items-start'>
-					<Link href={routes.profile.gen(data.studentId._id)}>
-						<Image
-							alt='avatar'
-							src={data.studentId.avatarUrl}
-							width={40}
-							height={40}
-							className='w-10 h-10 rounded-full object-cover'
-						/>
-					</Link>
-
-					<div className='ml-4 pl-4 pr-8 py-4 rounded-lg bg-slate-100 flex-1'>
-						<h3 className='text-sm font-medium mb-2'>
-							<Link href={routes.profile.gen(data.studentId._id)}>
-								{data.studentId.name}
-							</Link>
-						</h3>
-						<div
-							className='prose prose-sm prose-p:!my-1'
-							dangerouslySetInnerHTML={{ __html: data.questionText }}
-						></div>
-					</div>
-				</div>
-
-				{accountInfo &&
-					isOrganization &&
-					organization &&
-					!data.answer &&
-					organization.organization._id == accountInfo._id && (
-						<>
-							<div className='mt-1 ml-14'>
-								<button
-									onClick={() => setRely(!rely)}
-									className='text-xs font-medium text-primary-500'
-								>
-									Trả lời
-								</button>
-							</div>
-
-							{rely && (
-								<Form {...form}>
-									<form
-										onSubmit={form.handleSubmit(onSubmit)}
-										className='pl-14 mt-6'
-									>
-										<FormField
-											control={form.control}
-											name='answer'
-											render={({ field }) => (
-												<FormItem>
-													<FormControl>
-														<Tiptap
-															value={field.value}
-															onChange={field.onChange}
-															className='min-h-24'
-															defaultValue='Trả lời tại đây'
-															autofocus
-														/>
-													</FormControl>
-
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-										<Alignment align='right' className='mt-4 space-x-4'>
-											<Button size='sm'>Trả lời</Button>
-										</Alignment>
-									</form>
-								</Form>
-							)}
-						</>
-					)}
-			</div>
-
-			{data.answer && organization && (
-				<div className='pl-14 mt-6'>
+			<div className={className} style={style}>
+				<div>
 					<div className='flex items-start'>
-						<Image
-							alt='avatar'
-							src={organization?.organization.avatarUrl}
-							width={40}
-							height={40}
-							className='w-10 h-10 rounded-full object-cover'
-						/>
+						<Link href={routes.profile.gen(data.studentId._id)}>
+							<Image
+								alt='avatar'
+								src={data.studentId.avatarUrl}
+								width={40}
+								height={40}
+								className='w-10 h-10 rounded-full object-cover'
+							/>
+						</Link>
 
 						<div className='ml-4 pl-4 pr-8 py-4 rounded-lg bg-slate-100 flex-1'>
-							<h3 className='text-sm font-medium mb-2 line-clamp-1'>
-								{organization.organization.name}
+							<h3 className='text-sm font-medium mb-2'>
+								<Link href={routes.profile.gen(data.studentId._id)}>
+									{data.studentId.name}
+								</Link>
 							</h3>
 							<div
 								className='prose prose-sm prose-p:!my-1'
-								dangerouslySetInnerHTML={{ __html: data.answer }}
+								dangerouslySetInnerHTML={{ __html: data.questionText }}
 							></div>
 						</div>
 					</div>
+
+					{accountInfo &&
+						isOrganization &&
+						organization &&
+						!data.answer &&
+						organization.organization._id == accountInfo._id && (
+							<>
+								<div className='mt-1 ml-14'>
+									<button
+										onClick={() => setRely(!rely)}
+										className='text-xs font-medium text-primary-500'
+									>
+										Trả lời
+									</button>
+								</div>
+
+								{rely && (
+									<Form {...form}>
+										<form
+											onSubmit={form.handleSubmit(onSubmit)}
+											className='pl-14 mt-6'
+										>
+											<FormField
+												control={form.control}
+												name='answer'
+												render={({ field }) => (
+													<FormItem>
+														<FormControl>
+															<Tiptap
+																value={field.value}
+																onChange={field.onChange}
+																className='min-h-24'
+																autofocus
+															/>
+														</FormControl>
+
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
+											<Alignment align='right' className='mt-4 space-x-4'>
+												<Button size='sm'>Trả lời</Button>
+											</Alignment>
+										</form>
+									</Form>
+								)}
+							</>
+						)}
 				</div>
-			)}
-		</div>
+
+				{data.answer && organization && (
+					<div className='pl-14 mt-6'>
+						<div className='flex items-start'>
+							<Image
+								alt='avatar'
+								src={organization?.organization.avatarUrl}
+								width={40}
+								height={40}
+								className='w-10 h-10 rounded-full object-cover'
+							/>
+
+							<div className='ml-4 pl-4 pr-8 py-4 rounded-lg bg-slate-100 flex-1'>
+								<h3 className='text-sm font-medium mb-2 line-clamp-1'>
+									{organization.organization.name}
+								</h3>
+								<div
+									className='prose prose-sm prose-p:!my-1'
+									dangerouslySetInnerHTML={{ __html: data.answer }}
+								></div>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
+		</>
 	)
 }
 
