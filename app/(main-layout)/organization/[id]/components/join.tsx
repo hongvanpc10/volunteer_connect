@@ -7,6 +7,8 @@ import {
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
 
+import { Tick, XMark } from '@/assets/icon'
+
 const usersRequest = [
 	{
 		avatar:
@@ -42,16 +44,16 @@ function Join() {
 			<div className='flex justify-center'>
 				<div className='flex flex-col max-w-[50rem] w-full'>
 					<div className='flex items-center font-medium text-black/60 py-4 px-5 bg-gray-50 rounded-lg'>
-						<p className='w-[21.875rem]'>Họ và tên</p>
-						<p>Ngày gửi yêu cầu</p>
+						<p className='xl:w-[21.875rem] sm:w-[19.875rem]'>Họ và tên</p>
+						<p className='max-lg:hidden'>Ngày gửi yêu cầu</p>
 					</div>
 					{usersRequest.map((user, index) => {
 						return (
 							<div
 								key={index}
-								className='flex items-center py-4 px-5 border-b border-solid border-black/10'
+								className='flex max-sm:gap-y-4 max-sm:justify-between max-sm:flex-wrap items-center py-4 px-5 border-b border-solid border-black/10'
 							>
-								<div className='flex items-center gap-4 w-[21.875rem]'>
+								<div className='flex items-center gap-4 xl:w-[21.875rem] w-[19.875rem] max-w-full'>
 									<Image
 										src={user.avatar}
 										alt=''
@@ -59,34 +61,42 @@ function Join() {
 										width={512}
 										className='w-12 h-12 rounded-full'
 									/>
-									<p className='font-semibold text-base'>{user.name}</p>
+									<div className='max-lg:self-stretch flex flex-col justify-between'>
+										<p className='font-semibold text-base'>{user.name}</p>
+										<p className='font-light text-sm lg:hidden'>
+											Ngày gửi: {user.dayRequest}
+										</p>
+									</div>
 								</div>
 
-								<p className='font-medium text-gray-700'>{user.dayRequest}</p>
+								<p className='font-medium text-gray-700 max-lg:hidden'>
+									{user.dayRequest}
+								</p>
 
-								<div className='flex items-center gap-4 ml-auto'>
-									<div className='flex items-center text-sm gap-2 px-4 py-2 border border-solid border-green-600 text-green-600 hover:bg-green-100/50 transition-all cursor-pointer rounded-xl'>
-										{/* <TickCircle size={16} /> */}
-										Đồng ý
+								<div className='flex max-sm:w-full items-center sm:gap-4 max-sm:gap-2 sm:ml-auto max-sm:flex-wrap max-sm:order-3'>
+									<div className='flex justify-center max-sm:flex-1 items-center text-sm gap-2 px-4 py-2 border border-solid border-green-600 text-green-600 hover:bg-green-100/50 transition-all cursor-pointer rounded-xl'>
+										<Tick className='w-4 h-4 md:hidden text-green-600' />
+										<span className='max-md:hidden max-sm:block text-nowrap'>Đồng ý</span>
 									</div>
 
-									<div className='flex items-center text-sm gap-2 px-4 py-2 border border-solid border-red-600 text-red-600 hover:bg-red-100/50 transition-all cursor-pointer rounded-xl'>
-										{/* <CloseCircle size={16} /> */}
-										Từ chối
+									<div className='flex justify-center max-sm:flex-1 items-center text-sm gap-2 px-4 py-2 border border-solid border-red-600 text-red-600 hover:bg-red-100/50 transition-all cursor-pointer rounded-xl'>
+										<XMark className='w-4 h-4 md:hidden' />
+										<span className='max-md:hidden max-sm:block text-nowrap'>Từ chối</span>
 									</div>
-									<TooltipProvider>
-										<Tooltip>
-											<TooltipTrigger>
-												<div className='p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer'>
-													<ArrowRight2 size={16} />
-												</div>
-											</TooltipTrigger>
-											<TooltipContent>
-												<p>Xem thông tin</p>
-											</TooltipContent>
-										</Tooltip>
-									</TooltipProvider>
 								</div>
+
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger>
+											<div className='ml-4 p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer max-sm:order-1'>
+												<ArrowRight2 size={16} />
+											</div>
+										</TooltipTrigger>
+										<TooltipContent>
+											<p>Xem thông tin</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 							</div>
 						)
 					})}

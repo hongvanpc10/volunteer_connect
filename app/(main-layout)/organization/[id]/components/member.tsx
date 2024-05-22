@@ -23,8 +23,18 @@ import {
 	DialogFooter,
 	DialogTitle,
 	DialogTrigger,
-    DialogClose
+	DialogClose,
 } from '@/components/ui/dialog'
+
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
+
+import { Bin } from '@/assets/icon'
 
 const usersRequest = [
 	{
@@ -81,22 +91,22 @@ function Member() {
 					</Button>
 				</div>
 				<div className='flex flex-col max-w-[50rem] w-full'>
-					<div className='flex items-center font-medium text-black/60 py-4 px-5 bg-gray-50 rounded-lg'>
+					{/* <div className='flex items-center font-medium text-black/60 py-4 px-5 bg-gray-50 rounded-lg'>
 						<p className='w-12 text-center mr-2'>STT</p>
-						<p className='w-[21.875rem]'>Họ và tên</p>
+						<p className='lg:w-[21.875rem] w-[19.875rem]'>Họ và tên</p>
 						<p>Đánh giá</p>
-					</div>
+					</div> */}
 					{usersRequest.map((user, index) => {
 						return (
 							<div
 								key={index}
-								className='flex items-center py-4 px-5 border-b border-solid border-black/10'
+								className='flex items-center max-md:flex-wrap max-md:gap-y-4 py-4 px-5 border-b border-solid border-black/10'
 							>
 								<p className='w-12 text-center mr-2 font-medium text-base'>
 									{index + 1}
 								</p>
 
-								<div className='flex items-center gap-4 w-[21.875rem]'>
+								<div className='flex items-center gap-4 lg:w-[21.875rem] w-[19.875rem] max-md:flex-1'>
 									<Image
 										src={user.avatar}
 										alt=''
@@ -107,18 +117,34 @@ function Member() {
 									<p className='font-semibold text-base'>{user.name}</p>
 								</div>
 
-								<Rating />
-
-								<div className='flex items-center gap-5 ml-auto'>
+								<div className=' flex items-center justify-between gap-5 ml-auto max-md:pl-12 max-md:order-1 max-md:w-full'>
+									<Select>
+										<SelectTrigger className='h-9 w-fit gap-2'>
+											<SelectValue placeholder='Đánh giá' />
+										</SelectTrigger>
+										<SelectContent className='max-h-56 overflow-y-auto'>
+											{[...Array(10)].map((_, index) => {
+												return (
+													<SelectItem
+														key={index}
+														value={(index + 1).toString()}
+													>
+														{index + 1}
+													</SelectItem>
+												)
+											})}
+										</SelectContent>
+									</Select>
 									<Dialog>
 										<DialogTrigger>
-											<div className='flex items-center text-sm gap-2 px-4 py-2 border border-solid border-red-600 text-red-600 hover:bg-red-100/50 transition-all cursor-pointer rounded-xl'>
-												Xóa
+											<div className='flex items-center text-sm gap-2 px-4 py-2 border border-solid border-red-600 text-red-600 hover:bg-red-100/50 transition-all cursor-pointer rounded-xl w-full max-md:order-1'>
+												<Bin className='w-4 h-4 md:hidden' />
+												<span className='max-md:hidden'>Xóa</span>
 											</div>
 										</DialogTrigger>
-										<DialogContent>
+										<DialogContent className='max-w-[90%] w-[28rem]'>
 											<DialogHeader>
-												<DialogTitle className='leading-normal'>
+												<DialogTitle className='leading-normal mt-2'>
 													Bạn có chắc chắn muốn xóa sinh viên dưới đây không?
 												</DialogTitle>
 												<div className='flex flex-col items-center gap-4 py-4'>
@@ -139,30 +165,30 @@ function Member() {
 											</DialogHeader>
 
 											<DialogFooter className='flex gap-2 mt-2'>
-												<div className='py-2 px-4 rounded-xl bg-red-500 transition-all hover:opacity-80 font-medium text-white flex-1 text-center cursor-pointer'>
+												<div className='py-2 px-4 rounded-xl bg-red-500 transition-all hover:opacity-80 font-medium text-white flex-1 text-center cursor-pointer max-sm:order-2'>
 													Chắc chắn
 												</div>
 												<DialogClose asChild>
-												    <div className='py-2 px-4 rounded-xl border border-solid border-gray-300 transition-all hover:bg-gray-100/50  font-medium flex-1 text-center cursor-pointer'>
-    													Hủy
-    												</div>
+													<div className='py-2 px-4 rounded-xl border border-solid border-gray-300 transition-all hover:bg-gray-100/50  font-medium flex-1 text-center cursor-pointer max-sm:order-1'>
+														Hủy
+													</div>
 												</DialogClose>
 											</DialogFooter>
 										</DialogContent>
 									</Dialog>
-									<TooltipProvider>
-										<Tooltip>
-											<TooltipTrigger>
-												<div className='p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer'>
-													<ArrowRight2 size={16} />
-												</div>
-											</TooltipTrigger>
-											<TooltipContent>
-												<p>Xem thông tin</p>
-											</TooltipContent>
-										</Tooltip>
-									</TooltipProvider>
 								</div>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger>
+											<div className='ml-2 p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer'>
+												<ArrowRight2 size={16} />
+											</div>
+										</TooltipTrigger>
+										<TooltipContent>
+											<p>Xem thông tin</p>
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 							</div>
 						)
 					})}
@@ -172,49 +198,49 @@ function Member() {
 	)
 }
 
-function Rating() {
-	const [ratingClick, setRatingClick] = useState<number>(0)
-	const [ratingHover, setRatingHover] = useState<number>(0)
+// function Rating() {
+// 	const [ratingClick, setRatingClick] = useState<number>(0)
+// 	const [ratingHover, setRatingHover] = useState<number>(0)
 
-	const handleHover = (rate: number) => {
-		setRatingHover(rate)
-	}
+// 	const handleHover = (rate: number) => {
+// 		setRatingHover(rate)
+// 	}
 
-	const handleClick = (rate: number) => {
-		setRatingClick(rate)
-	}
+// 	const handleClick = (rate: number) => {
+// 		setRatingClick(rate)
+// 	}
 
-	const handleLeaveHover = () => {
-		setRatingHover(ratingClick)
-	}
+// 	const handleLeaveHover = () => {
+// 		setRatingHover(ratingClick)
+// 	}
 
-	return (
-		<div className='flex'>
-			{[...Array(5)].map((_, index) => {
-				return (
-					<TooltipProvider>
-						<Tooltip>
-							<TooltipTrigger>
-								<Flash
-									key={index}
-									size={18}
-									variant='Bold'
-									className='transition-all cursor-pointer hover:scale-[1.15]'
-									color={index + 1 <= ratingHover ? '#fbbf24' : '#000000'}
-									onMouseEnter={() => handleHover(index + 1)}
-									onMouseLeave={handleLeaveHover}
-									onClick={() => handleClick(index + 1)}
-								/>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>{rate[index]}</p>
-							</TooltipContent>
-						</Tooltip>
-					</TooltipProvider>
-				)
-			})}
-		</div>
-	)
-}
+// 	return (
+// 		<div className='flex'>
+// 			{[...Array(5)].map((_, index) => {
+// 				return (
+// 					<TooltipProvider>
+// 						<Tooltip>
+// 							<TooltipTrigger>
+// 								<Flash
+// 									key={index}
+// 									size={18}
+// 									variant='Bold'
+// 									className='transition-all cursor-pointer hover:scale-[1.15]'
+// 									color={index + 1 <= ratingHover ? '#fbbf24' : '#000000'}
+// 									onMouseEnter={() => handleHover(index + 1)}
+// 									onMouseLeave={handleLeaveHover}
+// 									onClick={() => handleClick(index + 1)}
+// 								/>
+// 							</TooltipTrigger>
+// 							<TooltipContent>
+// 								<p>{rate[index]}</p>
+// 							</TooltipContent>
+// 						</Tooltip>
+// 					</TooltipProvider>
+// 				)
+// 			})}
+// 		</div>
+// 	)
+// }
 
 export default Member
