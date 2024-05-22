@@ -32,6 +32,16 @@ class PersonsApi {
 			handleError(error, PersonError)
 		}
 	}
+
+	async update(
+		data: Partial<
+			Omit<Person, '_id' | 'account' | 'totalPoints' | 'avatarUrl'>
+		>,
+	) {
+		try {
+			return await httpClient.post('/student/updateStudent', data)
+		} catch (error) {}
+	}
 }
 
 const personsApi = new PersonsApi()

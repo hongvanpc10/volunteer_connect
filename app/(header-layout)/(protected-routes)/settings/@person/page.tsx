@@ -6,6 +6,7 @@ import DatePicker from '@/components/ui/date-picker'
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -45,6 +46,7 @@ const formSchema = z.object({
 	school: z.string().min(1, 'Trường không được để trống'),
 	faculty: z.string().min(1, 'Khoa không được để trống'),
 	studentCode: z.string().min(1, 'Mã sinh viên không được để trống'),
+	quote: z.string().optional(),
 })
 
 export default function PersonForm() {
@@ -55,12 +57,13 @@ export default function PersonForm() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: data?.name,
-			dob: data?.dob,
+			dob: new Date(data?.dob),
 			phoneNumber: data?.phoneNumber,
 			faculty: data?.faculty,
 			gender: data?.gender ? 'male' : 'female',
 			school: data?.school,
 			studentCode: data?.studentCode,
+			quote: data?.quote || '',
 		},
 	})
 
@@ -84,14 +87,31 @@ export default function PersonForm() {
 		},
 	})
 
+	const { mutate, isPending } = useMutation({
+		mutationFn: personsApi.update,
+		onSuccess() {
+			toast({
+				description: 'Cập nhật thông tin cá nhân thành công',
+			})
+			queryClient.refetchQueries({ queryKey: queryKeys.account })
+		},
+		onError(error) {
+			toast({
+				title: 'Cập nhật thông tin cá nhân thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
+		mutate({ ...values, gender: values.gender === 'male' })
 	}
 
 	return (
 		data && (
 			<div>
-				{isUploading && <Loader />}
+				{(isUploading || isPending) && <Loader />}
 				<AvatarUpdate initialAvatar={data.avatarUrl} onSubmit={uploadAvatar} />
 
 				<Form {...form}>
@@ -217,6 +237,27 @@ export default function PersonForm() {
 									)}
 								/>
 							</div>
+
+							<FormField
+								control={form.control}
+								name='quote'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>
+											Lời châm ngôn
+											<span className='font-light'> (tùy chọn)</span>
+										</FormLabel>
+										<FormControl>
+											<Input
+												placeholder='Hãy làm điều bạn thích, và thích điều bạn làm.'
+												{...field}
+											/>
+										</FormControl>
+
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 						</div>
 
 						<Alignment align='right' className='mt-10'>

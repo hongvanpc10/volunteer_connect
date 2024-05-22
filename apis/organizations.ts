@@ -35,6 +35,16 @@ class OrganizationsApi {
 			handleError(error, OrganizationError)
 		}
 	}
+
+	async update(
+		data: Partial<
+			Omit<Organization, '_id' | 'account' | 'isVerified' | 'avatarUrl'>
+		>,
+	) {
+		try {
+			return await httpClient.post('/organization/updateOrganization', data)
+		} catch (error) {}
+	}
 }
 
 const organizationsApi = new OrganizationsApi()

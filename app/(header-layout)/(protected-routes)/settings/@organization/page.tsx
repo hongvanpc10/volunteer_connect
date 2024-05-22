@@ -66,14 +66,31 @@ export default function OrganizationForm() {
 		},
 	})
 
+	const { mutate, isPending } = useMutation({
+		mutationFn: organizationsApi.update,
+		onSuccess() {
+			toast({
+				description: 'Cập nhật thông tin cá nhân thành công',
+			})
+			queryClient.refetchQueries({ queryKey: queryKeys.account })
+		},
+		onError(error) {
+			toast({
+				title: 'Cập nhật thông tin cá nhân thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
+
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
+		mutate(values)
 	}
 
 	return (
 		data && (
 			<div>
-				{isUploading && <Loader />}
+				{(isUploading || isPending) && <Loader />}
 
 				<AvatarUpdate initialAvatar={data.avatarUrl} onSubmit={uploadAvatar} />
 
