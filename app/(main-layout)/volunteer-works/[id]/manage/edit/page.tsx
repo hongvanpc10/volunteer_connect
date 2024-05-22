@@ -90,7 +90,7 @@ export default function UpdateVolunteerWork() {
 	}
 
 	return (
-		<div className='container py-16'>
+		<div className='w-full'>
 			<h1 className='text-center text-3xl font-bold mb-16'>
 				Chỉnh sửa hoạt động tình nguyện
 			</h1>

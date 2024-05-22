@@ -28,8 +28,8 @@ export default function NotFoundPage() {
 		<div>
 			<Header />
 			<div className='h-screen relative flex w-full justify-center'>
-				<div className='flex flex-col md:mt-[6rem] pt-10'>
-					<div className='flex h-[21.875rem] max-md:flex-wrap md:overflow-hidden container items-center xl:px-20 '>
+				<div className='flex flex-col pt-10'>
+					<div className='flex min-h-[21.875rem] max-md:flex-wrap md:overflow-hidden container items-center xl:px-20 '>
 						<div className='flex flex-col max-md:order-2 max-md:items-center'>
 							<p className='font-bold lg:text-[4rem] text-[2rem]'>Whoops!</p>
 							<p className='font-bold lg:text-3xl text-xl mt-2'>
