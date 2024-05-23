@@ -6,8 +6,11 @@ import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import VolunteerWorkHorizontalCard from '@/components/volunteer-work-horizontal-card'
 import queryKeys from '@/configs/query-keys'
+import routes from '@/configs/routes'
+import useAuth from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useIntersectionObserver } from 'usehooks-ts'
 
@@ -23,6 +26,8 @@ export default function Activities() {
 		queryKey: queryKeys.accountInfo.gen(id),
 		queryFn: () => organizationsApi.getInfo(id),
 	})
+
+	const { accountInfo } = useAuth()
 
 	const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
 		useInfiniteQuery({
@@ -46,7 +51,17 @@ export default function Activities() {
 
 	return (
 		<section>
-			<h3 className='font-semibold text-lg mb-6'>Các hoạt động của tổ chức</h3>
+			<div className='flex items-center justify-between mb-10'>
+				<h3 className='font-semibold text-lg'>Các hoạt động của tổ chức</h3>
+
+				{organization && accountInfo && organization._id == accountInfo._id ? (
+					<Button size='sm' variant='secondary' asChild>
+						<Link href={routes.newWork}> Thêm</Link>
+					</Button>
+				) : (
+					<div />
+				)}
+			</div>
 
 			{data && <div ref={ref} />}
 			<div className='space-y-14'>

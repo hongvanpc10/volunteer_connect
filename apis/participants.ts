@@ -29,6 +29,32 @@ class ParticipantsApi {
 			handleError(error, ParticipantsError)
 		}
 	}
+
+	async acceptParticipant(data: {
+		participantId: string
+		isAccepted: boolean
+	}) {
+		try {
+			return await httpClient.post<Participant>(
+				'/participant/acceptParticipant',
+				data,
+			)
+		} catch (error) {
+			handleError(error, ParticipantsError)
+		}
+	}
+
+	async giveFeedback(data: {
+		participantId: string
+		feedback: string
+		rating: number
+	}) {
+		try {
+			return await httpClient.post<Participant>('/participant/feedback', data)
+		} catch (error) {
+			handleError(error, ParticipantsError)
+		}
+	}
 }
 
 const participantsApi = new ParticipantsApi()

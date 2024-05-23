@@ -162,7 +162,7 @@ export default function Step1({
 						name='faculty'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Ngành học</FormLabel>
+								<FormLabel>Khoa</FormLabel>
 								<FormControl>
 									<Input
 										placeholder='Khoa Khoa học và Kĩ thuật Thông tin'

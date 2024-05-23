@@ -9,4 +9,5 @@ export interface Participant {
 	feedback: string
 	rating: number
 	receivedCoins: number
+	createdAt: Date
 }

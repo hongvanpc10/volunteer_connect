@@ -60,7 +60,7 @@ function OrganizeManage({ children }: { children: ReactNode }) {
 				<div className='lg:col-span-3 md:col-span-1 sm:col-span-2 sm:w-full'>
 					<div
 						className={cn(
-							'w-full flex flex-col gap-3 sm:sticky sm:top-[10rem]',
+							'w-full flex flex-col gap-3 sm:gap-6 sm:sticky sm:top-[10rem]',
 							'fixed max-sm:bg-white max-sm:shadow-inner max-sm:left-0 max-sm:bottom-0 max-sm:w-fit max-sm:flex-row max-sm:z-50 rounded-tr-xl',
 						)}
 					>

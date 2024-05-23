@@ -194,7 +194,7 @@ export default function PersonForm() {
 								name='faculty'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Ngành học</FormLabel>
+										<FormLabel>Khoa</FormLabel>
 										<FormControl>
 											<Input
 												placeholder='Khoa Khoa học và Kĩ thuật Thông tin'

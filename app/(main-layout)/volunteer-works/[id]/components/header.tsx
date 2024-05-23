@@ -125,13 +125,26 @@ export default function Header() {
 
 					<div className='mt-3 flex items-center justify-between'>
 						<div>
-							<span className='text-sm'>Đã tham gia {participants.length}</span>
+							<span className='text-sm'>
+								Đã tham gia{' '}
+								{
+									participants.filter(
+										participant =>
+											participant.status === 'ACCEPTED' ||
+											participant.status === 'FINISH',
+									).length
+								}
+							</span>
 							{participants.filter(
 								participant => participant.status === 'ACCEPTED',
 							).length > 0 && (
 								<div className='flex items-center -space-x-1.5 mt-1'>
 									{participants
-										.filter(participant => participant.status === 'ACCEPTED')
+										.filter(
+											participant =>
+												participant.status === 'ACCEPTED' ||
+												participant.status === 'FINISH',
+										)
 										.slice(0, 5)
 										.map((participant, index) => (
 											<Image
@@ -162,7 +175,7 @@ export default function Header() {
 							{accountInfo && accountInfo._id == data.organization._id ? (
 								<Button asChild>
 									<Link href={routes.volunteerWorks.manage.edit.gen(id)}>
-										Cài đặt
+										Quản lí
 									</Link>
 								</Button>
 							) : accountInfo &&
