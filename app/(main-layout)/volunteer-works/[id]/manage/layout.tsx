@@ -7,7 +7,7 @@ import useProtectedRoute from '@/hooks/use-protected-route'
 import { AccountRole } from '@/interfaces/account-role'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
-import { Edit2, Note1, ProfileAdd } from 'iconsax-react'
+import { Edit2, Note1, ProfileAdd, CalendarTick } from 'iconsax-react'
 import { notFound, useParams, usePathname, useRouter } from 'next/navigation'
 import { ReactNode, useEffect } from 'react'
 
@@ -34,6 +34,11 @@ function OrganizeManage({ children }: { children: ReactNode }) {
 			title: 'Danh sách sinh viên',
 			icon: Note1,
 			link: routes.volunteerWorks.manage.members.gen(id),
+		},
+		{
+			title: 'Quản lí sự kiện',
+			icon: CalendarTick,
+			link: routes.volunteerWorks.manage.events.gen(id),
 		},
 	]
 
@@ -97,8 +102,7 @@ function OrganizeManage({ children }: { children: ReactNode }) {
 					</div>
 				</div>
 				<div className='lg:col-span-9 md:col-span-11 sm:col-span-10 col-span-12'>
-					<div className='py-16 flex '>
-						{/* <Component /> */}
+					<div className='py-16 flex'>
 						{children}
 					</div>
 				</div>

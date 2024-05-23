@@ -33,6 +33,9 @@ const routes = {
 			members: {
 				gen: (id?: string) => `/volunteer-works/${id}/manage/members`,
 			},
+			events: {
+				gen: (id?: string) => `/volunteer-works/${id}/manage/events`,
+			}
 		},
 	},
 	settings: '/settings',
