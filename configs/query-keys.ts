@@ -20,6 +20,7 @@ const queryKeys = {
 	volunteerWorksPagination: {
 		gen: (page?: number, limit?: number) => ['volunteerWorks', page, limit],
 	},
+	leaderboard: ['leaderboard'],
 }
 
 export default queryKeys

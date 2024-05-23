@@ -42,6 +42,14 @@ class PersonsApi {
 			return await httpClient.post('/student/updateStudent', data)
 		} catch (error) {}
 	}
+
+	async getTop10() {
+		try {
+			return await httpClient.get<Person[]>('/student/top10Students')
+		} catch (error) {
+			handleError(error, PersonError)
+		}
+	}
 }
 
 const personsApi = new PersonsApi()
