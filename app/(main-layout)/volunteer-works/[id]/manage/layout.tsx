@@ -1,44 +1,58 @@
 'use client'
-import { ReactNode, useState } from 'react'
-// import UpdateVolunteerWork from '../components/update-volunteerWork'
-// import Join from '../components/join'
-// import Member from '../components/member'
-import { Edit2, Note1, ProfileAdd } from 'iconsax-react'
+import volunteerWorksApi from '@/apis/volunteer-works'
+import queryKeys from '@/configs/query-keys'
+import routes from '@/configs/routes'
+import useAuth from '@/hooks/use-auth'
+import useProtectedRoute from '@/hooks/use-protected-route'
+import { AccountRole } from '@/interfaces/account-role'
 import { cn } from '@/lib/utils'
-import {
-	useRouter,
-	usePathname,
-	useSelectedLayoutSegment,
-} from 'next/navigation'
-
-
-const items = [
-	{
-		title: 'Chỉnh sửa hoạt động',
-		icon: Edit2,
-		link: 'edit',
-	},
-	{
-		title: 'Yêu cầu tham gia',
-		icon: ProfileAdd,
-		link: 'request-join',
-	},
-	{
-		title: 'Danh sách sinh viên',
-		icon: Note1,
-		link: 'members',
-	},
-]
+import { useQuery } from '@tanstack/react-query'
+import { Edit2, Note1, ProfileAdd } from 'iconsax-react'
+import { notFound, useParams, usePathname, useRouter } from 'next/navigation'
+import { ReactNode, useEffect } from 'react'
 
 function OrganizeManage({ children }: { children: ReactNode }) {
-	const router = useRouter()
-	const path = usePathname()
-	const segment = useSelectedLayoutSegment()
+	useProtectedRoute(AccountRole.ORGANIZATION)
 
-	const changePage = (href: string) => {
-		const newPath = path.replace(`${segment}`, '')
-		router.replace(`${newPath}/${href}`)
-	}
+	const router = useRouter()
+	const pathName = usePathname()
+
+	const { id } = useParams<{ id: string }>()
+
+	const items = [
+		{
+			title: 'Chỉnh sửa hoạt động',
+			icon: Edit2,
+			link: routes.volunteerWorks.manage.edit.gen(id),
+		},
+		{
+			title: 'Yêu cầu tham gia',
+			icon: ProfileAdd,
+			link: routes.volunteerWorks.manage.requestJoin.gen(id),
+		},
+		{
+			title: 'Danh sách sinh viên',
+			icon: Note1,
+			link: routes.volunteerWorks.manage.members.gen(id),
+		},
+	]
+
+	const { accountInfo } = useAuth()
+
+	const { data, isSuccess, error } = useQuery({
+		queryKey: queryKeys.volunteer.gen(id),
+		queryFn: () => volunteerWorksApi.getInfo(id),
+	})
+
+	useEffect(() => {
+		if (
+			error ||
+			(isSuccess && !data) ||
+			(data && accountInfo && data.organization._id != accountInfo._id)
+		) {
+			notFound()
+		}
+	}, [accountInfo, data, error, isSuccess])
 
 	return (
 		<div className='flex'>
@@ -58,14 +72,14 @@ function OrganizeManage({ children }: { children: ReactNode }) {
 									key={index}
 									className={cn(
 										'flex items-center xl:pl-6 max-sm:py-4 max-sm:px-3 py-2 gap-4 relative cursor-pointer text-gray-700 font-medium',
-										item.link == segment ? 'font-bold text-primary-400' : '',
+										item.link == pathName ? 'font-semibold text-primary-400' : '',
 									)}
-									onClick={() => changePage(item.link)}
+									onClick={() => router.push(item.link)}
 								>
 									<div
 										className={cn(
 											'flex',
-											item.link == segment
+											item.link == pathName
 												? 'text-primary-400'
 												: 'text-gray-700',
 										)}
@@ -74,7 +88,7 @@ function OrganizeManage({ children }: { children: ReactNode }) {
 									</div>
 									<p className='max-lg:hidden'>{item.title}</p>
 
-									{item.link == segment && (
+									{item.link == pathName && (
 										<div className='absolute sm:top-0 bottom-0 max-sm:left-0 max-sm:right-0 max-sm:w-full right-0 sm:w-1 max-sm:h-1 rounded-l-full bg-primary-400'></div>
 									)}
 								</div>

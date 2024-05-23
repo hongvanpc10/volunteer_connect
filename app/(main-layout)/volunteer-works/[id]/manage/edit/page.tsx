@@ -1,6 +1,8 @@
 'use client'
 
-import volunteerWorksApi from '@/apis/volunteer-works'
+import volunteerWorksApi, {
+	VolunteerWorkUpdateData,
+} from '@/apis/volunteer-works'
 import Alignment from '@/components/ui/alignment'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,13 +17,18 @@ import {
 import { Input } from '@/components/ui/input'
 import Loader from '@/components/ui/loader'
 import Tiptap from '@/components/ui/tiptap'
+import queryKeys from '@/configs/query-keys'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import ImageUploading from 'react-images-uploading'
+import { useParams, useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { ImageListType } from 'react-images-uploading'
 import { z } from 'zod'
+import Image from 'next/image'
+import { format } from 'date-fns'
 
 const formSchema = z.object({
 	title: z.string().min(1, 'Tên hoạt động không được để trống'),
@@ -34,27 +41,35 @@ const formSchema = z.object({
 	contactInfo: z.string().min(1, 'Thông tin liên hệ không được để trống'),
 	benefits: z.string().min(1, 'Quyền lợi tham gia không được để trống'),
 	requirements: z.string().min(1, 'Đối tượng tham gia không được để trống'),
-	image: z
-		.instanceof(File, { message: 'Ảnh banner không được để trống' })
-		.refine(file => file.size < 5000000, {
-			message: 'Kích thước ảnh không được vượt quá 5MB',
-		}),
 	endRegisteredDate: z.string({
 		required_error: 'Ngày kết thúc đăng ký không được để trống',
 	}),
 })
 
 export default function UpdateVolunteerWork() {
+	const { id } = useParams<{ id: string }>()
+
+	const [image, setImage] = useState<ImageListType>([])
+
+	const { data } = useQuery({
+		queryKey: queryKeys.volunteer.gen(id),
+		queryFn: () => volunteerWorksApi.getInfo(id),
+	})
+
+	const queryClient = useQueryClient()
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			title: '',
-			description: '',
-			endRegisteredDate: undefined,
-			receivedCoins: 10,
-			contactInfo: '',
-			benefits: '',
-			requirements: '',
+			title: data?.title,
+			description: data?.description,
+			endRegisteredDate: data
+				? format(data.endRegisteredDate, "yyyy-MM-dd'T'HH:mm")
+				: '',
+			receivedCoins: data?.receivedCoins,
+			contactInfo: data?.contactInfo,
+			benefits: data?.benefits,
+			requirements: data?.requirements,
 		},
 	})
 
@@ -62,45 +77,93 @@ export default function UpdateVolunteerWork() {
 	const { toast } = useToast()
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: volunteerWorksApi.createNew,
+		mutationFn: ({
+			data,
+			file,
+		}: {
+			data: VolunteerWorkUpdateData
+			file?: File
+		}) => volunteerWorksApi.update(data, file),
 		onSuccess: data => {
 			toast({
-				description: 'Tạo hoạt động tình nguyện thành công',
+				description: 'Cập nhật hoạt động tình nguyện thành công',
 			})
-			router.push(`/volunteer-work/${data!._id}`)
+			queryClient.refetchQueries({
+				queryKey: queryKeys.volunteer.gen(id),
+			})
+			setImage([])
 		},
 		onError: error => {
 			toast({
-				title: 'Tạo hoạt động tình nguyện thất bại',
+				title: 'Cập nhật thất bại',
 				description: error.message,
 				variant: 'destructive',
 			})
 		},
 	})
 
-	function onSubmit({
-		image,
-		endRegisteredDate,
-		...data
-	}: z.infer<typeof formSchema>) {
+	function onSubmit(values: z.infer<typeof formSchema>) {
 		mutate({
-			data: { ...data, endRegisteredDate: new Date(endRegisteredDate) },
-			image,
+			data: {
+				...values,
+				endRegisteredDate: new Date(values.endRegisteredDate),
+				_id: id,
+			},
+			file: image[0]?.file,
 		})
 	}
 
 	return (
-		<div className='w-full'>
+		<div className='mx-auto max-w-[50rem]'>
 			<h1 className='text-center text-3xl font-bold mb-16'>
 				Chỉnh sửa hoạt động tình nguyện
 			</h1>
 
+			{isPending && <Loader />}
+
+			<ImageUploading
+				multiple
+				value={image}
+				onChange={value => setImage(value)}
+				dataURLKey='data_url'
+			>
+				{({
+					imageList,
+					onImageUpload,
+					onImageRemove,
+				}) =>
+					data && (
+						<div className='mb-16'>
+							<Image
+								alt='banner'
+								src={imageList[0] ? imageList[0]['data_url'] : data.imageUrl}
+								width={1280}
+								height={1280}
+								className='w-full object-cover h-auto rounded-lg border border-slate-200'
+							/>
+
+							<Alignment align='right' className='mt-3'>
+								{imageList[0] ? (
+									<Button
+										variant='destructive'
+										size='sm'
+										onClick={() => onImageRemove(0)}
+									>
+										Xóa
+									</Button>
+								) : (
+									<Button variant='secondary' size='sm' onClick={onImageUpload}>
+										Đổi
+									</Button>
+								)}
+							</Alignment>
+						</div>
+					)
+				}
+			</ImageUploading>
+
 			<Form {...form}>
-				{isPending && <Loader />}
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className='mx-auto max-w-[50rem]'
-				>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
 					<div className='space-y-6'>
 						<FormField
 							control={form.control}
@@ -242,46 +305,10 @@ export default function UpdateVolunteerWork() {
 								</FormItem>
 							)}
 						/>
-
-						<div>
-							<FormField
-								control={form.control}
-								name='image'
-								render={({ field: { value, onChange, ...props } }) => (
-									<FormItem>
-										<FormLabel>Ảnh banner</FormLabel>
-										<FormControl>
-											<Input
-												{...props}
-												onChange={event =>
-													onChange(event.target.files && event.target.files[0])
-												}
-												type='file'
-												accept='image/jpg,image/jpeg,image/png,image/webp'
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							{form.getValues('image') && (
-								<div className='mt-4'>
-									<label className='text-sm font-medium mb-2'>Xem trước</label>
-									<Image
-										alt='banner'
-										src={URL.createObjectURL(form.getValues('image'))}
-										width={1280}
-										height={1280}
-										className='w-full object-cover h-auto rounded-lg border border-slate-200'
-									/>
-								</div>
-							)}
-						</div>
 					</div>
 
 					<Alignment align='right' className='mt-16'>
-						<Button size='lg'>Đăng kí</Button>
+						<Button size='lg'>Cập nhật</Button>
 					</Alignment>
 				</form>
 			</Form>

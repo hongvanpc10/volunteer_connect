@@ -42,7 +42,7 @@ export default function Organization() {
 					<h4 className='text-sm font-medium w-full mb-3'>Thông tin liên hệ</h4>
 
 					<div
-						className='prose w-full prose-sm prose-p:!m-0'
+						className='prose w-full prose-sm prose-p:!m-0 line-clamp-4'
 						dangerouslySetInnerHTML={{ __html: data.organization.contactInfo }}
 					></div>
 					<Separator className='my-4' />

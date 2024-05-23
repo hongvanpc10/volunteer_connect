@@ -27,11 +27,11 @@ import { z } from 'zod'
 const formSchema = z.object({
 	title: z.string().min(1, 'Tên hoạt động không được để trống'),
 	description: z.string().min(1, 'Mô tả không được để trống'),
-	receivedCoins: z
+	receivedCoins: z.coerce
 		.number()
 		.int()
 		.min(1, 'Số lượng điểm nhận được phải lớn hơn 0')
-		.max(20, 'Số lượng điểm nhận được phải nhỏ hơn 20'),
+		.max(50, 'Số lượng điểm nhận được phải nhỏ hơn 20'),
 	contactInfo: z.string().min(1, 'Thông tin liên hệ không được để trống'),
 	benefits: z.string().min(1, 'Quyền lợi tham gia không được để trống'),
 	requirements: z.string().min(1, 'Đối tượng tham gia không được để trống'),
@@ -140,7 +140,13 @@ export default function CreateForm() {
 								<FormItem>
 									<FormLabel>Số lượng điểm nhận được</FormLabel>
 									<FormControl>
-										<Input placeholder='10' {...field} />
+										<Input
+											placeholder='10'
+											type='number'
+											min={1}
+											max={50}
+											{...field}
+										/>
 									</FormControl>
 									<FormDescription>
 										Số lượng điểm nhận được sau khi hoàn thành hoạt động

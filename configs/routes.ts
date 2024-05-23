@@ -23,6 +23,17 @@ const routes = {
 	volunteerWorks: {
 		gen: (id?: string) => `/volunteer-works/${id}`,
 		default: '/volunteer-works',
+		manage: {
+			edit: {
+				gen: (id?: string) => `/volunteer-works/${id}/manage/edit`,
+			},
+			requestJoin: {
+				gen: (id?: string) => `/volunteer-works/${id}/manage/request-join`,
+			},
+			members: {
+				gen: (id?: string) => `/volunteer-works/${id}/manage/members`,
+			},
+		},
 	},
 	settings: '/settings',
 }

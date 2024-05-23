@@ -4,7 +4,20 @@ import httpClient, { PaginatedResponse, handleError } from '@/lib/http-client'
 
 type CreateData = Omit<
 	VolunteerWork,
-	'_id' | 'imageUrl' | 'createdAt' | 'events' | 'organization' | 'questions' | 'events'
+	| '_id'
+	| 'imageUrl'
+	| 'createdAt'
+	| 'events'
+	| 'organization'
+	| 'questions'
+	| 'events'
+>
+
+export type VolunteerWorkUpdateData = Partial<
+	Omit<
+		VolunteerWork,
+		'imageUrl' | 'organization' | 'createdAt' | 'events' | 'questions'
+	>
 >
 
 interface AddEventData {
@@ -87,6 +100,23 @@ class VolunteerWorksApi {
 	async addEvent(data: AddEventData) {
 		try {
 			return await httpClient.post('/volunteerWork/newEvent', data)
+		} catch (error) {
+			handleError(error, VolunteerWorkError)
+		}
+	}
+
+	async update(data: VolunteerWorkUpdateData, file?: File) {
+		try {
+			const formData = new FormData()
+			formData.append('jsonData', JSON.stringify(data))
+			if (file) {
+				formData.append('image', file)
+			}
+
+			return await httpClient.post(
+				'/volunteerWork/updateVolunteerWork',
+				formData,
+			)
 		} catch (error) {
 			handleError(error, VolunteerWorkError)
 		}

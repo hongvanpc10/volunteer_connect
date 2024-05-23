@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils'
 import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface TiptapProps {
 	className?: string
@@ -20,9 +20,11 @@ const Tiptap = ({
 	defaultValue = '',
 	autofocus,
 }: TiptapProps) => {
+	const [first, setFirst] = useState(true)
+
 	const editor = useEditor({
 		extensions: [StarterKit],
-		content: defaultValue,
+		content: '<p></p>',
 		editorProps: {
 			attributes: {
 				class: cn(
@@ -33,19 +35,18 @@ const Tiptap = ({
 		},
 		onUpdate: ({ editor }) => {
 			const html = editor.getHTML()
-
 			if (onChange) {
 				onChange(html)
 			}
 		},
-		autofocus,
 	})
 
 	useEffect(() => {
-		if (editor && value) {
+		if (editor && value && first) {
 			editor.commands.setContent(value)
+			setFirst(false)
 		}
-	}, [editor, value])
+	}, [editor, first, value])
 
 	return (
 		<>

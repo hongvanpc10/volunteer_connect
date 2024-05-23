@@ -13,6 +13,7 @@ import { cn, getEndDateOfVolunteerWork, getRandomTextAvatar } from '@/lib/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { differenceInSeconds, format, isBefore } from 'date-fns'
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound, useParams, usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useCountdown, useDocumentTitle } from 'usehooks-ts'
@@ -53,7 +54,7 @@ export default function Header() {
 		mutationFn: participantsApi.joinVolunteerWork,
 		onSuccess() {
 			toast({
-				description: 'Đăng ký thành công',
+				description: 'Gửi yêu cầu đăng kí thành công',
 			})
 			queryClient.refetchQueries({
 				queryKey: queryKeys.participantsByVolunteerWork.gen(id),
@@ -159,26 +160,29 @@ export default function Header() {
 
 						<div className='flex flex-col items-center'>
 							{accountInfo && accountInfo._id == data.organization._id ? (
-								<Button>Cài đặt</Button>
+								<Button asChild>
+									<Link href={routes.volunteerWorks.manage.edit.gen(id)}>
+										Cài đặt
+									</Link>
+								</Button>
 							) : accountInfo &&
 							  participants &&
 							  participants.find(
 									participant => participant.studentId._id === accountInfo._id,
 							  ) ? (
 								<Button variant='outline'>
-									{
-										{
-											ACCEPTED: 'Đã tham gia',
-											WAITING: 'Đang chờ',
-											FINISH: 'Đã tham gia',
-											UNACCEPTED: 'Đã từ chối',
-										}[
-											participants.find(
-												participant =>
-													participant.studentId._id === accountInfo._id,
-											)!.status
-										]
-									}
+									{(() => {
+										const status = participants.find(
+											participant =>
+												participant.studentId._id === accountInfo._id,
+										)!.status
+
+										return status === 'ACCEPTED' || status === 'FINISH'
+											? 'Đã tham gia'
+											: status === 'WAITING'
+											? 'Đang chờ duyệt'
+											: 'Bị từ chối'
+									})()}
 								</Button>
 							) : (
 								<Button

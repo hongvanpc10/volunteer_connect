@@ -65,7 +65,7 @@ export default function Overview() {
 					<h4 className='text-sm font-medium w-full mb-3'>Thông tin liên hệ</h4>
 
 					<div
-						className='prose w-full prose-sm prose-p:!m-0'
+						className='prose w-full prose-sm prose-p:!m-0 line-clamp-5'
 						dangerouslySetInnerHTML={{ __html: data.contactInfo }}
 					></div>
 				</section>
