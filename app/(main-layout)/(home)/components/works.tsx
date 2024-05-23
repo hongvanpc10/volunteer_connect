@@ -21,7 +21,7 @@ export default function Works() {
 		queryKey: queryKeys.volunteerWorksPagination.gen(1, 3),
 		queryFn: () => volunteerWorksApi.get({ page: 1, limit: 3 }),
 	})
-
+	console.log(data)
 	return (
 		<section className='py-16 bg-slate-50'>
 			<div className='container'>
