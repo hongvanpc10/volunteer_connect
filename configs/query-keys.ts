@@ -21,6 +21,10 @@ const queryKeys = {
 		gen: (page?: number, limit?: number) => ['volunteerWorks', page, limit],
 	},
 	leaderboard: ['leaderboard'],
+	organizations: ['organizations'],
+	organizationsPagination: {
+		gen: (page?: number, limit?: number) => ['organizations', page, limit],
+	},
 }
 
 export default queryKeys

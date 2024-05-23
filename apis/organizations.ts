@@ -1,6 +1,6 @@
 import { OrganizationError } from '@/errors/organization'
 import { Organization } from '@/interfaces/organization'
-import httpClient, { handleError } from '@/lib/http-client'
+import httpClient, { PaginatedResponse, handleError } from '@/lib/http-client'
 
 class OrganizationsApi {
 	async getMe() {
@@ -44,6 +44,17 @@ class OrganizationsApi {
 		try {
 			return await httpClient.post('/organization/updateOrganization', data)
 		} catch (error) {}
+	}
+
+	async getOrganizations(data: { limit: number; page: number }) {
+		try {
+			return await httpClient.post<PaginatedResponse<Organization>>(
+				'/organization/organizations',
+				data,
+			)
+		} catch (error) {
+			handleError(error)
+		}
 	}
 }
 
