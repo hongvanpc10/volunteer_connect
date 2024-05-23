@@ -7,9 +7,9 @@ import AddEvent from '../../components/events/add-event'
 
 import volunteerWorksApi from '@/apis/volunteer-works'
 import queryKeys from '@/configs/query-keys'
-import { useQuery } from '@tanstack/react-query'
-import { notFound, useParams, usePathname, useRouter } from 'next/navigation'
-import { format, isAfter } from 'date-fns'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import { useParams } from 'next/navigation'
 
 import { Event } from '@/interfaces/volunteer-work'
 
@@ -23,6 +23,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog'
+import { useToast } from '@/hooks/use-toast'
+import Loader from '@/components/ui/loader'
 
 function Events() {
 	const { id } = useParams<{ id: string }>()
@@ -66,10 +68,35 @@ function Events() {
 }
 
 function EventItem({ event }: { event: Event }) {
+	const { id } = useParams<{ id: string }>()
+
 	const [more, setMore] = useState<boolean>(false)
+
+	const queryClient = useQueryClient()
+	const { toast } = useToast()
+
+	const { mutate, isPending } = useMutation({
+		mutationFn: volunteerWorksApi.deleteEvent,
+		onSuccess() {
+			toast({
+				description: 'Xóa sự kiện thành công',
+			})
+			queryClient.refetchQueries({
+				queryKey: queryKeys.volunteer.gen(id),
+			})
+		},
+		onError(error) {
+			toast({
+				title: 'Xóa sự kiện thất bại',
+				description: error.message,
+				variant: 'destructive',
+			})
+		},
+	})
 
 	return (
 		<div className='border-solid border border-gray-100 rounded-xl px-5 pt-4 relative'>
+			{isPending && <Loader />}
 			<div className='flex justify-between lg:items-center items-start'>
 				<div>
 					<p className='xl:w-[26.25rem] w-[23rem] max-lg:flex-1 font-medium'>
@@ -112,11 +139,14 @@ function EventItem({ event }: { event: Event }) {
 						</DialogHeader>
 
 						<DialogFooter className='flex gap-2 mt-2'>
-							<div className='py-2 px-4 rounded-xl bg-red-500 transition-all hover:opacity-80 font-medium text-white flex-1 text-center cursor-pointer max-sm:order-2'>
+							<div
+								onClick={() => mutate(event._id)}
+								className='py-2 px-4 rounded-md bg-red-500 transition-all hover:opacity-80 font-medium text-white flex-1 text-center cursor-pointer max-sm:order-2'
+							>
 								Chắc chắn
 							</div>
 							<DialogClose asChild>
-								<div className='py-2 px-4 rounded-xl border border-solid border-gray-300 transition-all hover:bg-gray-100/50  font-medium flex-1 text-center cursor-pointer max-sm:order-1'>
+								<div className='py-2 px-4 rounded-md border border-solid border-gray-300 transition-all hover:bg-gray-100/50  font-medium flex-1 text-center cursor-pointer max-sm:order-1'>
 									Hủy
 								</div>
 							</DialogClose>
