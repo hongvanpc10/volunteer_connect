@@ -5,8 +5,13 @@ import Point from '@/components/icons/point'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { useIntersectionObserver } from 'usehooks-ts'
+import personsApi from '@/apis/persons'
+import { useQuery } from '@tanstack/react-query'
+import { Person } from '@/interfaces/person'
+import queryKeys from '@/configs/query-keys'
 
-function Top3() {
+
+function Top3({ data }: { data: Person[] }) {
 	const { isIntersecting, ref } = useIntersectionObserver({
 		threshold: 0.5,
 		freezeOnceVisible: true,
@@ -17,7 +22,7 @@ function Top3() {
 			ref={ref}
 			className='flex items-end justify-center gap-2 h-[21.875rem]'
 		>
-			{[...Array(3)].map((_, index) => (
+			{data.map((user, index) => (
 				<div
 					key={index}
 					className={cn(
@@ -29,7 +34,7 @@ function Top3() {
 					<div className='relative'>
 						<Image
 							alt='avatar'
-							src='https://picsum.photos/128'
+							src={user.avatarUrl}
 							width={128}
 							height={256}
 							className={cn(
@@ -65,18 +70,20 @@ function Top3() {
 								isIntersecting && 'opacity-100',
 							)}
 						>
-							<h4 className='text-center text-sm font-medium mb-2'>Phạm Hoàng Vinh</h4>
+							<h4 className='text-center text-sm font-medium mb-2'>
+								{user.name}
+							</h4>
 							<span
 								className={cn(
 									'flex items-center text-lg font-semibold',
 									['text-amber-400', 'text-sky-500', 'text-green-500'][index],
 								)}
 							>
-								1200
+								{user.totalPoints}
 								<Point className='ml-1 text-current' />
 							</span>
 
-							<span className='mt-2'>12</span>
+							<span className='mt-2'>{user.attendedActivities.length}</span>
 						</div>
 					</div>
 				</div>
@@ -85,7 +92,7 @@ function Top3() {
 	)
 }
 
-function Top10() {
+function Top10({ data }: { data: Person[] }) {
 	const { isIntersecting, ref } = useIntersectionObserver({
 		threshold: 0,
 		freezeOnceVisible: true,
@@ -104,7 +111,7 @@ function Top10() {
 			</div>
 
 			<div ref={ref} className='space-y-6'>
-				{[...Array(7)].map((_, index) => (
+				{data.map((user, index) => (
 					<div
 						key={index}
 						style={{
@@ -127,11 +134,11 @@ function Top10() {
 								className='w-10 h-10 object-cover rounded-full'
 							/>
 							<div className='md:hidden flex-1 ml-3'>
-								<h4 className='text-sm font-medium'>Phạm Hoàng Vinh</h4>
+								<h4 className='text-sm font-medium'>{user.name}</h4>
 								<div className='flex items-center mt-1'>
 									<span>12</span>
 									<span className='flex items-center text-primary-400 ml-4'>
-										800
+										{user.totalPoints}
 										<Point className='ml-2' />
 									</span>
 								</div>
@@ -141,12 +148,12 @@ function Top10() {
 							</div>
 						</div>
 						<div className='flex max-md:hidden flex-1 items-center justify-between ml-6 bg-slate-50 rounded-xl px-8 py-6'>
-							<h4 className='font-medium'>Phạm Hoàng Vinh</h4>
+							<h4 className='font-medium'>{user.name}</h4>
 							<div className='w-1/2 flex items-center'>
-								<div className='flex-1 flex justify-center'>12</div>
+								<div className='flex-1 flex justify-center'>{user.attendedActivities.length}</div>
 								<div className='flex-1 flex justify-center'>
 									<span className='flex items-center text-primary-400 font-medium'>
-										800
+										{user.totalPoints}
 										<Point className='ml-2' />
 									</span>
 								</div>
@@ -160,6 +167,14 @@ function Top10() {
 }
 
 export default function LeaderBoard() {
+	const { data } = useQuery({
+		queryKey: queryKeys.leaderboard,
+		queryFn: () => personsApi.getTop10(),
+	})
+
+	const top3 = data ? data.slice(0, 3) : []
+	const top10 =  data ? data.slice(3, 10) : []
+
 	return (
 		<section className='py-16'>
 			<div className='container'>
@@ -167,9 +182,9 @@ export default function LeaderBoard() {
 					Các cá nhân hoạt động xuất sắc
 				</h2>
 
-				<Top3 />
+				{top3.length > 0 && <Top3 data={top3} />}
 
-				<Top10 />
+				{top10.length > 0 && <Top10 data={top10} />}
 			</div>
 		</section>
 	)

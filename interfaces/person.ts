@@ -1,4 +1,6 @@
 import Account from './account'
+import VolunteerWork from '@/interfaces/volunteer-work'
+
 
 export interface Person {
 	_id: string
@@ -13,4 +15,5 @@ export interface Person {
 	studentCode: string
 	dob: Date
 	avatarUrl: string
+    attendedActivities: VolunteerWork[],
 }
