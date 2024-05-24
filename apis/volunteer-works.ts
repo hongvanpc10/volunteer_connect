@@ -129,6 +129,16 @@ class VolunteerWorksApi {
 			handleError(error, VolunteerWorkError)
 		}
 	}
+
+	async deleteVolunteerWork(volunteerWorkId: string) {
+		try {
+			return await httpClient.delete(
+				'/volunteerWork/deleteVolunteerWork/' + volunteerWorkId,
+			)
+		} catch (error) {
+			handleError(error, VolunteerWorkError)
+		}
+	}
 }
 
 const volunteerWorksApi = new VolunteerWorksApi()
