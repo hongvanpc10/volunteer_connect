@@ -139,7 +139,7 @@ function Join() {
 											<TooltipTrigger>
 												<Link
 													href={routes.profile.gen(request.studentId._id)}
-													className='ml-4 p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer max-sm:order-1'
+													className='flex ml-4 p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer max-sm:order-1'
 												>
 													<ArrowRight2 size={16} />
 												</Link>
