@@ -1,130 +1,79 @@
 'use client'
 
+import participantsApi from '@/apis/participants'
+import queryKeys from '@/configs/query-keys'
+import routes from '@/configs/routes'
 import { cn } from '@/lib/utils'
-import { ArrowDown2, Flash } from 'iconsax-react'
+import { useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
-
-interface RecentActivityType {
-	title: string
-	date: Date
-	rate: number
-}
-
-const recentActivity: RecentActivityType[] = [
-	{
-		title: 'Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 4,
-	},
-	{
-		title:
-			'Lorem ipsum dolor sit amet consectetur.feafdsafewafds Lorem ipsum dolor sit amet consectetur.feafdsafewafdsLorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 2,
-	},
-	{
-		title:
-			'Lorem ipsum dolor sit amet consectetur.feafdsafewafds Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 3,
-	},
-	{
-		title: 'Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 5,
-	},
-	{
-		title: 'Lorem ipsum dolor sit amet consectetu',
-		date: new Date(2024, 5, 19),
-		rate: 5,
-	},
-	{
-		title: 'Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 4,
-	},
-	{
-		title:
-			'Lorem ipsum dolor sit amet consectetur.feafdsafewafds Lorem ipsum dolor sit amet consectetur.feafdsafewafdsLorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 2,
-	},
-	{
-		title:
-			'Lorem ipsum dolor sit amet consectetur.feafdsafewafds Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 3,
-	},
-	{
-		title: 'Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 4,
-	},
-	{
-		title:
-			'Lorem ipsum dolor sit amet consectetur.feafdsafewafds Lorem ipsum dolor sit amet consectetur.feafdsafewafdsLorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 2,
-	},
-	{
-		title:
-			'Lorem ipsum dolor sit amet consectetur.feafdsafewafds Lorem ipsum dolor sit amet consectetur.feafdsafewafds',
-		date: new Date(2024, 5, 19),
-		rate: 3,
-	},
-]
+import { useIntersectionObserver } from 'usehooks-ts'
 
 export default function Activities() {
 	const { id } = useParams<{ id: string }>()
 
-	return (
-		<div className='flex flex-col h-fit w-full px-9 py-7 gap-5 border border-slate-100 rounded-xl'>
-			<p className='font-bold text-xl w-full'>Hoạt động gần đây</p>
+	const { ref, isIntersecting } = useIntersectionObserver({
+		threshold: 0,
+		freezeOnceVisible: true,
+	})
 
-			<div className='space-y-2'>
-				{recentActivity.map((activity, index) => {
-					return (
+	const { data } = useQuery({
+		queryKey: queryKeys.personActivities.gen(id),
+		queryFn: () => participantsApi.getActivities(id),
+	})
+
+	return (
+		<div className='w-full'>
+			<h2 className='font-bold text-xl w-full mb-16'>Hoạt động gần đây</h2>
+			{data && <div ref={ref} />}
+			<div className='max-w-[40rem] mx-auto pl-8 md:pl-24 py-4 relative before:content-[""] before:block before:w-0.5 before:h-full before:rounded-full before:bg-slate-200 before:absolute before:top-0 before:left-0 space-y-16'>
+				{data &&
+					data.map((activity, index) => (
 						<div
 							key={index}
+							style={{
+								transitionDelay: index * 200 + 'ms',
+							}}
 							className={cn(
-								'flex flex-wrap gap-x-14 gap-y-2 w-full p-5 text-[#334155]',
-								index % 2 == 0 ? 'bg-primary-100 rounded-xl' : 'bg-white',
+								'w-full py-6 px-6 pr-8 border border-slate-200 rounded-2xl relative before:content-[""] before:block before:absolute before:h-px before:w-8 md:before:w-24 before:right-full before:top-1/3 before:bg-slate-200 after:content-[""] after:block after:absolute after:h-3 after:w-3 after:rounded-full after:bg-primary-400 after:top-1/3 after:-translate-y-1/2 after:-left-8 md:after:-left-24 after:-translate-x-1/2 flex transition translate-x-36 opacity-0 duration-500 ease-out',
+								isIntersecting && 'opacity-100 translate-x-0',
 							)}
 						>
-							<div className='sm:line-clamp-1 line-clamp-2 sm:flex-1'>
-								{activity.title}
-							</div>
-							<div className='flex max-sm:w-full items-center gap-8 max-sm:justify-between max-sm:font-medium max-sm:text-sm'>
-								<p>
-									{activity.date.getDate().toString().padStart(2, '0')}/
-									{activity.date.getMonth().toString().padStart(2, '0')}/
-									{activity.date.getFullYear().toString()}
-								</p>
-
-								<div className='flex'>
-									{[...Array(5)].map((_, index) => {
-										return (
-											<Flash
-												key={index}
-												size={16}
-												variant='Bold'
-												color={
-													index >= 5 - activity.rate ? '#fbbf24' : '#000000'
-												}
-											/>
-										)
-									})}
-								</div>
+							<Link
+								href={routes.organizations.gen(activity.volunteerWorkId._id)}
+							>
+								<Image
+									alt='banner'
+									src={activity.volunteerWorkId.imageUrl}
+									width={64}
+									height={64}
+									className='w-16 h-16 object-cover rounded-xl'
+								/>
+							</Link>
+							<div className='ml-6 flex flex-col'>
+								<h4 className='font-medium text-base'>
+									<Link
+										href={routes.organizations.gen(
+											activity.volunteerWorkId._id,
+										)}
+									>
+										{activity.volunteerWorkId.title}{' '}
+									</Link>
+									<small className='font-normal'>
+										({format(new Date(activity.createdAt), 'dd/MM/yyyy')})
+									</small>
+								</h4>
+								<span className='text-xs bg-slate-100 px-2 rounded-md w-fit font-medium py-px mb-2'>
+									Đã tham gia
+								</span>
+								<span className='text-sm'>
+									Điểm đánh giá: {activity.rating}
+								</span>
 							</div>
 						</div>
-					)
-				})}
-			</div>
-
-			<div className='flex'>
-				<div className='mx-auto px-4 py-2 flex items-center gap-2 cursor-pointer hover:scale-105 transition-all'>
-					Xem thêm <ArrowDown2 size={15} color='#000000' />
-				</div>
+					))}
 			</div>
 		</div>
 	)

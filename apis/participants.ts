@@ -55,6 +55,16 @@ class ParticipantsApi {
 			handleError(error, ParticipantsError)
 		}
 	}
+
+	async getActivities(studentId: string) {
+		try {
+			return await httpClient.get<Participant[]>(
+				'/participant/finishedParticipants/' + studentId,
+			)
+		} catch (error) {
+			handleError(error, ParticipantsError)
+		}
+	}
 }
 
 const participantsApi = new ParticipantsApi()

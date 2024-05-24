@@ -25,6 +25,9 @@ const queryKeys = {
 	organizationsPagination: {
 		gen: (page?: number, limit?: number) => ['organizations', page, limit],
 	},
+	personActivities: {
+		gen: (studentId?: string) => ['personActivities', studentId],
+	},
 }
 
 export default queryKeys
