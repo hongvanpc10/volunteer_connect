@@ -2,6 +2,7 @@ import VolunteerWork from '@/interfaces/volunteer-work'
 import { type ClassValue, clsx } from 'clsx'
 import { min } from 'date-fns'
 import { twMerge } from 'tailwind-merge'
+import * as XLSX from 'xlsx'
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -32,4 +33,16 @@ export function getEndDateOfVolunteerWork(volunteerWork: VolunteerWork) {
 			...volunteerWork.events.map(e => e.endDate),
 		].filter(Boolean),
 	)
+}
+
+export function exportToExcel(
+	rows: object[],
+	sheetName: string,
+	fileName: string,
+) {
+	const worksheet = XLSX.utils.json_to_sheet(rows)
+
+	const workbook = XLSX.utils.book_new()
+	XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
+	XLSX.writeFile(workbook, fileName, { compression: true })
 }

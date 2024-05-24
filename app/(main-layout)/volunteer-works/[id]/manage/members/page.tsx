@@ -25,10 +25,13 @@ import participantsApi from '@/apis/participants'
 import { Bin } from '@/assets/icon'
 import queryKeys from '@/configs/query-keys'
 import routes from '@/configs/routes'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import Feedback from './components/feedback'
+import { exportToExcel } from '@/lib/utils'
+import volunteerWorksApi from '@/apis/volunteer-works'
+import { format } from 'date-fns'
 
 function Member() {
 	const { id } = useParams<{ id: string }>()
@@ -39,6 +42,11 @@ function Member() {
 			participantsApi.getByVolunteerWork({
 				volunteerWorkId: id,
 			}),
+	})
+
+	const { data: volunteerWork } = useQuery({
+		queryKey: queryKeys.volunteer.gen(id),
+		queryFn: () => volunteerWorksApi.getInfo(id),
 	})
 
 	return (
@@ -62,7 +70,44 @@ function Member() {
 
 			<div className='flex flex-col justify-center items-center gap-5'>
 				<div className='max-w-[50rem] w-full flex'>
-					<Button className='ml-auto' variant={'secondary'}>
+					<Button
+						onClick={() =>
+							data &&
+							volunteerWork &&
+							exportToExcel(
+								data
+									.filter(
+										participant =>
+											participant.status == 'ACCEPTED' ||
+											participant.status === 'FINISH',
+									)
+									.map((participant, index) => ({
+										STT: index + 1,
+										'Họ và tên': participant.studentId.name,
+										'Ngày sinh': format(
+											participant.studentId.dob,
+											'dd/MM/yyyy',
+										),
+										'Giới tính': participant.studentId.gender ? 'Nam' : 'Nữ',
+										'Số điện thoại': participant.studentId.phoneNumber,
+										Trường: participant.studentId.school,
+										Khoa: participant.studentId.faculty,
+										MSSV: participant.studentId.studentCode,
+										'Ngày tham gia': format(
+											participant.createdAt,
+											'dd/MM/yyyy',
+										),
+										'Trạng thái':
+											participant.status === 'ACCEPTED' ? '' : 'Đã hoàn thành',
+										'Điểm đánh giá': participant.rating || 'Chưa đánh giá',
+									})),
+								'Danh sách thành viên',
+								`Danh sách thành viên_${volunteerWork.title}.xlsx`,
+							)
+						}
+						className='ml-auto'
+						variant={'secondary'}
+					>
 						<DocumentDownload
 							size={16}
 							variant='Bold'
