@@ -164,7 +164,7 @@ function Member() {
 												<TooltipTrigger>
 													<Link
 														href={routes.profile.gen(member.studentId._id)}
-														className='ml-2 p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer'
+														className='flex ml-2 p-2 rounded-xl bg-white hover:bg-gray-100/80 transition-all cursor-pointer'
 													>
 														<ArrowRight2 size={16} />
 													</Link>
