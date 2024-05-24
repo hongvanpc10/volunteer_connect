@@ -48,7 +48,7 @@ function Member() {
 					Danh sách sinh viên tham gia
 				</h1>
 				<p className='text-center mt-2'>
-					(
+					(&nbsp;
 					{data
 						? data.filter(
 								participant =>
