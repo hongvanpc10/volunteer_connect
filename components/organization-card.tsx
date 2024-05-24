@@ -51,4 +51,22 @@ function OrganizationCard({ className, style, data }: OrganizationCardProps) {
 	)
 }
 
+OrganizationCard.Skeleton = function OrganizationCardSkeleton() {
+	return (
+		<div
+			className={
+				'overflow-hidden flex flex-col items-center rounded-2xl border border-slate-100 px-4 py-6'
+			}
+		>
+			<Skeleton className='w-20 h-20 rounded-full' />
+			<Skeleton className='mt-3 h-5 w-full'></Skeleton>
+			<Skeleton className='h-4 mt-2 w-[80%]'></Skeleton>
+			<span className='text-primary-500 mt-6 font-medium group flex items-center'>
+				Xem chi tiết
+				<ArrowRight className='h-5 ml-2 transition-all mr-2 group-hover:ml-4 group-hover:mr-0 ease-out' />
+			</span>
+		</div>
+	)
+}
+
 export default OrganizationCard

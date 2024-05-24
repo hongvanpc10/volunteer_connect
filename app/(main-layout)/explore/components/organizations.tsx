@@ -11,6 +11,7 @@ import { ArrowRight } from 'iconsax-react'
 import Link from 'next/link'
 import { useIntersectionObserver } from 'usehooks-ts'
 import organizationsApi from '@/apis/organizations'
+import VolunteerWorkVerticalCard from '@/components/volunteer-work-vertical-card'
 
 function Organizations() {
 	const { isIntersecting, ref } = useIntersectionObserver({
@@ -18,7 +19,7 @@ function Organizations() {
 		freezeOnceVisible: true,
 	})
 
-	const { data } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: queryKeys.organizations,
 		queryFn: () => organizationsApi.getOrganizations({ page: 1, limit: 3 }),
 	})
@@ -29,24 +30,30 @@ function Organizations() {
 				Các tổ chức tình nguyện
 			</h2>
 
-			{data && <div
-				ref={ref}
-				className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
-			>
-				{data.data.map((organization, index) => (
-					<OrganizationCard
-					data={organization}
-						key={index}
-						style={{
-							transitionDelay: 150 * index + 'ms',
-						}}
-						className={cn(
-							'ease-out duration-500 opacity-0 translate-y-36',
-							isIntersecting && 'translate-y-0 opacity-100',
-						)}
-					/>
-				))}
-			</div>}
+			{data && <div ref={ref} />}
+
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+				{data &&
+					data.data.map((organization, index) => (
+						<OrganizationCard
+							data={organization}
+							key={index}
+							style={{
+								transitionDelay: 150 * index + 'ms',
+							}}
+							className={cn(
+								'ease-out duration-500 opacity-0 translate-y-36',
+								isIntersecting && 'translate-y-0 opacity-100',
+							)}
+						/>
+					))}
+
+				{isLoading && [
+					[...Array(6)].map((_, index) => (
+						<OrganizationCard.Skeleton key={index} />
+					)),
+				]}
+			</div>
 
 			<Alignment align='center' className='mt-16'>
 				<Button variant='outline' className='rounded-full group' asChild>

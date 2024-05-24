@@ -1,23 +1,29 @@
 'use client'
-import OrganizationCard from '@/components/organization-card'
 import organizationsApi from '@/apis/organizations'
-import queryKeys from '@/configs/query-keys'
+import OrganizationCard from '@/components/organization-card'
 import {
 	Pagination,
 	PaginationContent,
-	PaginationEllipsis,
 	PaginationItem,
 	PaginationLink,
 	PaginationNext,
 	PaginationPrevious,
 } from '@/components/ui/pagination'
+import queryKeys from '@/configs/query-keys'
+import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
-import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useIntersectionObserver } from 'usehooks-ts'
 
 function MakeList() {
 	const router = useRouter()
 	const [page, setPage] = useState(1)
+
+	const { isIntersecting, ref } = useIntersectionObserver({
+		threshold: 0,
+		freezeOnceVisible: true,
+	})
 
 	const searchParams = useSearchParams()
 	const searchPage = searchParams.get('page') || '1'
@@ -45,13 +51,28 @@ function MakeList() {
 	return (
 		<div>
 			<div>
-				{data && (
-					<div className='grid grid-cols-3 gap-6'>
-						{data.data.map((organization, index) => (
-							<OrganizationCard key={index} data={organization} />
+				{data && <div ref={ref} />}
+				<div className='grid grid-cols-3 gap-6'>
+					{data &&
+						data.data.map((organization, index) => (
+							<OrganizationCard
+								style={{
+									transitionDelay: index * 200 + 'ms',
+								}}
+								className={cn(
+									'opacity-0 duration-500 ease-out translate-y-36 transition',
+									isIntersecting && 'opacity-100 translate-y-0',
+								)}
+								key={index}
+								data={organization}
+							/>
 						))}
-					</div>
-				)}
+
+					{isLoading &&
+						[...Array(9)].map((_, index) => (
+							<OrganizationCard.Skeleton key={index} />
+						))}
+				</div>
 			</div>
 			{data && (
 				<Pagination className='mt-16'>
@@ -98,9 +119,9 @@ function MakeList() {
 
 function List() {
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
-            <MakeList />
-        </Suspense>
+		<Suspense>
+			<MakeList />
+		</Suspense>
 	)
 }
 
