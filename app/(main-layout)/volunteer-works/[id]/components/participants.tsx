@@ -33,7 +33,7 @@ export default function Participants() {
 		<section>
 			<h3 className='font-semibold text-lg mb-6'>Tình nguyện viên tham gia</h3>
 
-			<div ref={ref} className='grid grid-cols-2 md:grid-cols-3 gap-5'>
+			<div ref={ref} className='grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 gap-5'>
 				{data && data.length === 0 && (
 					<p className='text-center'>Chưa có tình nguyện viên nào</p>
 				)}

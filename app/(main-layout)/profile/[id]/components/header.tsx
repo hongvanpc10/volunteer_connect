@@ -64,7 +64,6 @@ export default function Header() {
 								<h1 className='sm:text-3xl text-xl font-semibold'>
 									{data.name}
 								</h1>
-								{true && <Crown className='sm:w-10 w-6 relative sm:-top-1' />}
 							</div>
 
 							<div className='flex items-center mb-4'>

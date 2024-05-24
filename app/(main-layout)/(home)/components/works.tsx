@@ -30,7 +30,7 @@ export default function Works() {
 				</h2>
 
 				{data && <div ref={ref} />}
-				<div className='grid lg:grid-cols-3 grid-cols-2 gap-8'>
+				<div className='grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8'>
 					{data &&
 						data.data.map((item, index) => (
 							<VolunteerWorkVerticalCard

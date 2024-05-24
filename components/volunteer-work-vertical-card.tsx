@@ -35,7 +35,7 @@ function VolunteerWorkVerticalCard({
 					/>
 				</Link>
 			</div>
-			<div className='flex items-center justify-between mt-4'>
+			<div className='flex max-sm:flex-wrap max-sm:gap-y-2 items-center justify-between mt-4'>
 				<div
 					className={cn(
 						'inline-block text-xs font-medium py-0.5 px-2 rounded-md bg-amber-200',

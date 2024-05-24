@@ -17,7 +17,7 @@ function Introduce() {
 
 	return (
 		<div className='container relative'>
-			<p className='font-bold lg:text-4xl text-2xl text-center md:pb-16 pb-12 uppercase'>
+			<p className='font-bold lg:text-4xl text-2xl text-center md:pb-16 pb-12'>
 				Về chúng tôi
 			</p>
 

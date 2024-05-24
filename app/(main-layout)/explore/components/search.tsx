@@ -16,7 +16,7 @@ export default function Search() {
 				</button>
 			</div>
 
-			<div className='flex items-center flex-wrap mb-2 justify-center space-x-3 mt-8'>
+			<div className='gap-y-3 flex items-center flex-wrap mb-2 justify-center space-x-3 mt-8'>
 				{['UIT', 'MHX', 'XTN', 'CTXH', 'KTX'].map((label, index) => (
 					<span
 						key={index}

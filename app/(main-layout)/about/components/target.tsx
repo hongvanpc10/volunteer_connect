@@ -22,7 +22,7 @@ const target = [
 		icon: Profile2User,
 		title: 'Kết nối hiệu quả',
 		description:
-			'Kết nối các tổ chức/cá nhân có nhu cầu với nguồn lực tình nguyện từ sinh viên. Hỗ trợ các tổ chức phi lợi nhuận, tổ chức tình nguyện đăng tải thông tin về các dự án tình nguyện và tìm kiếm tình nguyện viên một cách nhanh chóng.',
+			'Kết nối các tổ chức, cá nhân có nhu cầu với nguồn lực tình nguyện từ sinh viên. Hỗ trợ các tổ chức phi lợi nhuận, tổ chức tình nguyện đăng tải thông tin về các dự án tình nguyện và tìm kiếm tình nguyện viên một cách nhanh chóng.',
 	},
 
 	{
@@ -71,7 +71,7 @@ function Target() {
 
 	return (
 		<div className='container'>
-			<p className='font-bold lg:text-4xl text-2xl text-center md:pb-16 pb-12 uppercase'>
+			<p className='font-bold lg:text-4xl text-2xl text-center md:pb-16 pb-12'>
 				Mục tiêu của chúng tôi
 			</p>
 

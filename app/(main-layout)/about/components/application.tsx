@@ -47,7 +47,7 @@ const application: ApplicationItemType[] = [
 		title: 'Quản lý hoạt động tình nguyện',
 		description: [
 			'Cho phép tổ chức hoặc cá nhân tạo ra và quản lý các sự kiện tình nguyện, bao gồm cập nhật thông tin, quản lý đăng ký,…',
-			'Giúp ban tổ chức hoạt động tình quyện theo dõi các thành viên. Xuất ra báo cáo một cách nhanh chóng.',
+			'Giúp ban tổ chức hoạt động tình nguyện theo dõi các thành viên. Xuất ra báo cáo một cách nhanh chóng.',
 			'Cung cấp các công cụ để tổ chức và quản lý có thể thống kê và tạo báo cáo về hoạt động tình nguyện, bao gồm số lượng sinh viên tham gia, thời lượng hoạt động, và hiệu suất.',
 		],
 		illustrator: lottieAnimations.manangeVolunteerWork,
@@ -58,7 +58,7 @@ const application: ApplicationItemType[] = [
 		description: [
 			'Sinh viên có thể nhận điểm thưởng cho việc tham gia các hoạt động tình nguyện, hoàn thành các mục tiêu và giúp đỡ người khác. Điểm thưởng có thể được đổi thành các phần thưởng như huy hiệu hoặc quà tặng.',
 			'Sinh viên có thể nhận huy hiệu cho việc đạt được các thành tựu khác nhau, chẳng hạn như tham gia một số lượng nhất định các hoạt động tình nguyện. Huy hiệu có thể được hiển thị trên trang hồ sơ của sinh viên.',
-			'Hiển thị bảng xếp hạng cho các sinh viên dựa trên số lần tham gia hoạt động, hoặc điểm số tích lũy. Điều này sẽ tạo ra một yếu tố cạnh tranh làm tăng động lực',
+			'Hiển thị bảng xếp hạng cho các sinh viên dựa trên số lần tham gia hoạt động, hoặc điểm số tích lũy. Điều này sẽ tạo ra một yếu tố cạnh tranh làm tăng động lực.',
 		],
 		illustrator: lottieAnimations.gamification,
 	},

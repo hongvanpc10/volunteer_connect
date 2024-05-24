@@ -42,17 +42,17 @@ export default function Activities() {
 							)}
 						>
 							<Link
-								href={routes.organizations.gen(activity.volunteerWorkId._id)}
+								href={routes.volunteerWorks.gen(activity._id)}
+								className='sm:w-16 sm:h-16 w-12 h-12 relative'
 							>
 								<Image
 									alt='banner'
 									src={activity.volunteerWorkId.imageUrl}
-									width={64}
-									height={64}
-									className='w-16 h-16 object-cover rounded-xl'
+									fill
+									className='object-cover object-center rounded-xl'
 								/>
 							</Link>
-							<div className='ml-6 flex flex-col'>
+							<div className='sm:ml-6 ml-3 flex flex-1 flex-col'>
 								<h4 className='font-medium text-base'>
 									<Link
 										href={routes.organizations.gen(
@@ -65,7 +65,7 @@ export default function Activities() {
 										({format(new Date(activity.createdAt), 'dd/MM/yyyy')})
 									</small>
 								</h4>
-								<span className='text-xs bg-slate-100 px-2 rounded-md w-fit font-medium py-px mb-2'>
+								<span className='text-xs bg-slate-100 px-2 rounded-md w-fit font-medium py-px my-2'>
 									Đã tham gia
 								</span>
 								<span className='text-sm'>
