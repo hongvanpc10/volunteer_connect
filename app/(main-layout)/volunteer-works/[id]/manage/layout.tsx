@@ -91,8 +91,10 @@ function OrganizeManage({ children }: { children: ReactNode }) {
 			})
 
 			queryClient.refetchQueries({
-				queryKey: queryKeys.volunteer.gen(id),
+				queryKey: queryKeys.volunteerByOrganization.gen(data?.organization._id),
 			})
+
+			router.push(routes.organizations.gen(data?.organization._id))
 		},
 		onError(error) {
 			toast({
