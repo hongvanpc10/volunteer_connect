@@ -21,7 +21,7 @@ function Organizations() {
 
 	const { data, isLoading } = useQuery({
 		queryKey: queryKeys.organizations,
-		queryFn: () => organizationsApi.getOrganizations({ page: 1, limit: 3 }),
+		queryFn: () => organizationsApi.getOrganizations({ page: 1, limit: 9 }),
 	})
 
 	return (

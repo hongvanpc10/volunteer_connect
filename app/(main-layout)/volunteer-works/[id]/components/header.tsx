@@ -103,7 +103,7 @@ export default function Header() {
 
 					<h1 className='text-2xl font-semibold'>{data.title}</h1>
 
-					<div className='flex items-center mt-2'>
+					<div className='flex items-center gap-x-4 gap-y-2 mt-2 max-[400px]:flex-wrap'>
 						<span
 							className={cn(
 								'py-1.5 px-4 rounded-lg bg-amber-300 text-xs font-medium inline-block',
@@ -116,7 +116,7 @@ export default function Header() {
 								: 'Đã kết thúc'}
 						</span>
 
-						<p className='text-sm ml-4'>
+						<p className='text-sm'>
 							<strong className='font-medium'>Thời gian: </strong>
 							{format(data.createdAt, 'd/M/yyyy')} -{' '}
 							{format(getEndDateOfVolunteerWork(data), 'd/M/yyyy')}

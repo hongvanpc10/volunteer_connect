@@ -56,7 +56,7 @@ function Footer() {
 
 				<div className='h-px w-[70%] mx-auto bg-[#334155]'></div>
 
-				<div className='text-white font-medium flex flex-wrap justify-center'>
+				<div className='text-white font-medium flex flex-wrap justify-center max-sm:text-sm'>
 					<span>Copyright ©2024 Team Tam Cừu Newbiesss.&nbsp;</span>
 					<span>All Rights Reserved</span>
 				</div>

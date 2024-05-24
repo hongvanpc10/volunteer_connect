@@ -54,7 +54,7 @@ export default function List() {
 	return (
 		<div>
 			{data && <div ref={ref} />}
-			<div className='grid grid-cols-3 gap-6'>
+			<div className='grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6'>
 				{data &&
 					data.data.map((item, index) => (
 						<VolunteerWorkVerticalCard
