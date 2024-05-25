@@ -143,7 +143,7 @@ export default function AddEvent() {
 									)}
 								/>
 
-								<div className='flex items-center gap-4 max-sm:flex-wrap'>
+								<div className='flex items-center gap-4 max-sm:flex-col'>
 									<FormField
 										control={form.control}
 										name='startDate'

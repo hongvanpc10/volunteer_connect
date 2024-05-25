@@ -20,6 +20,7 @@ const routes = {
 		default: '/organizations',
 	},
 	newWork: '/new-volunteer-work',
+	manageActivitys: '/manage',
 	volunteerWorks: {
 		gen: (id?: string) => `/volunteer-works/${id}`,
 		default: '/volunteer-works',

@@ -116,7 +116,7 @@ export default function CreateForm() {
 						)}
 					/>
 
-					<div className='flex items-center gap-x-4 gap-y-6 max-sm:flex-wrap'>
+					<div className='flex items-center gap-x-4 gap-y-6 max-sm:flex-col'>
 						<FormField
 							control={form.control}
 							name='endRegisteredDate'

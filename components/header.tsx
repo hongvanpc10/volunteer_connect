@@ -59,7 +59,7 @@ function Header() {
 		},
 		{
 			label: 'Quản lý chiến dịch',
-			// href: routes.
+			href: routes.manageActivitys,
 		},
 		{
 			label: 'Cài đặt',

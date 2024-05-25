@@ -9,7 +9,8 @@ import personsApi from '@/apis/persons'
 import { useQuery } from '@tanstack/react-query'
 import { Person } from '@/interfaces/person'
 import queryKeys from '@/configs/query-keys'
-
+import routes from '@/configs/routes'
+import Link from 'next/link'
 
 function Top3({ data }: { data: Person[] }) {
 	const { isIntersecting, ref } = useIntersectionObserver({
@@ -31,31 +32,33 @@ function Top3({ data }: { data: Person[] }) {
 					)}
 				>
 					{index == 0 && <Crown className='w-12' />}
-					<div className='relative'>
-						<Image
-							alt='avatar'
-							src={user.avatarUrl}
-							width={128}
-							height={256}
-							className={cn(
-								'object-cover w-[5.5rem] h-[5.5rem] rounded-full border-[3px]',
-								index == 0 && 'w-24 h-24',
-								['border-amber-400', 'border-sky-500', 'border-green-500'][
-									index
-								],
-							)}
-						/>
-						<div
-							className={cn(
-								'absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-[calc(50%-3px)] w-5 h-5 rounded-md rotate-45 flex items-center justify-center',
-								['bg-amber-400', 'bg-sky-500', 'bg-green-500'][index],
-							)}
-						>
-							<span className='-rotate-45 text-white font-medium text-xs'>
-								{index + 1}
-							</span>
+					<Link href={routes.profile.gen(user._id)}>
+						<div className='relative'>
+							<Image
+								alt='avatar'
+								src={user.avatarUrl}
+								width={128}
+								height={256}
+								className={cn(
+									'object-cover w-[5.5rem] h-[5.5rem] rounded-full border-[3px]',
+									index == 0 && 'w-24 h-24',
+									['border-amber-400', 'border-sky-500', 'border-green-500'][
+										index
+									],
+								)}
+							/>
+							<div
+								className={cn(
+									'absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-[calc(50%-3px)] w-5 h-5 rounded-md rotate-45 flex items-center justify-center',
+									['bg-amber-400', 'bg-sky-500', 'bg-green-500'][index],
+								)}
+							>
+								<span className='-rotate-45 text-white font-medium text-xs'>
+									{index + 1}
+								</span>
+							</div>
 						</div>
-					</div>
+					</Link>
 					<div
 						className={cn(
 							'bg-slate-100 w-full h-16 -mt-8 rounded-tl-3xl rounded-tr-3xl pt-14 transition-all duration-1000 ease-out',
@@ -70,9 +73,12 @@ function Top3({ data }: { data: Person[] }) {
 								isIntersecting && 'opacity-100',
 							)}
 						>
-							<h4 className='text-center text-sm font-medium mb-2'>
-								{user.name}
-							</h4>
+							<Link href={routes.profile.gen(user._id)}>
+								<h4 className='text-center text-sm font-medium mb-2'>
+									{user.name}
+								</h4>
+							</Link>
+
 							<span
 								className={cn(
 									'flex items-center text-lg font-semibold',
@@ -126,15 +132,20 @@ function Top10({ data }: { data: Person[] }) {
 							#{index + 4}
 						</span>
 						<div className='flex items-center max-md:flex-1 max-md:bg-slate-50 max-md:px-4 max-md:py-4 rounded-xl'>
-							<Image
-								alt='avatar'
-								src='https://picsum.photos/64'
-								width={64}
-								height={64}
-								className='w-10 h-10 object-cover rounded-full'
-							/>
+							<Link href={routes.profile.gen(user._id)}>
+								<Image
+									alt='avatar'
+									src='https://picsum.photos/64'
+									width={64}
+									height={64}
+									className='w-10 h-10 object-cover rounded-full'
+								/>
+							</Link>
 							<div className='md:hidden flex-1 ml-3'>
-								<h4 className='text-sm font-medium'>{user.name}</h4>
+								<Link href={routes.profile.gen(user._id)}>
+									<h4 className='text-sm font-medium'>{user.name}</h4>
+								</Link>
+
 								<div className='flex items-center mt-1'>
 									<span>12</span>
 									<span className='flex items-center text-primary-400 ml-4'>
@@ -148,9 +159,13 @@ function Top10({ data }: { data: Person[] }) {
 							</div>
 						</div>
 						<div className='flex max-md:hidden flex-1 items-center justify-between ml-6 bg-slate-50 rounded-xl px-8 py-6'>
-							<h4 className='font-medium'>{user.name}</h4>
+							<Link href={routes.profile.gen(user._id)}>
+								<h4 className='font-medium'>{user.name}</h4>
+							</Link>
 							<div className='w-1/2 flex items-center'>
-								<div className='flex-1 flex justify-center'>{user.attendedActivities.length}</div>
+								<div className='flex-1 flex justify-center'>
+									{user.attendedActivities.length}
+								</div>
 								<div className='flex-1 flex justify-center'>
 									<span className='flex items-center text-primary-400 font-medium'>
 										{user.totalPoints}
@@ -173,7 +188,7 @@ export default function LeaderBoard() {
 	})
 
 	const top3 = data ? data.slice(0, 3) : []
-	const top10 =  data ? data.slice(3, 10) : []
+	const top10 = data ? data.slice(3, 10) : []
 
 	return (
 		<section className='py-16'>
