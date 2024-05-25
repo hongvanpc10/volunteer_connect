@@ -103,7 +103,7 @@ export default function Header() {
 
 					<h1 className='text-2xl font-semibold'>{data.title}</h1>
 
-					<div className='flex items-center gap-x-4 gap-y-2 mt-2 max-[400px]:flex-wrap'>
+					<div className='flex items-center justify-between gap-x-4 gap-y-2 mt-2 max-[400px]:flex-wrap'>
 						<span
 							className={cn(
 								'py-1.5 px-4 rounded-lg bg-amber-300 text-xs font-medium inline-block',

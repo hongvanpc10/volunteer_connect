@@ -15,10 +15,12 @@ import {
 import { Input } from '@/components/ui/input'
 import Loader from '@/components/ui/loader'
 import Tiptap from '@/components/ui/tiptap'
+import queryKeys from '@/configs/query-keys'
 import routes from '@/configs/routes'
+import useAuth from '@/hooks/use-auth'
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -46,6 +48,8 @@ const formSchema = z.object({
 })
 
 export default function CreateForm() {
+	const { accountInfo } = useAuth()
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -62,11 +66,19 @@ export default function CreateForm() {
 	const router = useRouter()
 	const { toast } = useToast()
 
+	const queryClient = useQueryClient()
+
 	const { mutate, isPending } = useMutation({
 		mutationFn: volunteerWorksApi.createNew,
 		onSuccess: data => {
 			toast({
 				description: 'Tạo hoạt động tình nguyện thành công',
+			})
+			queryClient.invalidateQueries({
+				queryKey: [
+					accountInfo,
+					...queryKeys.volunteerByOrganization.gen(accountInfo?._id),
+				],
 			})
 			router.push(routes.volunteerWorks.gen(data!._id))
 		},
@@ -116,7 +128,7 @@ export default function CreateForm() {
 						)}
 					/>
 
-					<div className='flex items-center gap-x-4 gap-y-6 max-sm:flex-wrap'>
+					<div className='flex items-center gap-x-4 gap-y-6 max-sm:flex-col'>
 						<FormField
 							control={form.control}
 							name='endRegisteredDate'
