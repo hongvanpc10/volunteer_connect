@@ -1,4 +1,5 @@
 'use client'
+
 import AddEvent from '@/app/(main-layout)/volunteer-works/[id]/components/events/add-event'
 import { Bin, Edit, UserAdd } from '@/assets/icon'
 import {
@@ -11,7 +12,6 @@ import { cn, getEndDateOfVolunteerWork } from '@/lib/utils'
 import { ArrowRight2, More } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
-
 import volunteerWorksApi from '@/apis/volunteer-works'
 import {
 	Dialog,
@@ -27,26 +27,28 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import queryKeys from '@/configs/query-keys'
 import routes from '@/configs/routes'
 import useAuth from '@/hooks/use-auth'
+import { useToast } from '@/hooks/use-toast'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { useToast } from '@/hooks/use-toast'
 
 function ManageActivitys() {
 	const { accountInfo } = useAuth()
 
 	const { data } = useQuery({
-		queryKey: queryKeys.volunteerByOrganization.gen(accountInfo?._id),
+		queryKey: [
+			accountInfo,
+			...queryKeys.volunteerByOrganization.gen(accountInfo?._id),
+		],
 		queryFn: () => {
 			if (accountInfo) {
 				return volunteerWorksApi.getVolunteerWorksByOrganizationId({
-					organizationId: accountInfo!._id,
+					organizationId: accountInfo?._id,
 					limit: 999,
 					page: 1,
 				})
