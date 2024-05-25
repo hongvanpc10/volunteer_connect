@@ -33,7 +33,7 @@ import { format } from 'date-fns'
 const formSchema = z.object({
 	title: z.string().min(1, 'Tên hoạt động không được để trống'),
 	description: z.string().min(1, 'Mô tả không được để trống'),
-	receivedCoins: z
+	receivedCoins: z.coerce
 		.number()
 		.int()
 		.min(1, 'Số lượng điểm nhận được phải lớn hơn 0')

@@ -27,7 +27,7 @@ export default function Introduction() {
 						<h3 className='mt-3 text-base text-slate-700'>
 							Kết nối trái tim, kết nối hành động
 						</h3>
-						<p className='font-extralight mt-6'>
+						<div className='font-extralight mt-6'>
 							<p>
 								Một website được phát triển nhằm quản lý hiệu quả các hoạt động
 								tình nguyện dành cho sinh viên.
@@ -37,7 +37,7 @@ export default function Introduction() {
 								liên quan khác dễ dàng kết nối, tìm kiếm và tham gia các hoạt
 								động tình nguyện phù hợp.
 							</p>
-						</p>
+						</div>
 
 						{isLoggedIn ? (
 							<div className='h-20'></div>
