@@ -1,6 +1,4 @@
 'use client'
-
-import AddEvent from '@/app/(main-layout)/volunteer-works/[id]/components/events/add-event'
 import { Bin, Edit, UserAdd } from '@/assets/icon'
 import {
 	Tooltip,
@@ -33,9 +31,10 @@ import {
 import queryKeys from '@/configs/query-keys'
 import routes from '@/configs/routes'
 import useAuth from '@/hooks/use-auth'
-import { useToast } from '@/hooks/use-toast'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
+import { useToast } from '@/hooks/use-toast'
+import { Button } from '@/components/ui/button'
 
 function ManageActivitys() {
 	const { accountInfo } = useAuth()
@@ -89,7 +88,9 @@ function ManageActivitys() {
 				<div className='flex flex-col max-w-[50rem] mx-auto w-full'>
 					<div className='flex justify-between items-center mb-4'>
 						<p className='font-semibold text-lg'>Các hoạt động tình nguyện</p>
-						<AddEvent />
+						<Button size='sm' variant='secondary' asChild>
+							<Link href={routes.newWork}> Thêm</Link>
+						</Button>
 					</div>
 					{data &&
 						data.data.length > 0 &&
