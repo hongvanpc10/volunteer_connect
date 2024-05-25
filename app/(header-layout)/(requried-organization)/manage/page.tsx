@@ -43,12 +43,15 @@ function ManageActivitys() {
 
 	const { data } = useQuery({
 		queryKey: queryKeys.volunteerByOrganization.gen(accountInfo?._id),
-		queryFn: () =>
-			volunteerWorksApi.getVolunteerWorksByOrganizationId({
-				organizationId: accountInfo?._id,
-				page: '1',
-				limit: 9,
-			}),
+		queryFn: () => {
+			if (accountInfo) {
+				return volunteerWorksApi.getVolunteerWorksByOrganizationId({
+					organizationId: accountInfo!._id,
+					limit: 999,
+					page: 1,
+				})
+			}
+		},
 	})
 
 	const { toast } = useToast()
@@ -281,7 +284,7 @@ function ManageActivitys() {
 															<div
 																className={cn(
 																	'flex items-center transition-all cursor-pointer gap-3 hover:bg-slate-100',
-                                                                    'relative cursor-pointer w-full select-none rounded-md items-center px-6 py-3 text-sm outline-none transition-colors focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50'
+																	'relative cursor-pointer w-full select-none rounded-md items-center px-6 py-3 text-sm outline-none transition-colors focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50',
 																)}
 															>
 																<Bin className='w-5 h-5 text-red-400' />

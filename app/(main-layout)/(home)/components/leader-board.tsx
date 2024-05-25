@@ -135,7 +135,7 @@ function Top10({ data }: { data: Person[] }) {
 							<Link href={routes.profile.gen(user._id)}>
 								<Image
 									alt='avatar'
-									src='https://picsum.photos/64'
+									src={user.avatarUrl}
 									width={64}
 									height={64}
 									className='w-10 h-10 object-cover rounded-full'

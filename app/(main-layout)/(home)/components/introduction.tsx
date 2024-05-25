@@ -28,10 +28,15 @@ export default function Introduction() {
 							Kết nối trái tim, kết nối hành động
 						</h3>
 						<p className='font-extralight mt-6'>
-							Lorem ipsum dolor sit amet consectetur. Diam sagittis ut sit
-							interdum pellentesque urna vivamus eget ornare. Posuere bibendum
-							sed volutpat tortor sapien. Feugiat hac tortor id nec quis odio
-							bibendum. Felis hac pulvinar bibendum vel arcu in.
+							<p>
+								Một website được phát triển nhằm quản lý hiệu quả các hoạt động
+								tình nguyện dành cho sinh viên.
+							</p>
+							<p>
+								Chúng tôi cung cấp nền tảng cho sinh viên, tổ chức và các bên
+								liên quan khác dễ dàng kết nối, tìm kiếm và tham gia các hoạt
+								động tình nguyện phù hợp.
+							</p>
 						</p>
 
 						{isLoggedIn ? (
