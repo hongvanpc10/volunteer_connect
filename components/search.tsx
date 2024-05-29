@@ -5,7 +5,7 @@ import routes from '@/configs/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SearchNormal1 } from 'iconsax-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -13,7 +13,7 @@ const formSchema = z.object({
 	query: z.string(),
 })
 
-export default function Search() {
+function SearchInner() {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -79,5 +79,13 @@ export default function Search() {
 				))}
 			</div>
 		</section>
+	)
+}
+
+export default function Search() {
+	return (
+		<Suspense>
+			<SearchInner />
+		</Suspense>
 	)
 }
