@@ -28,6 +28,12 @@ const queryKeys = {
 	personActivities: {
 		gen: (studentId?: string) => ['personActivities', studentId],
 	},
+	searchOrganizations: {
+		gen: (query?: string) => ['searchOrganizations', query],
+	},
+	searchVolunteerWorks: {
+		gen: (query?: string) => ['searchVolunteerWorks', query],
+	},
 }
 
 export default queryKeys

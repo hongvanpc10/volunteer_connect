@@ -56,6 +56,19 @@ class OrganizationsApi {
 			handleError(error)
 		}
 	}
+
+	async search(query: string) {
+		try {
+			return await httpClient.get<Organization[]>(
+				'/organization/searchByName',
+				{
+					params: { searchString: query },
+				},
+			)
+		} catch (error) {
+			handleError(error)
+		}
+	}
 }
 
 const organizationsApi = new OrganizationsApi()

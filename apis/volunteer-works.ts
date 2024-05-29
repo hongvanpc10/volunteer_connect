@@ -139,6 +139,19 @@ class VolunteerWorksApi {
 			handleError(error, VolunteerWorkError)
 		}
 	}
+
+	async search(query: string) {
+		try {
+			return await httpClient.get<VolunteerWork[]>(
+				'/volunteerWork/searchByTitle',
+				{
+					params: { searchString: query },
+				},
+			)
+		} catch (error) {
+			handleError(error, VolunteerWorkError)
+		}
+	}
 }
 
 const volunteerWorksApi = new VolunteerWorksApi()

@@ -36,10 +36,11 @@ const routes = {
 			},
 			events: {
 				gen: (id?: string) => `/volunteer-works/${id}/manage/events`,
-			}
+			},
 		},
 	},
 	settings: '/settings',
+	search: '/search',
 }
 
 export default routes
