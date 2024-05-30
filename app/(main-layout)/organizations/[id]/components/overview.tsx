@@ -20,7 +20,6 @@ export default function Overview() {
 
 	useEffect(() => {
 		if (error || (isSuccess && data == null)) {
-			console.log('123')
 			notFound()
 		}
 	}, [error, data, isSuccess])

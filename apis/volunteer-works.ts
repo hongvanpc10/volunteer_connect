@@ -152,6 +152,19 @@ class VolunteerWorksApi {
 			handleError(error, VolunteerWorkError)
 		}
 	}
+
+	async getEventsOfWeek(week: number = 0) {
+		try {
+			return await httpClient.get<{
+				data: (VolunteerWork['events'][0] & { volunteerWorkTitle: string })[]
+				weakRange: { startDate: string; endDate: string }
+			}>('/volunteerWork/eventsOfWeek', {
+				params: { week },
+			})
+		} catch (error) {
+			handleError(error, VolunteerWorkError)
+		}
+	}
 }
 
 const volunteerWorksApi = new VolunteerWorksApi()

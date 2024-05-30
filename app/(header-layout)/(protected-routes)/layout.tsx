@@ -8,7 +8,7 @@ export default function ProtectedRoutesLayout({
 }: {
 	children: ReactNode
 }) {
-	useProtectedRoute()
+	const isSuccess = useProtectedRoute()
 
-	return children
+	return isSuccess && children
 }

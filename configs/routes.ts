@@ -41,6 +41,7 @@ const routes = {
 	},
 	settings: '/settings',
 	search: '/search',
+	mySchedule: '/my-schedule',
 }
 
 export default routes

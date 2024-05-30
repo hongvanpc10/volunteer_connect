@@ -34,6 +34,9 @@ const queryKeys = {
 	searchVolunteerWorks: {
 		gen: (query?: string) => ['searchVolunteerWorks', query],
 	},
+	eventsOfWeek: {
+		gen: (id?: string) => ['eventsOfWeek', id],
+	},
 }
 
 export default queryKeys

@@ -69,7 +69,6 @@ export function handleError(
 	ErrorClass?: new (message: string) => Error,
 ) {
 	if (axios.isAxiosError<string>(error)) {
-		console.log(error)
 		if (error.response) {
 			if (error.response.status >= 500 && error.response.status < 600) {
 				throw new Error('Đã có lỗi xãy ra. Vui lòng thử lại sau.')

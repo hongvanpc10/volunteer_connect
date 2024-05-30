@@ -9,7 +9,7 @@ export default function RequestedOrganizationLayout({
 }: {
 	children: ReactNode
 }) {
-	useProtectedRoute(AccountRole.ORGANIZATION)
+	const isSuccess = useProtectedRoute(AccountRole.ORGANIZATION)
 
-	return children
+	return isSuccess && children
 }

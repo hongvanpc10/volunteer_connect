@@ -45,8 +45,6 @@ export default function ActiveAccountForm() {
 
 	const { toast } = useToast()
 
-	console.log(email)
-
 	const [count, { startCountdown, stopCountdown, resetCountdown }] =
 		useCountdown({
 			countStart: 30,

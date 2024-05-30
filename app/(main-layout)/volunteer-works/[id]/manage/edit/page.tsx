@@ -23,7 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import ImageUploading from 'react-images-uploading'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ImageListType } from 'react-images-uploading'
 import { z } from 'zod'
@@ -72,6 +72,20 @@ export default function UpdateVolunteerWork() {
 			requirements: data?.requirements,
 		},
 	})
+
+	useEffect(() => {
+		if (data) {
+			form.reset({
+				title: data.title,
+				description: data.description,
+				endRegisteredDate: format(data.endRegisteredDate, "yyyy-MM-dd'T'HH:mm"),
+				receivedCoins: data.receivedCoins,
+				contactInfo: data.contactInfo,
+				benefits: data.benefits,
+				requirements: data.requirements,
+			})
+		}
+	}, [data, form])
 
 	const router = useRouter()
 	const { toast } = useToast()
@@ -127,11 +141,7 @@ export default function UpdateVolunteerWork() {
 				onChange={value => setImage(value)}
 				dataURLKey='data_url'
 			>
-				{({
-					imageList,
-					onImageUpload,
-					onImageRemove,
-				}) =>
+				{({ imageList, onImageUpload, onImageRemove }) =>
 					data && (
 						<div className='mb-16'>
 							<Image

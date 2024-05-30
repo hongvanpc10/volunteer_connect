@@ -44,7 +44,8 @@ function Header() {
 			href: routes.settings,
 		},
 		{
-			label: 'Hoạt động của tôi',
+			label: 'Lịch trình của tôi',
+			href: routes.mySchedule,
 		},
 	]
 

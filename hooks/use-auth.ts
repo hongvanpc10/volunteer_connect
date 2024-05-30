@@ -22,9 +22,11 @@ export default function useAuth() {
 
 	const { toast } = useToast()
 
-	const { data: accountInfo, error } = useQuery<
-		Person | Organization | undefined
-	>({
+	const {
+		data: accountInfo,
+		error,
+		isSuccess,
+	} = useQuery<Person | Organization | undefined>({
 		queryKey: queryKeys.account,
 		queryFn: isOrganization ? organizationsApi.getMe : personsApi.getMe,
 		enabled: isLoggedIn,
@@ -77,5 +79,6 @@ export default function useAuth() {
 		logOut,
 		logIn,
 		isLoggingIn,
+		isSuccess: isLoggedIn ? isSuccess : true,
 	}
 }

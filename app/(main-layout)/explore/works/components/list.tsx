@@ -37,7 +37,6 @@ export default function List() {
 
 	useEffect(() => {
 		if (searchPage) {
-			console.log(searchPage)
 			if (Number(searchPage) < 1) {
 				router.push('?page=1')
 			} else if (
